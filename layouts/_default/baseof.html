@@ -17,7 +17,6 @@
     const themeToggle = document.getElementById('theme-toggle');
     const htmlEl = document.documentElement;
     
-    // Check saved preference or default to light
     const savedTheme = localStorage.getItem('theme') || 'light';
     htmlEl.setAttribute('data-theme', savedTheme);
     
@@ -29,6 +28,31 @@
         localStorage.setItem('theme', newTheme);
       });
     }
+
+    // Auto-hide header on scroll
+    let lastScroll = 0;
+    const header = document.querySelector('.site-header');
+    
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll <= 0) {
+        header.classList.remove('scroll-up');
+        return;
+      }
+      
+      if (currentScroll > lastScroll && currentScroll > 100) {
+        // Scrolling down & past threshold
+        header.classList.add('scroll-down');
+        header.classList.remove('scroll-up');
+      } else if (currentScroll < lastScroll) {
+        // Scrolling up
+        header.classList.remove('scroll-down');
+        header.classList.add('scroll-up');
+      }
+      
+      lastScroll = currentScroll;
+    });
   </script>
 </body>
 </html>

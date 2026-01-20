@@ -65,13 +65,24 @@ body {
 
 /* ===== Header & Navigation ===== */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: var(--header-bg);
   backdrop-filter: blur(10px);
   border-bottom: none;
   height: var(--header-height);
+  transition: transform 0.3s ease;
+}
+
+.site-header.scroll-down {
+  transform: translateY(-100%);
+}
+
+.site-header.scroll-up {
+  transform: translateY(0);
 }
 
 .header-container {
