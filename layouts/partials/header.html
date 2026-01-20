@@ -1,12 +1,12 @@
 <header class="site-header">
   <div class="header-container">
-<div class="header-left">
-<a href="/" class="site-logo">
-  <img src="/android-chrome-192x192.png" alt="BRTKCS">
-  <span>BRTKCS</span>
-</a>
-</div>    
-    <nav class="main-nav">
+    <div class="header-left">
+      <a href="/" class="site-logo">
+        <img src="/android-chrome-192x192.png" alt="BRTKCS">
+      </a>
+    </div>
+    
+    <nav class="main-nav" id="main-nav">
       {{ range .Site.Menus.main }}
         <a href="{{ .URL }}" class="nav-link {{ if $.IsMenuCurrent "main" . }}active{{ end }}" data-section="{{ .Name | lower }}">
           {{ .Name }}
@@ -31,6 +31,50 @@
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
+      
+      <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle menu">
+        <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
     </div>
   </div>
 </header>
+
+<script>
+  // Mobile menu toggle
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mainNav = document.getElementById('main-nav');
+  const hamburgerIcon = document.querySelector('.hamburger-icon');
+  const closeIcon = document.querySelector('.close-icon');
+  
+  if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('mobile-open');
+      
+      if (mainNav.classList.contains('mobile-open')) {
+        hamburgerIcon.style.display = 'none';
+        closeIcon.style.display = 'block';
+      } else {
+        hamburgerIcon.style.display = 'block';
+        closeIcon.style.display = 'none';
+      }
+    });
+    
+    // Close menu when clicking on a link
+    const navLinks = mainNav.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('mobile-open');
+        hamburgerIcon.style.display = 'block';
+        closeIcon.style.display = 'none';
+      });
+    });
+  }
+</script>
