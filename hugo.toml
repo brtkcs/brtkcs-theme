@@ -1,0 +1,131 @@
+baseURL = "https://brtkcs.com/"
+languageCode = "hu"
+title = "BRTKCS"
+theme = "brtkcs"
+enableRobotsTXT = true
+enableGitInfo = true
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  description = "Filozófia, versek, gondolatok és podcast"
+  author = "BRTKCS"
+  
+  # Színpaletta
+  [params.colors]
+    beige = "#D7D4CD"
+    olive = "#848B23"
+    rust = "#A8361B"
+    darkBrown = "#433C22"
+    purple = "#31185A"
+    nearBlack = "#191202"
+    black = "#000000"
+  
+  # Social media linkek (opcionális)
+  [params.social]
+    github = "https://github.com/yourhandle"
+    bluesky = "https://bsky.app/profile/yourhandle.bsky.social"
+    instagram = "https://instagram.com/yourhandle"
+    mastodon = "https://mastodon.social/@yourhandle"
+
+# Podcast specifikus RSS https://brtkcs.com/podcast/index.xml
+[params.podcast]
+  email = "your@email.com"
+  image = "/images/podcast-cover.jpg"
+  category = "Technology"
+  explicit = "no"
+
+# Főmenü
+[menu]
+  [[menu.main]]
+    name = "Posztok"
+    url = "/posztok/"
+    weight = 1
+  [[menu.main]]
+    name = "Podcast"
+    url = "/podcast/"
+    weight = 2
+  [[menu.main]]
+    name = "Filozófia"
+    url = "/filozofia/"
+    weight = 3
+  [[menu.main]]
+    name = "Versek"
+    url = "/versek/"
+    weight = 4
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 5
+
+# Taxonomy beállítások
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+# Markdown beállítások
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineAnchors = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "monokai"
+    tabWidth = 4
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+
+# Output formátumok
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+
+# Permalinks struktúra
+[permalinks]
+  posztok = "/posztok/:year/:month/:slug/"
+  podcast = "/podcast/:slug/"
+  filozofia = "/filozofia/:slug/"
+  versek = "/versek/:slug/"
+
+# Privacy beállítások
+[privacy]
+  [privacy.disqus]
+    disable = true
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+    disable = false
+    respectDoNotTrack = true
+    useSessionStorage = true
+  [privacy.bluesky]
+    disable = false
+  [privacy.instagram]
+    disable = false
+    simple = true
+  [privacy.x]
+    disable = false
+    enableDNT = true
+    simple = true
+  [privacy.vimeo]
+    disable = false
+    enableDNT = true
+    simple = true
+  [privacy.youtube]
+    disable = false
+    privacyEnhanced = true
+
+# Sitemap
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5

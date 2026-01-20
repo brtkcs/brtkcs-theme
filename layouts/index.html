@@ -1,0 +1,281 @@
+{{ define "main" }}
+<div class="home-wrapper">
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">BRTKCS</h1>
+      <p class="hero-subtitle">{{ .Site.Params.description }}</p>
+    </div>
+  </section>
+
+  <section class="home-sections">
+    <div class="section-grid">
+      <!-- Posztok -->
+      <div class="home-section section-posztok">
+        <div class="section-header">
+          <h2>
+            <a href="/posztok/">Posztok</a>
+          </h2>
+          <a href="/posztok/" class="view-all">Összes →</a>
+        </div>
+        {{ $posztok := where .Site.RegularPages "Section" "posztok" | first 3 }}
+        {{ if $posztok }}
+        <ul class="home-post-list">
+          {{ range $posztok }}
+          <li>
+            <a href="{{ .Permalink }}">
+              <span class="post-title">{{ .Title }}</span>
+              <span class="post-date">{{ .Date.Format "2006. jan 02." }}</span>
+            </a>
+          </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </div>
+
+      <!-- Podcast -->
+      <div class="home-section section-podcast">
+        <div class="section-header">
+          <h2>
+            <a href="/podcast/">Podcast</a>
+          </h2>
+          <a href="/podcast/" class="view-all">Összes →</a>
+        </div>
+        {{ $podcast := where .Site.RegularPages "Section" "podcast" | first 3 }}
+        {{ if $podcast }}
+        <ul class="home-post-list">
+          {{ range $podcast }}
+          <li>
+            <a href="{{ .Permalink }}">
+              <span class="post-title">{{ .Title }}</span>
+              <span class="post-date">{{ .Date.Format "2006. jan 02." }}</span>
+            </a>
+            {{ if .Params.duration }}
+            <span class="episode-duration">{{ .Params.duration }}</span>
+            {{ end }}
+          </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </div>
+
+      <!-- Filozófia -->
+      <div class="home-section section-filozofia">
+        <div class="section-header">
+          <h2>
+            <a href="/filozofia/">Filozófia</a>
+          </h2>
+          <a href="/filozofia/" class="view-all">Összes →</a>
+        </div>
+        {{ $filozofia := where .Site.RegularPages "Section" "filozofia" | first 3 }}
+        {{ if $filozofia }}
+        <ul class="home-post-list">
+          {{ range $filozofia }}
+          <li>
+            <a href="{{ .Permalink }}">
+              <span class="post-title">{{ .Title }}</span>
+              <span class="post-date">{{ .Date.Format "2006. jan 02." }}</span>
+            </a>
+          </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </div>
+
+      <!-- Versek -->
+      <div class="home-section section-versek">
+        <div class="section-header">
+          <h2>
+            <a href="/versek/">Versek</a>
+          </h2>
+          <a href="/versek/" class="view-all">Összes →</a>
+        </div>
+        {{ $versek := where .Site.RegularPages "Section" "versek" | first 3 }}
+        {{ if $versek }}
+        <ul class="home-post-list">
+          {{ range $versek }}
+          <li>
+            <a href="{{ .Permalink }}">
+              <span class="post-title">{{ .Title }}</span>
+              <span class="post-date">{{ .Date.Format "2006. jan 02." }}</span>
+            </a>
+          </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .home-wrapper {
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .hero {
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+  }
+
+  .home-sections {
+    padding: 0 2rem 4rem;
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+  }
+
+  .home-section {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .home-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .section-header h2 a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .section-header h2 a:hover {
+    color: var(--accent);
+  }
+
+  .view-all {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .view-all:hover {
+    color: var(--accent);
+  }
+
+  /* Szekció-specifikus border színek */
+  .section-posztok .section-header {
+    border-bottom-color: var(--color-olive);
+  }
+
+  .section-podcast .section-header {
+    border-bottom-color: var(--color-rust);
+  }
+
+  .section-filozofia .section-header {
+    border-bottom-color: var(--color-purple);
+  }
+
+  .section-versek .section-header {
+    border-bottom-color: var(--color-beige);
+  }
+
+  .home-post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .home-post-list li {
+    margin-bottom: 1rem;
+  }
+
+  .home-post-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+  }
+
+  .home-post-list a:hover {
+    color: var(--accent);
+  }
+
+  .home-post-list a:hover .post-title {
+    text-decoration: underline;
+  }
+
+  .post-title {
+    flex: 1;
+    font-weight: 500;
+  }
+
+  .post-date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .episode-duration {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 3rem;
+      letter-spacing: 0.3rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .section-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .home-post-list a {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .post-date {
+      font-size: 0.8rem;
+    }
+  }
+</style>
+{{ end }}

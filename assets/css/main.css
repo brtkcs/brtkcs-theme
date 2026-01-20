@@ -1,0 +1,641 @@
+/* ===== CSS Variables ===== */
+:root {
+  /* Színpaletta */
+  --color-beige: #D7D4CD;
+  --color-olive: #848B23;
+  --color-rust: #A8361B;
+  --color-dark-brown: #433C22;
+  --color-purple: #31185A;
+  --color-near-black: #191202;
+  --color-black: #000000;
+  
+  /* Light mode */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: var(--color-beige);
+  --text-primary: var(--color-near-black);
+  --text-secondary: var(--color-dark-brown);
+  --border-color: rgba(67, 60, 34, 0.2);
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --accent: var(--color-olive);
+  
+  /* Tipográfia */
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans: 'IBM Plex Sans', sans-serif;
+  
+  /* Spacing */
+  --header-height: 70px;
+  --container-max: 1200px;
+  --content-max: 720px;
+}
+[data-theme="dark"] {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #f5f5f5;
+  --text-secondary: rgba(245, 245, 245, 0.7);
+  --border-color: rgba(245, 245, 245, 0.15);
+  --header-bg: rgba(10, 10, 10, 0.95);
+  
+  /* Élénkebb accent színek dark mode-ban */
+  --color-olive: #a8c830;      /* Világosabb zöld */
+  --color-rust: #ff6b4a;       /* Élénkebb narancs/vörös */
+  --color-purple: #8b5cf6;     /* Világosabb lila */
+  --color-beige: #f5f1e8;      /* Még világosabb bézs */
+}
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== Header & Navigation ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--header-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: none;
+  height: var(--header-height);
+}
+.header-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.site-logo img {
+  height: 48px;
+  width: 48px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+[data-theme="dark"] .site-logo img {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+}
+.site-logo:hover img {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.site-logo span {
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+.logo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  width: 120px;
+}
+
+.logo-box {
+  aspect-ratio: 1;
+  border: 2px solid var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.logo-box.logo-bottom {
+  grid-column: span 2;
+}
+
+.logo-box:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.main-nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 15px;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Szekció-specifikus színek */
+.nav-link[data-section="posztok"]::after { background: var(--color-olive); }
+.nav-link[data-section="podcast"]::after { background: var(--color-beige); }
+.nav-link[data-section="filozófia"]::after { background: var(--color-purple); }
+.nav-link[data-section="versek"]::after { background: var(--color-rust); }
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  background: var(--bg-secondary);
+}
+
+[data-theme="light"] .sun-icon { display: block; }
+[data-theme="light"] .moon-icon { display: none; }
+[data-theme="dark"] .sun-icon { display: none; }
+[data-theme="dark"] .moon-icon { display: block; }
+
+/* ===== Main Content ===== */
+.main-content {
+  min-height: calc(100vh - var(--header-height) - 120px);
+  padding: 3rem 2rem;
+}
+
+.content-wrapper {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.content-wrapper.has-toc {
+  grid-template-columns: 1fr 280px;
+}
+
+.content-body {
+  max-width: var(--content-max);
+}
+
+/* ===== Typography ===== */
+.content-body h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.content-body h2 {
+  font-size: 1.8rem;
+  margin: 2.5rem 0 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.content-body h3 {
+  font-size: 1.4rem;
+  margin: 2rem 0 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.content-body p {
+  margin-bottom: 1.5rem;
+}
+
+.content-body a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.content-body a:hover {
+  border-bottom-color: var(--accent);
+}
+
+.content-body blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 1rem 1.5rem;
+  margin: 2rem 0;
+  background: var(--bg-secondary);
+  font-style: italic;
+}
+
+.content-body code {
+  font-family: var(--font-mono);
+  background: var(--bg-secondary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.content-body pre {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.content-body pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ===== Post Meta ===== */
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.post-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--accent);
+  color: var(--bg-primary);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.tag:hover {
+  opacity: 0.8;
+}
+
+/* Szekció-specifikus tag színek */
+.section-posztok .tag { background: var(--color-olive); }
+.section-podcast .tag { background: var(--color-rust); }
+.section-filozofia .tag { background: var(--color-purple); }
+.section-versek .tag { background: var(--color-beige); color: var(--color-near-black); }
+
+/* ===== TOC Sidebar ===== */
+.toc-sidebar {
+  position: sticky;
+  top: calc(var(--header-height) + 2rem);
+  height: fit-content;
+  max-height: calc(100vh - var(--header-height) - 4rem);
+  overflow-y: auto;
+}
+
+.toc-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.toc-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.toc-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.toc-nav li {
+  margin-bottom: 0.5rem;
+}
+
+.toc-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: block;
+  padding: 0.3rem 0;
+  transition: color 0.2s ease;
+}
+
+.toc-nav a:hover,
+.toc-nav a.active {
+  color: var(--accent);
+}
+
+.toc-nav ul ul {
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* ===== Podcast Player ===== */
+.podcast-player {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.play-button {
+  background: var(--color-rust);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.play-button:hover {
+  opacity: 0.9;
+}
+
+.time-display,
+.duration-display {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  min-width: 45px;
+}
+
+.progress-container {
+  flex: 1;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-color);
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-rust);
+  cursor: pointer;
+}
+
+.progress-bar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-rust);
+  cursor: pointer;
+  border: none;
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.volume-button {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.volume-slider {
+  width: 80px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border-color);
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-rust);
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-rust);
+  cursor: pointer;
+  border: none;
+}
+
+/* ===== Podcast Info ===== */
+.podcast-info {
+  margin: 2rem 0;
+}
+
+.show-notes {
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--color-rust);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+.show-notes h3 {
+  margin-top: 0;
+}
+
+/* ===== List View ===== */
+.post-list {
+  list-style: none;
+  padding: 0;
+}
+
+.post-list-item {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.post-list-item:last-child {
+  border-bottom: none;
+}
+
+.post-list-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-list-title a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.post-list-title a:hover {
+  color: var(--accent);
+}
+
+.post-list-excerpt {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+/* ===== Footer ===== */
+.site-footer {
+  background: var(--bg-secondary);
+  border-top: none;
+  padding: 1rem 2rem; /* Még kisebb padding */
+  margin-top: 4rem;
+}
+
+.footer-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 0.75rem; /* Kisebb gap az ikonok között */
+}
+
+.social-links a svg {
+  width: 18px;  /* Kisebb ikonok */
+  height: 18px;
+}
+
+.footer-text {
+  font-size: 0.8rem; /* Kisebb szöveg */
+}
+
+.footer-text p {
+  margin: 0; /* Nincs extra margin */
+}
+/* ===== Responsive ===== */
+@media (max-width: 968px) {
+  .content-wrapper.has-toc {
+    grid-template-columns: 1fr;
+  }
+  
+  .toc-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 1rem;
+  }
+  
+  .main-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .content-body h1 {
+    font-size: 2rem;
+  }
+  
+  .player-controls {
+    flex-wrap: wrap;
+  }
+  
+  .volume-control {
+    width: 100%;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}

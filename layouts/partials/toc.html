@@ -1,0 +1,38 @@
+{{ if and .TableOfContents (gt .WordCount 400) }}
+<aside class="toc-sidebar">
+  <div class="toc-container">
+    <h3 class="toc-title">Tartalomjegyzék</h3>
+    <nav class="toc-nav">
+      {{ .TableOfContents }}
+    </nav>
+  </div>
+</aside>
+
+<script>
+  // Active TOC highlighting on scroll
+  document.addEventListener('DOMContentLoaded', function() {
+    const tocLinks = document.querySelectorAll('.toc-nav a');
+    const headings = document.querySelectorAll('.content-body h2, .content-body h3');
+    
+    if (tocLinks.length === 0 || headings.length === 0) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, {
+      rootMargin: '-80px 0px -80% 0px'
+    });
+    
+    headings.forEach(heading => observer.observe(heading));
+  });
+</script>
+{{ end }}
