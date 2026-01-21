@@ -11,6 +11,7 @@
   </main>
   
   {{ partial "footer.html" . }}
+  {{ partial "cookie-notice.html" . }}
   
   <script>
     // Dark/Light mode toggle
@@ -51,6 +52,21 @@
         }
         
         lastScroll = currentScroll;
+      });
+    }
+
+    // Cookie notice
+    const cookieNotice = document.getElementById('cookie-notice');
+    const cookieAccept = document.getElementById('cookie-accept');
+    
+    if (!localStorage.getItem('cookie-accepted')) {
+      cookieNotice.classList.add('show');
+    }
+    
+    if (cookieAccept) {
+      cookieAccept.addEventListener('click', () => {
+        localStorage.setItem('cookie-accepted', 'true');
+        cookieNotice.classList.remove('show');
       });
     }
   </script>

@@ -112,6 +112,8 @@ body {
   object-fit: contain;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
   transition: filter 0.2s ease;
+  font-size: 0; /* Alt text elrejtése */
+  color: transparent; /* Extra biztonság */
 }
 
 [data-theme="dark"] .site-logo img {
@@ -596,6 +598,79 @@ body {
 
 .footer-text p {
   margin: 0;
+}
+
+.footer-text a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-text a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* ===== Cookie Notice ===== */
+.cookie-notice {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border-top: 2px solid var(--border-color);
+  padding: 1.5rem;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cookie-notice.show {
+  display: block;
+}
+
+.cookie-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.cookie-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.cookie-btn {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.cookie-btn:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .cookie-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .cookie-btn {
+    width: 100%;
+  }
 }
 
 /* ===== Responsive ===== */

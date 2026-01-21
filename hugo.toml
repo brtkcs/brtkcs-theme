@@ -47,9 +47,14 @@ enableGitInfo = true
     url = "/versek/"
     weight = 4
   [[menu.main]]
-    name = "About"
-    url = "/about/"
+    name = "Art or.."
+    url = "https://jokerpakli.brtkcs.com/"
     weight = 5
+  
+  [[menu.main]]
+    name = "Links"
+    url = "https://links.brtkcs.com"
+    weight = 6
 
 # Taxonomy beállítások
 [taxonomies]
