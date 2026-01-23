@@ -1,6 +1,6 @@
 baseURL = "https://brtkcs.com/"
 languageCode = "hu"
-title = "brtkcs"
+title = "@brtkcs |"
 theme = "brtkcs"
 [pagination]
   pagerSize = 10
