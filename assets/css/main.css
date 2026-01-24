@@ -309,24 +309,74 @@ body {
 }
 
 .tag {
-  background: var(--accent);
-  color: var(--bg-primary);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   padding: 0.3rem 0.8rem;
   border-radius: 4px;
   font-size: 0.85rem;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
 }
 
 .tag:hover {
-  opacity: 0.8;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
 }
 
 /* Szekció-specifikus tag színek */
-.section-posztok .tag { background: var(--color-olive); }
-.section-podcast .tag { background: var(--color-rust); }
-.section-filozofia .tag { background: var(--color-purple); }
-.section-versek .tag { background: var(--color-beige); color: var(--color-near-black); }
+.section-posztok .tag { 
+  background: rgba(132, 139, 35, 0.15);
+  color: var(--color-olive);
+  border-color: var(--color-olive);
+}
+.section-posztok .tag:hover {
+  background: var(--color-olive);
+  color: #fff;
+}
+
+.section-podcast .tag { 
+  background: rgba(168, 54, 27, 0.15);
+  color: var(--color-rust);
+  border-color: var(--color-rust);
+}
+.section-podcast .tag:hover {
+  background: var(--color-rust);
+  color: #fff;
+}
+
+.section-filozofia .tag { 
+  background: rgba(49, 24, 90, 0.15);
+  color: var(--color-purple);
+  border-color: var(--color-purple);
+}
+.section-filozofia .tag:hover {
+  background: var(--color-purple);
+  color: #fff;
+}
+
+.section-versek .tag { 
+  background: rgba(215, 212, 205, 0.3);
+  color: var(--color-dark-brown);
+  border-color: var(--color-beige);
+}
+.section-versek .tag:hover {
+  background: var(--color-beige);
+  color: var(--color-near-black);
+}
+
+/* Tags oldal stílus */
+.section-tags .tag {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+.section-tags .tag:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
 
 /* ===== TOC Sidebar ===== */
 .toc-sidebar {
