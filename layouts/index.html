@@ -33,29 +33,27 @@
       </div>
 
       <!-- Podcast -->
-      <!-- index.html Podcast szekcióban -->
 <div class="home-section section-podcast">
   <div class="section-header">
-    <h2><a href="https://tinnitus.pods-blitz.org">Podcast</a></h2>
+    <h2><a href="/podcast/">Podcast</a></h2>
+    <a href="/podcast/" class="view-all">Összes →</a>
   </div>
-  <div id="podcast-feed"></div>
+  {{ $podcast := where .Site.RegularPages "Section" "podcast" | first 3 }}
+  {{ if $podcast }}
+  <ul class="home-post-list">
+    {{ range $podcast }}
+    <li>
+      <a href="{{ .Permalink }}">
+        <span class="post-title">{{ .Title }}</span>
+        <span class="post-date">{{ with .Params.duration }}{{ . }}{{ end }}</span>
+      </a>
+    </li>
+    {{ end }}
+  </ul>
+  {{ else }}
+  <p class="no-content">Hamarosan...</p>
+  {{ end }}
 </div>
-
-<script>
-fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.org/feed/brtkcs')
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById('podcast-feed');
-    const items = data.items.slice(0, 3); // utolsó 3
-    
-    container.innerHTML = items.map(item => `
-      <div class="podcast-item">
-        <h3><a href="${item.link}">${item.title}</a></h3>
-        <p>${item.pubDate}</p>
-      </div>
-    `).join('');
-  });
-</script>
 
       <!-- Filozófia -->
       <div class="home-section section-filozofia">

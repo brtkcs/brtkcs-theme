@@ -47,7 +47,7 @@
       {{- with .Params.audioFile }}
       <enclosure url="{{ . | absURL }}" type="audio/mpeg"/>
       {{- end }}
-      {{- with $.Params.duration }}
+      {{- with .Params.duration }}
       <itunes:duration>{{ . }}</itunes:duration>
       {{- end }}
     </item>
