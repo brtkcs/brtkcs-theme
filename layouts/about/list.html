@@ -1,0 +1,10 @@
+{{ define "main" }}
+<div class="content-wrapper">
+  <div class="content-body">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    
+    {{ partial "certs-gallery.html" . }}
+  </div>
+</div>
+{{ end }}
