@@ -1,0 +1,47 @@
+{{ define "main" }}
+<div class="content-wrapper">
+  <div class="content-body section-tags">
+    <h1>{{ .Title }}</h1>
+    
+    <p class="tag-count">{{ len .Pages }} bejegyzés ezzel a címkével</p>
+    
+    {{ if .Pages }}
+    <ul class="post-list">
+      {{ range .Pages }}
+      <li class="post-list-item">
+        <h2 class="post-list-title">
+          <a href="{{ .Permalink }}">{{ .Title }}</a>
+        </h2>
+        
+        <div class="post-meta">
+          <span class="post-date">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            {{ .Date.Format "2006. jan 02." }}
+          </span>
+          
+          {{ with .CurrentSection }}
+          <span class="post-section">{{ .Title }}</span>
+          {{ end }}
+        </div>
+        
+        {{ if .Summary }}
+        <p class="post-list-excerpt">{{ .Summary }}</p>
+        {{ end }}
+      </li>
+      {{ end }}
+    </ul>
+    {{ else }}
+    <p>Még nincsenek bejegyzések ezzel a címkével.</p>
+    {{ end }}
+    
+    <div class="back-link">
+      <a href="/tags/">← Összes címke</a>
+    </div>
+  </div>
+</div>
+{{ end }}

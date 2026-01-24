@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="content-wrapper">
+  <div class="content-body section-tags">
+    <h1>{{ .Title }}</h1>
+    
+    {{ if .Pages }}
+    <div class="tags-cloud">
+      {{ range .Pages }}
+      <a href="{{ .Permalink }}" class="tag">
+        {{ .Title }} <span class="tag-count-badge">{{ len .Pages }}</span>
+      </a>
+      {{ end }}
+    </div>
+    {{ else }}
+    <p>Még nincsenek címkék.</p>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
