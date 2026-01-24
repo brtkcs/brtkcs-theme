@@ -1,10 +1,14 @@
 {{ define "main" }}
 <div class="home-wrapper">
   <section class="hero">
-    <div class="hero-content">
+    <a href="/werkstatt/" class="hero-content">
       <p class="werkstatt-motto">Köztes tér. Mozgásban.</p>
       <p class="werkstatt-tagline">A <span>Werkstatt</span>: mindig most.</p>
-    </div>
+      <div class="werkstatt-manifesto">
+        <p>A Werkstatt nem hely, hanem állapot. Ahol a gondolat még formálódik, a szó még keresi a helyét, és minden pillanat teremtés. Nem a kész művek tárháza — hanem a műhely maga.</p>
+        <span class="manifesto-cta">Tovább →</span>
+      </div>
+    </a>
   </section>
 
   <section class="home-sections">
@@ -122,6 +126,9 @@
   .hero-content {
     position: relative;
     padding: 2rem 4rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
   }
 
   .hero-content::before,
@@ -132,10 +139,17 @@
     height: 1px;
     background: var(--color-olive);
     top: 50%;
+    transition: width 0.4s ease, opacity 0.4s ease;
   }
 
   .hero-content::before { left: -30px; }
   .hero-content::after { right: -30px; }
+
+  .hero-content:hover::before,
+  .hero-content:hover::after {
+    width: 100px;
+    opacity: 0.5;
+  }
 
   .werkstatt-motto {
     font-size: 1.6rem;
@@ -143,17 +157,54 @@
     color: var(--text-primary);
     margin-bottom: 0.75rem;
     font-family: var(--font-sans);
+    transition: color 0.3s ease;
   }
 
   .werkstatt-tagline {
     font-size: 1.1rem;
     color: var(--text-secondary);
     letter-spacing: 0.1rem;
+    transition: color 0.3s ease;
   }
 
   .werkstatt-tagline span {
     color: var(--color-olive);
     font-weight: 600;
+  }
+
+  .werkstatt-manifesto {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
+  }
+
+  .hero-content:hover .werkstatt-manifesto {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 1.5rem;
+  }
+
+  .werkstatt-manifesto p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 400px;
+    margin: 0 auto 1rem;
+    font-family: var(--font-sans);
+  }
+
+  .manifesto-cta {
+    font-size: 0.85rem;
+    color: var(--color-olive);
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+    transition: letter-spacing 0.3s ease;
+  }
+
+  .hero-content:hover .manifesto-cta {
+    letter-spacing: 0.15rem;
   }
 
   @media (max-width: 600px) {
@@ -164,6 +215,12 @@
     
     .hero-content {
       padding: 2rem 1rem;
+    }
+
+    .werkstatt-manifesto {
+      max-height: none;
+      opacity: 1;
+      margin-top: 1.5rem;
     }
   }
 

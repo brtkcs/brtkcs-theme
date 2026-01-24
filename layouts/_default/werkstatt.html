@@ -1,0 +1,278 @@
+{{ define "main" }}
+<article class="werkstatt-page">
+  <header class="werkstatt-header">
+    <div class="werkstatt-brand">
+      <span class="brand-tilde">~</span><span class="brand-slash">/</span><span class="brand-name">werkstatt</span>
+    </div>
+  </header>
+
+  <nav class="werkstatt-nav">
+    <a href="#manifesto">I. Manifesto</a>
+    <a href="#etika">II. Etikai Záradék</a>
+    <a href="#tech">III. Technológiai záradék</a>
+  </nav>
+
+  <div class="werkstatt-content">
+    {{ .Content }}
+  </div>
+
+  <footer class="werkstatt-footer">
+    <a href="/" class="back-home">← Vissza a műhelybe</a>
+  </footer>
+</article>
+
+<style>
+  .werkstatt-page {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .werkstatt-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .werkstatt-brand {
+    font-size: 2.5rem;
+    font-weight: 600;
+  }
+
+  .brand-tilde { color: var(--color-olive); }
+  .brand-slash { color: var(--text-secondary); }
+  .brand-name { color: var(--text-primary); }
+
+  /* Navigation */
+  .werkstatt-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 0;
+    margin-bottom: 3rem;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .werkstatt-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
+  }
+
+  .werkstatt-nav a:hover {
+    color: var(--color-olive);
+  }
+
+  /* Content */
+  .werkstatt-content {
+    font-family: var(--font-sans);
+    line-height: 1.8;
+  }
+
+  .werkstatt-content h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 4rem 0 1.5rem;
+    padding-top: 2rem;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    border-top: 1px solid var(--border-color);
+  }
+
+  .werkstatt-content h2:first-of-type {
+    margin-top: 0;
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .werkstatt-content h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 2.5rem 0 1rem;
+    color: var(--color-olive);
+    font-family: var(--font-mono);
+  }
+
+  .werkstatt-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+  }
+
+  .werkstatt-content p {
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .werkstatt-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .werkstatt-content ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .werkstatt-content ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-olive);
+  }
+
+  .werkstatt-content em {
+    font-style: italic;
+    color: var(--color-olive);
+  }
+
+  .werkstatt-content strong {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* Special elements */
+  .manifesto-subtitle {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+  }
+
+  .manifesto-quote {
+    font-size: 1.4rem;
+    font-style: italic;
+    text-align: center;
+    color: var(--text-primary);
+    padding: 2rem;
+    margin: 2.5rem 0;
+    border-left: 3px solid var(--color-olive);
+    background: var(--bg-secondary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .manifesto-note {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 1.5rem;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    margin: 2rem 0;
+  }
+
+  /* Principle cards */
+  .principle-card {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--color-olive);
+  }
+
+  .principle-card .classic {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-card .werkstatt {
+    margin-bottom: 0;
+  }
+
+  /* Tech principles */
+  .tech-principle {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border-color);
+  }
+
+  .tech-principle h4 {
+    color: var(--color-olive);
+  }
+
+  .tech-principle p {
+    margin-bottom: 0;
+  }
+
+  /* AI Section */
+  .ai-section {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+
+  .ai-section p {
+    margin-bottom: 1.5rem;
+  }
+
+  .ai-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Footer */
+  .werkstatt-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+  }
+
+  .back-home {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-home:hover {
+    color: var(--color-olive);
+  }
+
+  /* Section styling */
+  .manifesto-section {
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 600px) {
+    .werkstatt-page {
+      padding: 3rem 1.5rem;
+    }
+
+    .werkstatt-brand {
+      font-size: 2rem;
+    }
+
+    .werkstatt-nav {
+      flex-direction: column;
+      gap: 0.75rem;
+      text-align: center;
+    }
+
+    .werkstatt-content h2 {
+      font-size: 1.5rem;
+    }
+
+    .manifesto-quote {
+      font-size: 1.2rem;
+      padding: 1.5rem;
+    }
+  }
+</style>
+{{ end }}
