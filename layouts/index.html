@@ -2,12 +2,8 @@
 <div class="home-wrapper">
   <section class="hero">
     <div class="hero-content">
-      <h1 class="hero-title">BRTKCS</h1>
-      <p class="hero-subtitle">Filozófia, versek, gondolatok és podcast</p>
-      <div class="hero-werkstatt">
-        <p class="werkstatt-motto">Köztes tér. Mozgásban.</p>
-        <p class="werkstatt-tagline">A Werkstatt: mindig most.</p>
-      </div>
+      <p class="werkstatt-motto">Köztes tér. Mozgásban.</p>
+      <p class="werkstatt-tagline">A <span>Werkstatt</span>: mindig most.</p>
     </div>
   </section>
 
@@ -117,46 +113,60 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
   }
 
   .hero {
-    padding: 6rem 2rem;
+    padding: 8rem 2rem 6rem;
     text-align: center;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .hero-title {
-    font-size: 4rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    letter-spacing: 0.5rem;
-    color: var(--text-primary);
+  .hero-content {
+    position: relative;
+    padding: 2rem 4rem;
   }
 
-  .hero-subtitle {
-    font-size: 1.3rem;
-    color: var(--text-secondary);
-    font-family: var(--font-sans);
-    margin-bottom: 2rem;
+  .hero-content::before,
+  .hero-content::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 1px;
+    background: var(--color-olive);
+    top: 50%;
   }
 
-  .hero-werkstatt {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  .hero-content::before { left: -30px; }
+  .hero-content::after { right: -30px; }
 
   .werkstatt-motto {
-    font-size: 1.1rem;
+    font-size: 1.6rem;
     font-style: italic;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    font-family: var(--font-sans);
   }
 
   .werkstatt-tagline {
-    font-size: 0.9rem;
-    color: var(--color-olive);
-    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
     letter-spacing: 0.1rem;
+  }
+
+  .werkstatt-tagline span {
+    color: var(--color-olive);
+    font-weight: 600;
+  }
+
+  @media (max-width: 600px) {
+    .hero-content::before,
+    .hero-content::after {
+      display: none;
+    }
+    
+    .hero-content {
+      padding: 2rem 1rem;
+    }
   }
 
   .home-sections {
