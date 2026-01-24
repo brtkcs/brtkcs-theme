@@ -77,7 +77,7 @@ body {
   backdrop-filter: blur(10px);
   border-bottom: none;
   height: var(--header-height);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .site-header.scroll-down {
@@ -86,6 +86,22 @@ body {
 
 .site-header.scroll-up {
   transform: translateY(0);
+}
+
+/* Transzparens header az oldal tetején */
+.site-header.at-top {
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.site-header.at-top .logo-name,
+.site-header.at-top .nav-link {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .site-header.at-top .logo-name,
+[data-theme="dark"] .site-header.at-top .nav-link {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .header-container {

@@ -30,30 +30,38 @@
       });
     }
 
-    // Auto-hide header on scroll (csak desktop)
-    if (window.innerWidth > 768) {
-      let lastScroll = 0;
-      const header = document.querySelector('.site-header');
+    // Auto-hide header on scroll + transparent at top
+    const header = document.querySelector('.site-header');
+    let lastScroll = 0;
+    
+    function updateHeader() {
+      const currentScroll = window.pageYOffset;
       
-      window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
+      // Transzparens az oldal tetején
+      if (currentScroll <= 50) {
+        header.classList.add('at-top');
+        header.classList.remove('scroll-up', 'scroll-down');
+      } else {
+        header.classList.remove('at-top');
         
-        if (currentScroll <= 0) {
-          header.classList.remove('scroll-up');
-          return;
+        // Auto-hide csak desktop-on
+        if (window.innerWidth > 768) {
+          if (currentScroll > lastScroll && currentScroll > 100) {
+            header.classList.add('scroll-down');
+            header.classList.remove('scroll-up');
+          } else if (currentScroll < lastScroll) {
+            header.classList.remove('scroll-down');
+            header.classList.add('scroll-up');
+          }
         }
-        
-        if (currentScroll > lastScroll && currentScroll > 100) {
-          header.classList.add('scroll-down');
-          header.classList.remove('scroll-up');
-        } else if (currentScroll < lastScroll) {
-          header.classList.remove('scroll-down');
-          header.classList.add('scroll-up');
-        }
-        
-        lastScroll = currentScroll;
-      });
+      }
+      
+      lastScroll = currentScroll;
     }
+    
+    // Initial state
+    updateHeader();
+    window.addEventListener('scroll', updateHeader);
 
     // Cookie notice
     const cookieNotice = document.getElementById('cookie-notice');

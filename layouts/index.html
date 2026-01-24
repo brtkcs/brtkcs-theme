@@ -3,7 +3,11 @@
   <section class="hero">
     <div class="hero-content">
       <h1 class="hero-title">BRTKCS</h1>
-      <p class="hero-subtitle">{{ .Site.Params.description }}</p>
+      <p class="hero-subtitle">Filozófia, versek, gondolatok és podcast</p>
+      <div class="hero-werkstatt">
+        <p class="werkstatt-motto">Köztes tér. Mozgásban.</p>
+        <p class="werkstatt-tagline">A Werkstatt: mindig most.</p>
+      </div>
     </div>
   </section>
 
@@ -129,6 +133,30 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
     font-size: 1.3rem;
     color: var(--text-secondary);
     font-family: var(--font-sans);
+    margin-bottom: 2rem;
+  }
+
+  .hero-werkstatt {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .werkstatt-motto {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .werkstatt-tagline {
+    font-size: 0.9rem;
+    color: var(--color-olive);
+    font-weight: 500;
+    letter-spacing: 0.1rem;
   }
 
   .home-sections {

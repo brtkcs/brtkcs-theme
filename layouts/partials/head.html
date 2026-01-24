@@ -3,17 +3,18 @@
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
+<!-- Local Fonts -->
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
+
 <!-- CSS -->
 {{ $css := resources.Get "css/main.css" | resources.Minify }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-<!-- Fonts - Monospace -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
 
 <!-- RSS -->
 {{ with .OutputFormats.Get "RSS" }}
