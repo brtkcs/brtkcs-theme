@@ -103,29 +103,44 @@ body {
   text-decoration: none;
   color: var(--text-primary);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+  transition: color 0.2s ease;
 }
 
-.site-logo img {
-  height: 40px;
-  width: 40px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
-  transition: filter 0.2s ease;
-  font-size: 0; /* Alt text elrejtése */
-  color: transparent; /* Extra biztonság */
+.site-logo:hover {
+  color: var(--color-olive);
 }
 
-[data-theme="dark"] .site-logo img {
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+.logo-name {
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-.site-logo:hover img {
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.3));
+.logo-tilde {
+  color: var(--color-olive);
 }
 
-[data-theme="dark"] .site-logo:hover img {
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+.logo-slash {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.site-logo:hover .logo-slash {
+  color: var(--color-olive);
+}
+
+.logo-subtitle {
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: color 0.2s ease;
+}
+
+.site-logo:hover .logo-subtitle {
+  color: var(--color-olive);
 }
 
 .main-nav {
