@@ -1,0 +1,84 @@
+<!-- Certifications Gallery -->
+<section class="certs-section">
+  <h2>Certifications</h2>
+  <p class="certs-intro">Az elmúlt években megszerzett tanúsítványaim. Kattints a nagyításhoz!</p>
+  
+  <!-- Featured / Specializations -->
+  <h3 class="certs-category">Specializations & Professional Certificates</h3>
+  <div class="certs-grid certs-featured">
+    {{ range $.Site.Data.certs.featured }}
+    <div class="cert-card featured" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
+      <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
+      <div class="cert-overlay">
+        <span class="cert-name">{{ .name }}</span>
+        <span class="cert-meta">{{ .institution }}{{ with .date }} • {{ . }}{{ end }}</span>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  
+  <!-- Regular Certs -->
+  <h3 class="certs-category">Courses & Training</h3>
+  <div class="certs-grid">
+    {{ range $.Site.Data.certs.regular }}
+    <div class="cert-card" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
+      <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
+      <div class="cert-overlay">
+        <span class="cert-name">{{ .name }}</span>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="cert-lightbox" class="cert-lightbox">
+  <button class="lightbox-close" aria-label="Bezárás">&times;</button>
+  <div class="lightbox-content">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-info">
+      <h3 id="lightbox-name"></h3>
+      <p id="lightbox-meta"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const lightbox = document.getElementById('cert-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxName = document.getElementById('lightbox-name');
+  const lightboxMeta = document.getElementById('lightbox-meta');
+  const closeBtn = document.querySelector('.lightbox-close');
+  
+  // Open lightbox on card click
+  document.querySelectorAll('.cert-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const thumb = this.dataset.thumb;
+      const name = this.dataset.name;
+      const institution = this.dataset.institution;
+      const date = this.dataset.date;
+      
+      lightboxImg.src = thumb;
+      lightboxName.textContent = name;
+      lightboxMeta.textContent = institution + (date ? ' • ' + date : '');
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  
+  // Close lightbox
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  closeBtn.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+});
+</script>
