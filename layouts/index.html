@@ -5,7 +5,7 @@
       <p class="werkstatt-motto">Köztes tér. Mozgásban.</p>
       <p class="werkstatt-tagline">A <span>Werkstatt</span>: mindig most.</p>
       <div class="werkstatt-manifesto">
-        <p>Műhely, ahol minden formálódik. Nem a kész, hanem a születő.</p>
+        <p>Műhely, ahol minden formálódik, alakul...</p>
         <span class="manifesto-cta">Manifesto →</span>
       </div>
     </a>
@@ -55,9 +55,28 @@
   </ul>
   {{ else }}
   <p class="podcast-soon">Hamarosan...</p>
-  <p class="podcast-meanwhile">de addig is, tőlem: <a href="https://tinnitus.pods-blitz.org" target="_blank" rel="noopener">Tinnitus Napló</a></p>
+  <div class="podcast-tinnitus">
+    <p class="podcast-meanwhile">de addig is a <a href="https://tinnitus.pods-blitz.org/" target="_blank" rel="noopener">Tinnitus Napló</a> utolsó epizódjai:</p>
+    <div id="tinnitus-feed" class="tinnitus-episodes"></div>
+  </div>
   {{ end }}
 </div>
+
+<script>
+fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.org/feed/podcast')
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById('tinnitus-feed');
+    if (!container) return;
+    const items = data.items.slice(0, 2);
+    container.innerHTML = items.map(item => `
+      <a href="${item.link}" target="_blank" rel="noopener" class="tinnitus-episode">
+        <span class="episode-title">${item.title}</span>
+      </a>
+    `).join('');
+  })
+  .catch(() => {});
+</script>
 
       <!-- Filozófia -->
       <div class="home-section section-filozofia">
@@ -303,12 +322,18 @@
   .podcast-soon {
     color: var(--text-secondary);
     font-style: italic;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .podcast-tinnitus {
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-color);
   }
 
   .podcast-meanwhile {
     font-size: 0.9rem;
     color: var(--text-secondary);
+    margin-bottom: 0.75rem;
   }
 
   .podcast-meanwhile a {
@@ -319,8 +344,30 @@
   }
 
   .podcast-meanwhile a:hover {
-    color: var(--text-primary);
     text-decoration: underline;
+  }
+
+  .tinnitus-episodes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tinnitus-episode {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .tinnitus-episode:hover {
+    color: var(--color-rust);
+  }
+
+  .tinnitus-episode .episode-title {
+    display: block;
   }
 
   .home-post-list {
