@@ -4,6 +4,10 @@
     <div class="werkstatt-brand">
       <span class="brand-tilde">~</span><span class="brand-slash">/</span><span class="brand-name">werkstatt</span>
     </div>
+    <div class="werkstatt-hero-motto">
+      <p class="motto-line">Köztes tér. Mozgásban.</p>
+      <p class="motto-tagline">A Werkstatt: mindig most.</p>
+    </div>
   </header>
 
   <nav class="werkstatt-nav">
@@ -36,11 +40,35 @@
   .werkstatt-brand {
     font-size: 2.5rem;
     font-weight: 600;
+    margin-bottom: 2rem;
   }
 
   .brand-tilde { color: var(--color-olive); }
   .brand-slash { color: var(--text-secondary); }
   .brand-name { color: var(--text-primary); }
+
+  .werkstatt-hero-motto {
+    padding: 1.5rem 2rem;
+    border-left: 3px solid var(--color-olive);
+    border-right: 3px solid var(--color-olive);
+    display: inline-block;
+  }
+
+  .motto-line {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-sans);
+  }
+
+  .motto-tagline {
+    font-size: 1rem;
+    color: var(--color-olive);
+    margin: 0;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
 
   /* Navigation */
   .werkstatt-nav {
