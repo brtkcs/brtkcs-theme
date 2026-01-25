@@ -5,8 +5,8 @@
       <p class="werkstatt-motto">Köztes tér. Mozgásban.</p>
       <p class="werkstatt-tagline">A <span>Werkstatt</span>: mindig most.</p>
       <div class="werkstatt-manifesto">
-        <p>A Werkstatt nem hely, hanem állapot. Ahol a gondolat még formálódik, a szó még keresi a helyét, és minden pillanat teremtés. Nem a kész művek tárháza — hanem a műhely maga.</p>
-        <span class="manifesto-cta">Tovább →</span>
+        <p>Műhely, ahol minden formálódik. Nem a kész, hanem a születő.</p>
+        <span class="manifesto-cta">Manifesto →</span>
       </div>
     </a>
   </section>
@@ -40,7 +40,6 @@
 <div class="home-section section-podcast">
   <div class="section-header">
     <h2><a href="/podcast/">Podcast</a></h2>
-    <a href="/podcast/" class="view-all">Összes →</a>
   </div>
   {{ $podcast := where .Site.RegularPages "Section" "podcast" | first 3 }}
   {{ if $podcast }}
@@ -55,7 +54,8 @@
     {{ end }}
   </ul>
   {{ else }}
-  <p class="no-content">Hamarosan...</p>
+  <p class="podcast-soon">Hamarosan...</p>
+  <p class="podcast-meanwhile">de addig is, tőlem: <a href="https://tinnitus.pods-blitz.org" target="_blank" rel="noopener">Tinnitus Napló</a></p>
   {{ end }}
 </div>
 
@@ -297,6 +297,30 @@
 
   .section-versek .section-header {
     border-bottom-color: var(--color-beige);
+  }
+
+  /* Podcast hamarosan */
+  .podcast-soon {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+
+  .podcast-meanwhile {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .podcast-meanwhile a {
+    color: var(--color-rust);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .podcast-meanwhile a:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
   }
 
   .home-post-list {
