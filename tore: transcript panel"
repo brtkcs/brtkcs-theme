@@ -1,0 +1,93 @@
+[1mdiff --git a/assets/css/main.css b/assets/css/main.css[m
+[1mindex 3168176..8173e6d 100644[m
+[1m--- a/assets/css/main.css[m
+[1m+++ b/assets/css/main.css[m
+[36m@@ -601,60 +601,6 @@[m [mbody {[m
+   margin-top: 0;[m
+ }[m
+ [m
+[31m-/* ===== Transcript Panel ===== */[m
+[31m-.transcript-panel {[m
+[31m-  margin: 2rem 0;[m
+[31m-}[m
+[31m-[m
+[31m-.transcript-panel summary {[m
+[31m-  display: flex;[m
+[31m-  align-items: center;[m
+[31m-  gap: 0.5rem;[m
+[31m-  cursor: pointer;[m
+[31m-  padding: 1rem 1.5rem;[m
+[31m-  background: var(--bg-secondary);[m
+[31m-  border-left: 4px solid var(--color-olive);[m
+[31m-  border-radius: 4px;[m
+[31m-  color: var(--text-primary);[m
+[31m-  font-weight: 600;[m
+[31m-  list-style: none;[m
+[31m-}[m
+[31m-[m
+[31m-.transcript-panel summary::-webkit-details-marker {[m
+[31m-  display: none;[m
+[31m-}[m
+[31m-[m
+[31m-.transcript-panel summary::after {[m
+[31m-  content: '▸';[m
+[31m-  margin-left: auto;[m
+[31m-  transition: transform 0.2s;[m
+[31m-}[m
+[31m-[m
+[31m-.transcript-panel[open] summary::after {[m
+[31m-  transform: rotate(90deg);[m
+[31m-}[m
+[31m-[m
+[31m-.transcript-panel summary:hover {[m
+[31m-  color: var(--color-olive);[m
+[31m-}[m
+[31m-[m
+[31m-.transcript-panel[open] summary {[m
+[31m-  border-radius: 4px 4px 0 0;[m
+[31m-}[m
+[31m-[m
+[31m-.transcript-panel .transcript-content {[m
+[31m-  background: var(--bg-secondary);[m
+[31m-  padding: 1.5rem;[m
+[31m-  border-left: 4px solid var(--color-olive);[m
+[31m-  border-radius: 0 0 4px 4px;[m
+[31m-  max-height: 400px;[m
+[31m-  overflow-y: auto;[m
+[31m-  white-space: pre-line;[m
+[31m-  font-size: 0.9rem;[m
+[31m-  line-height: 1.6;[m
+[31m-  color: var(--text-secondary);[m
+[31m-}[m
+[31m-[m
+ /* ===== List View ===== */[m
+ .post-list {[m
+   list-style: none;[m
+[1mdiff --git a/layouts/podcast/single.html b/layouts/podcast/single.html[m
+[1mindex d6e1d13..0abce92 100644[m
+[1m--- a/layouts/podcast/single.html[m
+[1m+++ b/layouts/podcast/single.html[m
+[36m@@ -50,23 +50,6 @@[m
+       <div>{{ .Params.showNotes | markdownify }}</div>[m
+     </div>[m
+     {{ end }}[m
+[31m-[m
+[31m-    {{ if .Params.srtFile }}[m
+[31m-    <details class="transcript-panel">[m
+[31m-      <summary>[m
+[31m-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">[m
+[31m-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>[m
+[31m-        </svg>[m
+[31m-        Átirat megjelenítése[m
+[31m-      </summary>[m
+[31m-      <div class="transcript-content">[m
+[31m-        {{ $srtPath := .Params.srtFile }}[m
+[31m-        {{ with resources.Get $srtPath }}[m
+[31m-          {{ .Content }}[m
+[31m-        {{ end }}[m
+[31m-      </div>[m
+[31m-    </details>[m
+[31m-    {{ end }}[m
+     [m
+     <div class="post-content">[m
+       {{ .Content }}[m
