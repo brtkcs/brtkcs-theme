@@ -29,11 +29,13 @@ enableGitInfo = true
     mastodon = "https://mastodon.social/@brtkcs"
 
 # Főmenü
-[menu]
   [[menu.main]]
-    name = "Posztok"
-    url = "/posztok/"
-    weight = 1
+  name = "@Források"
+  url = "/source/"
+  weight = 1
+
+  [permalinks]
+  source = "/source/:year/:month/:slug/"
   [[menu.main]]
     name = "Podcast"
     url = "https://tinnitus.pods-blitz.org"

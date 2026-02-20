@@ -364,12 +364,12 @@ body {
 }
 
 /* Szekció-specifikus tag színek */
-.section-posztok .tag { 
+.section-source .tag { 
   background: rgba(132, 139, 35, 0.15);
   color: var(--color-olive);
   border-color: var(--color-olive);
 }
-.section-posztok .tag:hover {
+.section-source .tag:hover {
   background: var(--color-olive);
   color: #fff;
 }
