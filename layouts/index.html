@@ -19,7 +19,7 @@
           <h2>
             <a href="/source/">@Források</a>
           </h2>
-          <a href="/source/" class="view-all">Összes →</a>
+          <a href="/source/" class="view-all">{{ i18n "view_all" }}</a>
         </div>
         {{ $posztok := where .Site.RegularPages "Section" "source" | first 3 }}
         {{ if $posztok }}
@@ -54,7 +54,7 @@
     {{ end }}
   </ul>
   {{ else }}
-  <p class="podcast-soon">Hamarosan...</p>
+  <p class="podcast-soon">{{ i18n "coming_soon" }}</p>
   <div class="podcast-tinnitus">
     <p class="podcast-meanwhile">de addig is a <a href="https://tinnitus.pods-blitz.org/" target="_blank" rel="noopener">Tinnitus Napló</a> utolsó epizódjai:</p>
     <div id="tinnitus-feed" class="tinnitus-episodes"></div>
@@ -84,7 +84,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
           <h2>
             <a href="/filozofia/">Filozófia</a>
           </h2>
-          <a href="/filozofia/" class="view-all">Összes →</a>
+          <a href="/filozofia/" class="view-all">{{ i18n "view_all" }}</a>
         </div>
         {{ $filozofia := where .Site.RegularPages "Section" "filozofia" | first 3 }}
         {{ if $filozofia }}
@@ -107,7 +107,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
           <h2>
             <a href="/versek/">Versek</a>
           </h2>
-          <a href="/versek/" class="view-all">Összes →</a>
+          <a href="/versek/" class="view-all">{{ i18n "view_all" }}</a>
         </div>
         {{ $versek := where .Site.RegularPages "Section" "versek" | first 3 }}
         {{ if $versek }}
