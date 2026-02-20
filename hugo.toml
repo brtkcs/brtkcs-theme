@@ -1,17 +1,18 @@
 baseURL = "https://brtkcs.com/"
 languageCode = "hu"
-title = "@brtkcs |"
+title = "@brtkcs | ~/werkstatt"
 theme = "brtkcs"
+
 [pagination]
   pagerSize = 10
+
 enableRobotsTXT = true
 enableGitInfo = true
 
 [params]
   description = "Filozófia, versek, gondolatok és podcast"
   author = "brtkcs"
-  
-  # Színpaletta
+
   [params.colors]
     beige = "#D7D4CD"
     olive = "#848B23"
@@ -20,22 +21,18 @@ enableGitInfo = true
     purple = "#31185A"
     nearBlack = "#191202"
     black = "#000000"
-  
-  # Social media linkek (opcionális)
+
   [params.social]
     github = "https://github.com/brtkcs"
     bluesky = "https://bsky.app/profile/brtkcs.com"
     instagram = "https://instagram.com/brtkcs00"
     mastodon = "https://mastodon.social/@brtkcs"
 
-# Főmenü
+[menu]
   [[menu.main]]
-  name = "@Források"
-  url = "/source/"
-  weight = 1
-
-  [permalinks]
-  source = "/source/:year/:month/:slug/"
+    name = "@Források"
+    url = "/source/"
+    weight = 1
   [[menu.main]]
     name = "Podcast"
     url = "https://tinnitus.pods-blitz.org"
@@ -52,18 +49,15 @@ enableGitInfo = true
     name = "Art or.."
     url = "https://jokerpakli.brtkcs.com/"
     weight = 5
-  
   [[menu.main]]
     name = "Links"
     url = "https://links.brtkcs.com"
     weight = 6
 
-# Taxonomy beállítások
 [taxonomies]
   tag = "tags"
   category = "categories"
 
-# Markdown beállítások
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
@@ -86,19 +80,16 @@ enableGitInfo = true
     ordered = false
     startLevel = 2
 
-# Output formátumok
 [outputs]
   home = ["HTML", "RSS"]
   section = ["HTML", "RSS"]
 
-# Permalinks struktúra
 [permalinks]
-  posztok = "/posztok/:year/:month/:slug/"
+  source = "/source/:year/:month/:slug/"
   podcast = "/podcast/:slug/"
   filozofia = "/filozofia/:slug/"
   versek = "/versek/:slug/"
 
-# Privacy beállítások
 [privacy]
   [privacy.disqus]
     disable = true
@@ -120,7 +111,6 @@ enableGitInfo = true
     disable = false
     privacyEnhanced = true
 
-# Sitemap
 [sitemap]
   changefreq = "monthly"
   filename = "sitemap.xml"
