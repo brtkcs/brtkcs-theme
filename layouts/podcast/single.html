@@ -39,14 +39,14 @@
     
     {{ if .Params.description }}
     <div class="podcast-info">
-      <h2>{{ i18n "site_description" }}</h2>
+      <h2 data-i18n="site_description">{{ i18n "site_description" }}</h2>
       <p>{{ .Params.description }}</p>
     </div>
     {{ end }}
     
     {{ if .Params.showNotes }}
     <div class="show-notes">
-      <h3>{{ i18n "show_notes" }}</h3>
+      <h3 data-i18n="show_notes">{{ i18n "show_notes" }}</h3>
       <div>{{ .Params.showNotes | markdownify }}</div>
     </div>
     {{ end }}
@@ -57,7 +57,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
-        {{ i18n "transcript" }}
+        <span data-i18n="transcript">{{ i18n "transcript" }}</span>
       </summary>
       <div class="transcript-content">
         {{ $srtPath := .Params.srtFile }}
