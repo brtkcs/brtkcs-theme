@@ -1169,6 +1169,10 @@ body {
     font-family: Georgia, serif;
   }
 
+  @page {
+    margin: 2cm 2.5cm;
+  }
+
   .main-content {
     margin: 0 !important;
     padding: 0 !important;
@@ -1188,6 +1192,12 @@ body {
     padding: 0 !important;
     margin: 0 !important;
     border: none !important;
+  }
+
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ddd !important;
   }
 
   h1 {
@@ -1262,7 +1272,7 @@ body {
 
   /* Forrás alul, nem feltűnő */
   .content-body::after {
-    content: "brtkcs.com | ~/werkstatt";
+    content: "brtkcs.com";
     display: block;
     margin-top: 3rem;
     padding-top: 0.5rem;
