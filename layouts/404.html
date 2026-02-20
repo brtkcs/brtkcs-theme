@@ -1,0 +1,156 @@
+{{ define "main" }}
+<div class="not-found-wrapper">
+  <div class="terminal">
+    <div class="terminal-bar">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      <span class="terminal-title">~/werkstatt</span>
+    </div>
+    <div class="terminal-body">
+      <div class="line">
+        <span class="prompt">~ $</span>
+        <span class="cmd">cd {{ .RelPermalink }}</span>
+      </div>
+      <div class="line">
+        <span class="error">bash: cd: No such file or directory</span>
+      </div>
+      <div class="line">
+        <span class="prompt">~ $</span>
+        <span class="cursor"></span>
+      </div>
+
+      <hr class="divider">
+
+      <div class="code-404">404</div>
+      <p class="msg" data-i18n="not_found">Ez az oldal nem létezik.</p>
+      <a href="/" class="back-link" data-i18n="back_home">← vissza a werkstattba</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .not-found-wrapper {
+    min-height: calc(100vh - var(--header-height) - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .terminal {
+    width: 100%;
+    max-width: 560px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    background: var(--border-color);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .dot-red    { background: #ff5f57; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green  { background: #28c840; }
+
+  .terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05rem;
+  }
+
+  .terminal-body {
+    padding: 2rem;
+    line-height: 1.8;
+  }
+
+  .line {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .prompt {
+    color: var(--color-olive);
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  .cmd {
+    color: var(--text-primary);
+  }
+
+  .error {
+    color: var(--color-rust);
+    font-size: 0.85rem;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1.5rem 0;
+  }
+
+  .code-404 {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--color-olive);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -2px;
+  }
+
+  .msg {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .back-link:hover {
+    border-color: var(--color-olive);
+    color: var(--color-olive);
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: var(--color-olive);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+</style>
+{{ end }}
