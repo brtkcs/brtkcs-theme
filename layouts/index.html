@@ -14,21 +14,21 @@
   <section class="home-sections">
     <div class="section-grid">
       <!-- Posztok -->
-      <div class="home-section section-posztok">
+      <div class="home-section section-source">
         <div class="section-header">
           <h2>
-            <a href="/posztok/">Posztok</a>
+            <a href="/source/">@Források</a>
           </h2>
-          <a href="/posztok/" class="view-all">Összes →</a>
+          <a href="/source/" class="view-all">Összes →</a>
         </div>
-        {{ $posztok := where .Site.RegularPages "Section" "posztok" | first 3 }}
+        {{ $posztok := where .Site.RegularPages "Section" "source" | first 3 }}
         {{ if $posztok }}
         <ul class="home-post-list">
           {{ range $posztok }}
           <li>
             <a href="{{ .Permalink }}">
               <span class="post-title">{{ .Title }}</span>
-              <span class="post-date">{{ .Date.Format "2006. jan 02." }}</span>
+              <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
             </a>
           </li>
           {{ end }}
@@ -93,7 +93,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
           <li>
             <a href="{{ .Permalink }}">
               <span class="post-title">{{ .Title }}</span>
-              <span class="post-date">{{ .Date.Format "2006. jan 02." }}</span>
+              <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
             </a>
           </li>
           {{ end }}
@@ -116,7 +116,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
           <li>
             <a href="{{ .Permalink }}">
               <span class="post-title">{{ .Title }}</span>
-              <span class="post-date">{{ .Date.Format "2006. jan 02." }}</span>
+              <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
             </a>
           </li>
           {{ end }}
@@ -302,7 +302,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
   }
 
   /* Szekció-specifikus border színek */
-  .section-posztok .section-header {
+  .section-source .section-header {
     border-bottom-color: var(--color-olive);
   }
 
