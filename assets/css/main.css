@@ -1129,3 +1129,129 @@ body {
   color: var(--color-olive);
   font-weight: 600;
 }
+
+/* ===== Print CSS ===== */
+@media print {
+  /* Elrejtett elemek */
+  .site-header,
+  .site-footer,
+  .main-nav,
+  .theme-toggle,
+  .lang-switcher,
+  .cookie-notice,
+  .toc,
+  .podcast-player,
+  .view-all,
+  .post-tags,
+  .home-sections {
+    display: none !important;
+  }
+
+  /* Alap */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.6;
+    font-family: Georgia, serif;
+  }
+
+  .main-content {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Tartalom */
+  .content-body {
+    max-width: 100%;
+    padding: 0;
+    border: none;
+  }
+
+  h1 {
+    font-size: 22pt;
+    margin-bottom: 0.5rem;
+    page-break-after: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+    margin-top: 1.5rem;
+  }
+
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Linkek — URL kiírva */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555 !important;
+  }
+
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  /* Versek */
+  .section-versek .post-content {
+    font-family: Georgia, serif;
+    font-size: 13pt;
+    line-height: 2;
+    white-space: pre-line;
+  }
+
+  /* Idézet / epigraph */
+  blockquote,
+  .epigraph {
+    border-left: 2px solid #999;
+    padding-left: 1rem;
+    font-style: italic;
+    margin: 1.5rem 0;
+  }
+
+  /* Oldaltörés */
+  article {
+    page-break-inside: avoid;
+  }
+
+  /* Kód blokkok */
+  pre, code {
+    font-family: 'Courier New', monospace;
+    font-size: 10pt;
+    border: 1px solid #ccc !important;
+    padding: 0.5rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Post meta */
+  .post-meta {
+    font-size: 10pt;
+    color: #555 !important;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Site név a tetején */
+  .main-content::before {
+    content: "brtkcs.com | ~/werkstatt";
+    display: block;
+    font-size: 9pt;
+    color: #999 !important;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+  }
+}
