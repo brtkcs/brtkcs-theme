@@ -4,7 +4,7 @@
 
 ### Alapstruktúra
 - [x] Hugo theme alapok (baseof, head, header, footer)
-- [x] Szekció-specifikus layoutok (posztok, podcast, filozófia, versek)
+- [x] Szekció-specifikus layoutok (source, podcast, filozófia, versek)
 - [x] Reszponzív dizájn (mobil-first)
 
 ### Dizájn
@@ -20,7 +20,7 @@
 - [x] Certifications galéria lightbox-szal (159 cert, landscape)
 - [x] Podcast player beépített
 - [x] Tinnitus Napló RSS feed integráció
-- [x] Cookie notice
+- [x] Cookie notice (őszinte, barátságos szöveg)
 
 ### Tartalom
 - [x] Werkstatt manifesto oldal (I. Manifesto, II. Etikai, III. Technológiai záradék)
@@ -33,24 +33,42 @@
 
 ---
 
+## ✅ v1.2.0 - Elkészült (2026. február)
+
+### Refactor
+- [x] `posztok` → `source` átnevezés (layout, CSS, permalink, publi.sh)
+- [x] Title: `@brtkcs | ~/werkstatt`
+- [x] Dátumformátum universális (`2006-01-02`) minden layoutban
+
+### Új funkciók
+- [x] Transcript panel podcast epizódokhoz (SRT fájl alapú, `<details>`)
+- [x] OG meta tagek (Open Graph + Twitter Card, dinamikus)
+- [x] i18n — hu/en/de fordítások (yaml + JS nyelvváltó a headerben)
+- [x] 404 oldal — terminál stílusú, dark/light módban
+- [x] Print CSS — tiszta nyomtatás, forrás jelölés alul
+
+---
+
 ## 🚀 Jövőbeni fejlesztések
 
 ### Tartalom
 - [ ] Podcast szekció feltöltése (saját epizódok)
 - [ ] További filozófiai esszék
+- [ ] Angol/Német tartalom fordítás (Hugo többnyelvű mód)
 
 ### Funkciók
-- [ ] Angol/Német nyelv implementálás (i18n)
 - [ ] Keresés funkció
 - [ ] Olvasási idő kijelzés
 - [ ] Kapcsolódó posztok szekció
 - [ ] Navigációs gombok (időrendi következő/előző)
 - [ ] Mind-map graph (kapcsolatok vizualizáció)
-- [ ] Komment rendszer
+- [ ] OG kép — terminál stílusú dinamikus generálás
 
 ### Dizájn
-- [ ] Print CSS (nyomtatásbarát)
-- [ ] 404 oldal egyedi dizájnnal
+- [ ] Print CSS finomhangolás
+
+### Megjegyzés
+- Komment rendszer **nem tervezett** — visszajelzés Bluesky / Mastodon megosztáson keresztül
 
 ---
 

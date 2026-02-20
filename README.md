@@ -1,49 +1,57 @@
 # BRTKCS Hugo Theme
 
-Egyedi Hugo theme podcast, filozófia, versek és posztok kezeléséhez. Letisztult, modern dizájn meleg színpalettával és light/dark mode támogatással.
+Egyedi Hugo theme podcast, filozófia, versek és források kezeléséhez. Letisztult, monospace dizájn meleg színpalettával, light/dark mode és többnyelvű UI támogatással.
 
 ## Funkciók
 
-- ✨ **Szekció-specifikus dizájn** - Minden tartalomtípusnak saját színvilága
-- 🎨 **Light/Dark mode** - Automatikus váltás támogatással
-- 📱 **Reszponzív** - Mobil-first megközelítés
-- 🎧 **Podcast player** - Beépített audio lejátszó
-- 📚 **Table of Contents** - Automatikus tartalomjegyzék hosszú cikkekhez
-- 🏷️ **Tag rendszer** - Szekció-specifikus tag színekkel
-- 🖼️ **Certifications galéria** - About oldalon lightbox-szal
-- 🔒 **GDPR-barát** - Lokális fontok, nincs külső tracking
-- 🎯 **Monospace tipográfia** - IBM Plex Mono & Sans
+- ✨ **Szekció-specifikus dizájn** — minden tartalomtípusnak saját színvilága
+- 🎨 **Light/Dark mode** — automatikus váltás, localStorage mentéssel
+- 🌍 **i18n UI** — HU / EN / DE nyelvváltó, JS alapú
+- 📱 **Reszponzív** — mobil-first megközelítés
+- 🎧 **Podcast player** — beépített audio lejátszó + transcript panel
+- 📚 **Table of Contents** — automatikus tartalomjegyzék hosszú cikkeknél
+- 🏷️ **Tag rendszer** — szekció-specifikus tag színekkel
+- 🖼️ **Certifications galéria** — About oldalon lightbox-szal
+- 🔒 **GDPR-barát** — lokális fontok, nincs külső tracking
+- 🖨️ **Print CSS** — tiszta nyomtatás, forrás jelöléssel
+- 💀 **404 oldal** — terminál stílusú
 
 ---
 
-## Gyors telepítés
+## Telepítés
 
-### 1. Theme hozzáadása
+### 1. Submodule-ként (ajánlott)
 
 ```bash
 cd your-hugo-site
-git clone https://github.com/yourusername/brtkcs-theme themes/brtkcs
+git submodule add https://github.com/brtkcs/brtkcs-theme themes/brtkcs
 ```
 
-Vagy git submodule-ként:
+### 2. Fontok
 
-```bash
-git submodule add https://github.com/yourusername/brtkcs-theme themes/brtkcs
-```
+A theme lokális fontokat használ. Hozd létre a `static/fonts/` és `static/css/` mappákat, töltsd le az IBM Plex fontokat, és készítsd el a `static/css/fonts.css` fájlt. Részletes útmutató a régebbi README verzióban.
 
-### 2. Konfiguráció
+### 3. i18n JS fájl
 
-Hozd létre a `hugo.toml` fájlt a site gyökerében:
+Másold a `static/js/i18n.js` fájlt a site `static/js/` mappájába — ez a JS nyelvváltó fordítási adatait tartalmazza.
+
+### 4. hugo.toml
 
 ```toml
 baseURL = "https://example.com/"
 languageCode = "hu"
-title = "BRTKCS"
+title = "@brtkcs | ~/werkstatt"
 theme = "brtkcs"
 
+[pagination]
+  pagerSize = 10
+
+enableRobotsTXT = true
+enableGitInfo = true
+
 [params]
-  description = "Filozófia, versek, gondolatok és podcast"
-  author = "BRTKCS"
+  description = "Leírás"
+  author = "brtkcs"
 
 [params.social]
   github = "https://github.com/yourhandle"
@@ -53,8 +61,8 @@ theme = "brtkcs"
 
 [menu]
   [[menu.main]]
-    name = "Posztok"
-    url = "/posztok/"
+    name = "@Források"
+    url = "/source/"
     weight = 1
   [[menu.main]]
     name = "Podcast"
@@ -68,85 +76,83 @@ theme = "brtkcs"
     name = "Versek"
     url = "/versek/"
     weight = 4
-  [[menu.main]]
-    name = "About"
-    url = "/about/"
-    weight = 5
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[permalinks]
+  source = "/source/:year/:month/:slug/"
+  podcast = "/podcast/:slug/"
+  filozofia = "/filozofia/:slug/"
+  versek = "/versek/:slug/"
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
 ```
 
-### 3. Fontok telepítése (kötelező)
+---
 
-A theme lokális fontokat használ. Töltsd le és helyezd el:
+## Content típusok
 
-```bash
-mkdir -p static/fonts static/css
+### @Források (`content/source/`)
 
-# Fontok letöltése
-cd static/fonts
-curl -sLO "https://fonts.gstatic.com/s/ibmplexmono/v19/-F63fjptAgt5VM-kVkqdyU8n5igg1l9kn-s.woff2"
-mv *5igg1l9kn-s.woff2 ibm-plex-mono-400.woff2
-
-curl -sLO "https://fonts.gstatic.com/s/ibmplexmono/v19/-F6qfjptAgt5VM-kVkqdyU8n3twJ8ldPg-IUDNg.woff2"
-mv *8ldPg-IUDNg.woff2 ibm-plex-mono-500.woff2
-
-curl -sLO "https://fonts.gstatic.com/s/ibmplexmono/v19/-F6qfjptAgt5VM-kVkqdyU8n3vAO8ldPg-IUDNg.woff2"
-mv *O8ldPg-IUDNg.woff2 ibm-plex-mono-600.woff2
-
-curl -sLO "https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhdzeFb5N.woff2"
-mv *Fb5N.woff2 ibm-plex-sans-400.woff2
-
-curl -sLO "https://fonts.gstatic.com/s/ibmplexsans/v19/zYX9KVElMYYaJe8bpLHnCwDKjSL9AIxsdO_q.woff2"
-mv *dO_q.woff2 ibm-plex-sans-600.woff2
+```yaml
+---
+title: "Poszt címe"
+date: 2026-01-19
+draft: false
+tags: ["technológia"]
+summary: "Rövid összefoglaló"
+callout: "Megjegyzés a poszt végén"
+---
 ```
 
-Hozd létre a `static/css/fonts.css` fájlt:
+### Podcast (`content/podcast/`)
 
-```css
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/ibm-plex-mono-400.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/ibm-plex-mono-500.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/ibm-plex-mono-600.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/ibm-plex-sans-400.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/ibm-plex-sans-600.woff2') format('woff2');
-}
+```yaml
+---
+title: "001. Epizód"
+date: 2026-01-19
+draft: false
+audioFile: "/audio/episode-001.mp3"
+duration: "45:32"
+description: "Epizód leírása"
+srtFile: "audio/episode-001.srt"
+tags: ["tech"]
+---
 ```
 
-### 4. Hugo szerver indítása
+> Az `srtFile` opcionális — ha megadod, a transcript panel automatikusan megjelenik.
 
-```bash
-hugo server -D
+### Filozófia (`content/filozofia/`)
+
+```yaml
+---
+title: "Esszé címe"
+subtitle: "Alcím"
+date: 2026-01-19
+draft: false
+tags: ["identitás"]
+epigraph:
+  text: "Idézet"
+  author: "Szerző"
+references:
+  - "Hivatkozás 1"
+---
+```
+
+### Versek (`content/versek/`)
+
+```yaml
+---
+title: "Vers címe"
+date: 2026-01-19
+draft: false
+tags: ["természet"]
+note: "Jegyzet"
+---
 ```
 
 ---
@@ -157,141 +163,31 @@ hugo server -D
 your-site/
 ├── hugo.toml
 ├── content/
-│   ├── posztok/
-│   │   └── *.md
+│   ├── source/
 │   ├── podcast/
-│   │   └── *.md
 │   ├── filozofia/
-│   │   └── *.md
 │   ├── versek/
-│   │   └── *.md
 │   └── about/
-│       └── _index.md
-├── data/
-│   └── certs.yaml          # Certifications adatok (opcionális)
 ├── static/
-│   ├── fonts/              # IBM Plex fontok
+│   ├── fonts/
 │   ├── css/
 │   │   └── fonts.css
-│   ├── certs/
-│   │   └── thumbs/         # Cert thumbnailek (opcionális)
-│   └── audio/              # Podcast audio fájlok
+│   ├── js/
+│   │   └── i18n.js
+│   └── audio/
 └── themes/
     └── brtkcs/
 ```
 
 ---
 
-## Content típusok
+## Submodule frissítés
 
-### Posztok (`content/posztok/`)
-
-```yaml
----
-title: "Poszt címe"
-date: 2026-01-19
-draft: false
-tags: ["technológia", "gondolatok"]
-summary: "Rövid összefoglaló"
-callout: "Fontos megjegyzés a poszt végén"
----
-
-A poszt tartalma...
-```
-
-### Podcast (`content/podcast/`)
-
-```yaml
----
-title: "001. Epizód címe"
-date: 2026-01-19
-draft: false
-audioFile: "/audio/episode-001.mp3"
-duration: "45:32"
-description: "Epizód leírása"
-showNotes: |
-  - Témakör 1
-  - Témakör 2
-tags: ["tech", "kultúra"]
----
-```
-
-> **Fontos:** Audio fájlokat a `static/audio/` mappába tedd.
-
-### Filozófia (`content/filozofia/`)
-
-```yaml
----
-title: "Esszé címe"
-subtitle: "Alcím"
-date: 2026-01-19
-draft: false
-tags: ["identitás", "ontológia"]
-epigraph:
-  text: "Idézet szövege"
-  author: "Szerző neve"
-references:
-  - "Hivatkozás 1"
-  - "Hivatkozás 2"
----
-```
-
-**Speciális funkciók:**
-- `subtitle` - Alcím
-- `epigraph` - Mottó idézet a cikk elején
-- `references` - Hivatkozások lista a végén
-- Drop cap - Első bekezdés első betűje automatikusan nagy
-
-### Versek (`content/versek/`)
-
-```yaml
----
-title: "Vers címe"
-date: 2026-01-19
-draft: false
-tags: ["természet"]
-note: "Jegyzet a vershez"
----
-
-Vers első sora,
-Második sor itt jön,
-Harmadik befejezi.
-```
-
----
-
-## Certifications galéria (opcionális)
-
-Az About oldalon megjeleníthetsz certifikációkat galériában.
-
-### 1. Adatfájl létrehozása
-
-Hozd létre a `data/certs.yaml` fájlt:
-
-```yaml
-featured:
-  - name: "Professional Certificate neve"
-    institution: "Coursera"
-    date: "Sep 2025"
-    thumb: "Coursera_ABC123-1.jpg"
-
-regular:
-  - name: "Course neve"
-    institution: "Educative"
-    date: "Aug 2025"
-    thumb: "edu_XYZ789-1.jpg"
-```
-
-### 2. Thumbnailek
-
-Helyezd a képeket ide: `static/certs/thumbs/`
-
-### 3. About oldal
-
-Add hozzá az About layout-hoz:
-
-```html
-{{ partial "certs-gallery.html" . }}
+```bash
+git submodule update --remote themes/brtkcs
+git add themes/brtkcs
+git commit -m "chore: update theme submodule"
+git push origin main
 ```
 
 ---
@@ -300,7 +196,7 @@ Add hozzá az About layout-hoz:
 
 | Szín | Hex | Használat |
 |------|-----|-----------|
-| Olajzöld | `#848B23` | Posztok, logo accent |
+| Olajzöld | `#848B23` | @Források, logo |
 | Rozsdavörös | `#A8361B` | Podcast |
 | Lila | `#31185A` | Filozófia |
 | Bézs | `#D7D4CD` | Versek, háttér |
@@ -309,73 +205,6 @@ Add hozzá az About layout-hoz:
 
 ---
 
-## Header viselkedés
-
-- **Oldal tetején:** Transzparens háttér
-- **Görgetéskor:** Blur háttér megjelenik
-- **Lefelé görgetés:** Header eltűnik
-- **Felfelé görgetés:** Header visszajön
-
----
-
-## Testreszabás
-
-### Színek módosítása
-
-`assets/css/main.css` - `:root` szekció:
-
-```css
-:root {
-  --color-olive: #848B23;
-  --color-rust: #A8361B;
-  --color-purple: #31185A;
-  --color-beige: #D7D4CD;
-}
-```
-
-### Logo módosítása
-
-`layouts/partials/header.html`:
-
-```html
-<a href="/" class="site-logo">
-  <span class="logo-name"><span class="logo-tilde">~</span><span class="logo-slash">/</span>brtkcs</span>
-  <span class="logo-subtitle">werkstatt</span>
-</a>
-```
-
----
-
-## GDPR megfelelőség
-
-A theme alapértelmezetten:
-- ✅ Lokális fontokat használ (nincs Google Fonts hívás)
-- ✅ Nincs külső tracking
-- ✅ Cookie notice beépítve
-
----
-
-## Fejlesztés
-
-```bash
-# Theme módosítása
-cd themes/brtkcs
-
-# Hugo szerver live reload-dal
-hugo server -D
-
-# Build
-hugo
-```
-
----
-
 ## Licenc
 
-MIT License
-
----
-
-**Készítette:** BRTKCS  
-**Verzió:** 1.1.0  
-**Hugo minimum verzió:** 0.112.0
+MIT License — **Készítette:** BRTKCS | **Verzió:** 1.2.0 | **Hugo minimum:** 0.112.0
