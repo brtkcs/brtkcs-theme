@@ -1,6 +1,6 @@
 view_all: "Összes →"
 coming_soon: "Hamarosan..."
-description: "Leírás"
+site_description: "Leírás"
 show_notes: "Show Notes"
 transcript: "Átirat megjelenítése"
 reading_time: "perc olvasás"

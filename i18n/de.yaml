@@ -1,6 +1,6 @@
 view_all: "Alle →"
 coming_soon: "Demnächst..."
-description: "Beschreibung"
+site_description: "Beschreibung"
 show_notes: "Show Notes"
 transcript: "Transkript anzeigen"
 reading_time: "Min. Lesezeit"
