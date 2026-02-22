@@ -1,6 +1,6 @@
 baseURL = "https://brtkcs.com/"
 languageCode = "hu"
-title = "@brtkcs | ~/werkstatt"
+title = "@brtkcs ~/werkstatt"
 theme = "brtkcs"
 
 [pagination]
@@ -30,7 +30,7 @@ enableGitInfo = true
 
 [menu]
   [[menu.main]]
-    name = "@Források"
+    name = "Források"
     url = "/source/"
     weight = 1
   [[menu.main]]
