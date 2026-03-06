@@ -21,7 +21,7 @@
           </h2>
           <a href="/source/" class="view-all" data-i18n="view_all">{{ i18n "view_all" }}</a>
         </div>
-        {{ $posztok := where .Site.RegularPages "Section" "source" | sort "date" "desc" | first 3 }}
+        {{ $posztok := (where .Site.RegularPages "Section" "source").ByDate.Reverse | first 3 }}
         {{ if $posztok }}
         <ul class="home-post-list">
           {{ range $posztok }}
@@ -41,7 +41,7 @@
   <div class="section-header">
     <h2><a href="/podcast/">Podcast</a></h2>
   </div>
-  {{ $podcast := where .Site.RegularPages "Section" "podcast" | sort "date" "desc" | first 3 }}
+  {{ $podcast := (where .Site.RegularPages "Section" "podcast").ByDate.Reverse | first 3 }}
   {{ if $podcast }}
   <ul class="home-post-list">
     {{ range $podcast }}
@@ -86,7 +86,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
           </h2>
           <a href="/filozofia/" class="view-all" data-i18n="view_all">{{ i18n "view_all" }}</a>
         </div>
-        {{ $filozofia := where .Site.RegularPages "Section" "filozofia" | sort "date" "desc" | first 3 }}
+        {{ $filozofia := (where .Site.RegularPages "Section" "filozofia").ByDate.Reverse | first 3 }}
         {{ if $filozofia }}
         <ul class="home-post-list">
           {{ range $filozofia }}
@@ -109,7 +109,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.
           </h2>
           <a href="/versek/" class="view-all" data-i18n="view_all">{{ i18n "view_all" }}</a>
         </div>
-        {{ $versek := where .Site.RegularPages "Section" "versek" | sort "date" "desc" | first 3 }}
+        {{ $versek := (where .Site.RegularPages "Section" "versek").ByDate.Reverse | first 3 }}
         {{ if $versek }}
         <ul class="home-post-list">
           {{ range $versek }}
