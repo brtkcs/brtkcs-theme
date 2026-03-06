@@ -57,26 +57,13 @@
   <p class="podcast-soon" data-i18n="coming_soon">{{ i18n "coming_soon" }}</p>
   <div class="podcast-tinnitus">
     <p class="podcast-meanwhile">de addig is a <a href="https://tinnitus.pods-blitz.org/" target="_blank" rel="noopener">Tinnitus Napló</a> utolsó epizódjai:</p>
-    <div id="tinnitus-feed" class="tinnitus-episodes"></div>
+    <div class="tinnitus-episodes">
+<!-- TINNITUS_EPISODES_START -->
+<!-- TINNITUS_EPISODES_END -->
+    </div>
   </div>
   {{ end }}
 </div>
-
-<script>
-fetch('https://api.rss2json.com/v1/api.json?rss_url=https://tinnitus.pods-blitz.org/feed/brtkcs')
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById('tinnitus-feed');
-    if (!container) return;
-    const items = data.items.slice(0, 2);
-    container.innerHTML = items.map(item => `
-      <a href="${item.link}" target="_blank" rel="noopener" class="tinnitus-episode">
-        <span class="episode-title">${item.title}</span>
-      </a>
-    `).join('');
-  })
-  .catch(() => {});
-</script>
 
       <!-- Filozófia -->
       <div class="home-section section-filozofia">
