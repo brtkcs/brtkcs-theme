@@ -10,7 +10,7 @@
   --color-black: #000000;
   
   /* Light mode */
-  --bg-primary: #FFFFFF;
+  --bg-primary: #FAF8F4;
   --bg-secondary: var(--color-beige);
   --text-primary: var(--color-near-black);
   --text-secondary: var(--color-dark-brown);
@@ -1281,4 +1281,142 @@ body {
     color: #aaa !important;
     font-family: 'Courier New', monospace;
   }
+}
+
+/* ===== Werkstatt Content Styles ===== */
+/* Heading colors — Werkstatt palette */
+.content-body h1 {
+  color: var(--color-olive);
+}
+
+.content-body h2 {
+  color: var(--color-rust);
+}
+
+.content-body h3 {
+  color: var(--color-purple);
+}
+
+/* Blockquote — rounded, shadowed */
+.content-body blockquote {
+  border-left: none;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 1.5rem 0;
+  background: var(--bg-secondary);
+  font-style: normal;
+  box-shadow: inset 0 0 0 1px var(--border-color), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .content-body blockquote {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Tables */
+.content-body table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  font-size: 0.95rem;
+}
+
+.content-body th {
+  background: var(--bg-secondary);
+  color: var(--color-olive);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--color-olive);
+}
+
+.content-body th:first-child { border-top-left-radius: 8px; }
+.content-body th:last-child { border-top-right-radius: 8px; }
+
+.content-body td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.content-body tr:last-child td:first-child { border-bottom-left-radius: 8px; }
+.content-body tr:last-child td:last-child { border-bottom-right-radius: 8px; }
+
+.content-body tr:hover td {
+  background: var(--bg-secondary);
+}
+
+/* Callouts */
+.content-body .callout {
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--callout-border, var(--border-color)), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .content-body .callout {
+  box-shadow: inset 0 0 0 1px var(--callout-border, rgba(255,255,255,0.1)), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.content-body .callout-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px dashed var(--callout-border, var(--border-color));
+  letter-spacing: 0.03em;
+}
+
+.content-body .callout-content {
+  padding: 0.8rem 1rem;
+}
+
+.content-body .callout-content > *:first-child { margin-top: 0; }
+.content-body .callout-content > *:last-child { margin-bottom: 0; }
+
+/* Callout types */
+.content-body .callout[data-callout="note"] {
+  background: rgba(68, 138, 255, 0.05);
+  --callout-border: rgba(68, 138, 255, 0.4);
+}
+.content-body .callout[data-callout="info"],
+.content-body .callout[data-callout="todo"] {
+  background: rgba(0, 184, 212, 0.05);
+  --callout-border: rgba(0, 184, 212, 0.4);
+}
+.content-body .callout[data-callout="tip"],
+.content-body .callout[data-callout="hint"] {
+  background: rgba(0, 191, 165, 0.05);
+  --callout-border: rgba(0, 191, 165, 0.4);
+}
+.content-body .callout[data-callout="success"],
+.content-body .callout[data-callout="check"],
+.content-body .callout[data-callout="done"] {
+  background: rgba(0, 200, 83, 0.05);
+  --callout-border: rgba(0, 200, 83, 0.4);
+}
+.content-body .callout[data-callout="warning"],
+.content-body .callout[data-callout="caution"] {
+  background: rgba(255, 145, 0, 0.05);
+  --callout-border: rgba(255, 145, 0, 0.4);
+}
+.content-body .callout[data-callout="danger"],
+.content-body .callout[data-callout="error"],
+.content-body .callout[data-callout="failure"] {
+  background: rgba(255, 82, 82, 0.05);
+  --callout-border: rgba(255, 82, 82, 0.4);
+}
+.content-body .callout[data-callout="example"] {
+  background: rgba(124, 77, 255, 0.05);
+  --callout-border: rgba(124, 77, 255, 0.4);
+}
+.content-body .callout[data-callout="quote"],
+.content-body .callout[data-callout="cite"] {
+  background: rgba(158, 158, 158, 0.05);
+  --callout-border: rgba(158, 158, 158, 0.4);
+}
+
+/* Werkstatt accent callout */
+.content-body .callout[data-callout="werkstatt"] {
+  background: rgba(168, 200, 48, 0.05);
+  --callout-border: rgba(168, 200, 48, 0.4);
 }
