@@ -2,11 +2,13 @@
 <section class="certs-section">
   <h2>Certifications</h2>
   <p class="certs-intro">Az elmúlt években megszerzett tanúsítványaim. Kattints a nagyításhoz!</p>
-  
-  <!-- Featured / Specializations -->
+
+  <!-- Specializations & Professional Certificates -->
   <h3 class="certs-category">Specializations & Professional Certificates</h3>
+
+  <h4 class="certs-subcategory">Tech</h4>
   <div class="certs-grid certs-featured">
-    {{ range $.Site.Data.certs.featured }}
+    {{ range $.Site.Data.certs.tech }}
     <div class="cert-card featured" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
       <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
       <div class="cert-overlay">
@@ -16,8 +18,34 @@
     </div>
     {{ end }}
   </div>
-  
-  <!-- Regular Certs -->
+
+  <h4 class="certs-subcategory">Philosophy</h4>
+  <div class="certs-grid certs-featured">
+    {{ range $.Site.Data.certs.philosophy }}
+    <div class="cert-card featured" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
+      <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
+      <div class="cert-overlay">
+        <span class="cert-name">{{ .name }}</span>
+        <span class="cert-meta">{{ .institution }}{{ with .date }} • {{ . }}{{ end }}</span>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  <h4 class="certs-subcategory">Art</h4>
+  <div class="certs-grid certs-featured">
+    {{ range $.Site.Data.certs.art }}
+    <div class="cert-card featured" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
+      <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
+      <div class="cert-overlay">
+        <span class="cert-name">{{ .name }}</span>
+        <span class="cert-meta">{{ .institution }}{{ with .date }} • {{ . }}{{ end }}</span>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  <!-- Courses & Training -->
   <h3 class="certs-category">Courses & Training</h3>
   <div class="certs-grid">
     {{ range $.Site.Data.certs.regular }}
@@ -25,6 +53,7 @@
       <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
       <div class="cert-overlay">
         <span class="cert-name">{{ .name }}</span>
+        <span class="cert-meta">{{ .institution }}{{ with .date }} • {{ . }}{{ end }}</span>
       </div>
     </div>
     {{ end }}
@@ -50,29 +79,22 @@ document.addEventListener('DOMContentLoaded', function() {
   const lightboxName = document.getElementById('lightbox-name');
   const lightboxMeta = document.getElementById('lightbox-meta');
   const closeBtn = document.querySelector('.lightbox-close');
-  
-  // Open lightbox on card click
+
   document.querySelectorAll('.cert-card').forEach(card => {
     card.addEventListener('click', function() {
-      const thumb = this.dataset.thumb;
-      const name = this.dataset.name;
-      const institution = this.dataset.institution;
-      const date = this.dataset.date;
-      
-      lightboxImg.src = thumb;
-      lightboxName.textContent = name;
-      lightboxMeta.textContent = institution + (date ? ' • ' + date : '');
+      lightboxImg.src = this.dataset.thumb;
+      lightboxName.textContent = this.dataset.name;
+      lightboxMeta.textContent = this.dataset.institution + (this.dataset.date ? ' • ' + this.dataset.date : '');
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
   });
-  
-  // Close lightbox
+
   function closeLightbox() {
     lightbox.classList.remove('active');
     document.body.style.overflow = '';
   }
-  
+
   closeBtn.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', function(e) {
     if (e.target === lightbox) closeLightbox();
