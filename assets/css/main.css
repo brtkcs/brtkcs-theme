@@ -980,7 +980,6 @@ body {
 }
 
 .cert-card.featured {
-  border: 2px solid var(--color-olive);
 }
 
 .cert-card img {
