@@ -8,7 +8,7 @@
 
   <h4 class="certs-subcategory">Tech</h4>
   <div class="certs-grid certs-featured">
-    {{ range $.Site.Data.certs.tech }}
+    {{ range hugo.Data.certs.tech }}
     <div class="cert-card featured" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
       <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
       <div class="cert-overlay">
@@ -21,7 +21,7 @@
 
   <h4 class="certs-subcategory">Philosophy</h4>
   <div class="certs-grid certs-featured">
-    {{ range $.Site.Data.certs.philosophy }}
+    {{ range hugo.Data.certs.philosophy }}
     <div class="cert-card featured" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
       <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
       <div class="cert-overlay">
@@ -34,7 +34,7 @@
 
   <h4 class="certs-subcategory">Art</h4>
   <div class="certs-grid certs-featured">
-    {{ range $.Site.Data.certs.art }}
+    {{ range hugo.Data.certs.art }}
     <div class="cert-card featured" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
       <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
       <div class="cert-overlay">
@@ -48,7 +48,7 @@
   <!-- Courses & Training -->
   <h3 class="certs-category">Courses & Training</h3>
   <div class="certs-grid">
-    {{ range $.Site.Data.certs.regular }}
+    {{ range hugo.Data.certs.regular }}
     <div class="cert-card" data-thumb="/certs/thumbs/{{ .thumb }}" data-name="{{ .name }}" data-institution="{{ .institution }}" data-date="{{ .date }}">
       <img src="/certs/thumbs/{{ .thumb }}" alt="{{ .name }}" loading="lazy">
       <div class="cert-overlay">
