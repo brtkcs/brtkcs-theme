@@ -1555,3 +1555,93 @@ body {
 .manifesto-section a:hover {
   border-bottom-color: var(--text-secondary);
 }
+
+/* ===== Callouts (Obsidian-alertek) ===== */
+/*
+   Renderelés: themes/brtkcs/layouts/_default/_markup/render-blockquote.html
+   Jelenleg címként működnek: a callout-sor önmagában áll, a törzs alatta,
+   a callouton kívül. Ha később doboz kell, a markdownban a törzs sorait is
+   '> ' prefixszel kell ellátni — a .callout-body stílus már készen áll rá.
+*/
+
+.content-body .callout {
+  margin: 2rem 0 1rem;
+}
+
+.content-body .callout-title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--callout-accent, var(--accent));
+  margin: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+/* A cím elé rövid színes jelölés */
+.content-body .callout-title::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 1.4rem;
+  height: 2px;
+  background: var(--callout-accent, var(--accent));
+}
+
+/* A cím belsejében lévő félkövér ne duplázza a hangsúlyt */
+.content-body .callout-title strong {
+  font-weight: 600;
+}
+
+.content-body .callout-body {
+  margin: 0;
+}
+
+.content-body .callout-body > :first-child {
+  margin-top: 0.75rem;
+}
+
+.content-body .callout-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* Típusonkénti akcentus */
+.content-body .callout-summary { --callout-accent: var(--color-olive); }
+.content-body .callout-info    { --callout-accent: var(--color-dark-brown); }
+.content-body .callout-success { --callout-accent: var(--color-olive); }
+.content-body .callout-quote   { --callout-accent: var(--color-purple); }
+.content-body .callout-links   { --callout-accent: var(--color-purple); }
+.content-body .callout-todo    { --callout-accent: var(--color-rust); }
+.content-body .callout-note,
+.content-body .callout-tip     { --callout-accent: var(--color-olive); }
+.content-body .callout-warning,
+.content-body .callout-caution,
+.content-body .callout-important { --callout-accent: var(--color-rust); }
+
+[data-theme="dark"] .content-body .callout-info {
+  --callout-accent: var(--color-beige);
+}
+
+/* Ha később dobozos formára váltasz, ezt kapcsold be:
+.content-body .callout {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  box-shadow: inset 0 0 0 1px var(--border-color);
+}
+.content-body .callout-title { border-bottom: none; padding-bottom: 0; }
+*/
+
+@media print {
+  .content-body .callout-title {
+    color: #000 !important;
+    border-bottom: 1px solid #999;
+  }
+  .content-body .callout-title::before {
+    background: #999;
+  }
+}
