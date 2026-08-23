@@ -1653,6 +1653,7 @@ body {
 
 .section-research {
   --font-mono: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
 }
 
 .section-research .callout {
