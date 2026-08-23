@@ -1691,3 +1691,12 @@ body {
 .nav-link[data-section="research"]::after {
   background: var(--color-dark-brown);
 }
+/* ===== Számozott listák javítása =====
+   Univerzális reset miatt ol/li padding-left: 0, list-style-position: outside —
+   ez a listaszámokat (1. 2. 3.) a doboz/tartalom bal széle elé tolja, ahol
+   nincs hely, és kilógnak. A buborékos listáknál (•) ez nem tűnik fel, mert
+   keskeny jel, de a számoknál igen. Globális javítás, nem csak research-re.
+*/
+.content-body ol {
+  padding-left: 1.4em;
+}
