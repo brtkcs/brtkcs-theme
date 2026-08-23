@@ -41,8 +41,12 @@
           {{ end }}
         </div>
         
+        {{ with .Params.description }}
+        <p class="post-list-excerpt">{{ . }}</p>
+        {{ else }}
         {{ if .Summary }}
         <p class="post-list-excerpt">{{ .Summary }}</p>
+        {{ end }}
         {{ end }}
       </li>
       {{ end }}
