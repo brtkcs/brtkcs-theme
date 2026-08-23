@@ -1645,3 +1645,48 @@ body {
     background: #999;
   }
 }
+
+/* ===== Research szekció — dedikált monospace felület =====
+   Csak a .section-research alá skálázva; a többi szekció
+   callout-stílusa változatlan marad.
+*/
+
+.section-research {
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+.section-research .callout {
+  border: 2px solid var(--callout-accent, var(--accent));
+  background: var(--bg-secondary);
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+}
+
+.section-research .callout-quote {
+  border-style: dashed;
+}
+
+.section-research .callout-title {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.section-research .callout-title::before {
+  content: "▶";
+  width: auto;
+  height: auto;
+  background: none;
+  color: var(--callout-accent, var(--accent));
+  font-size: 0.75em;
+}
+
+.section-research .callout-body {
+  margin-top: 0.75rem;
+}
+
+.nav-link[data-section="research"]::after {
+  background: var(--color-dark-brown);
+}
