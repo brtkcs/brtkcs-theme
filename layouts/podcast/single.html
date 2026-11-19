@@ -51,7 +51,10 @@
     </div>
     {{ end }}
 
-    {{ if .Params.srtFile }}
+    {{/* SRT a static/ alól (publi.sh oda másolja): "audio/x.srt" és "/audio/x.srt" is jó */}}
+    {{ $srtPath := "" }}
+    {{ with .Params.srtFile }}{{ $srtPath = printf "static/%s" (strings.TrimPrefix "/" .) }}{{ end }}
+    {{ if and $srtPath (fileExists $srtPath) }}
     <details class="transcript-panel">
       <summary>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -60,12 +63,61 @@
         <span data-i18n="transcript">{{ i18n "transcript" }}</span>
       </summary>
       <div class="transcript-content">
-        {{ $srtPath := .Params.srtFile }}
-        {{ with resources.Get $srtPath }}
-          {{ .Content }}
-        {{ end }}
+        {{- $srt := replace (os.ReadFile $srtPath) "\r\n" "\n" }}
+        {{- range split (trim $srt "\n ") "\n\n" }}
+          {{- $start := "" }}
+          {{- $text := slice }}
+          {{- range split (trim . "\n ") "\n" }}
+            {{- if strings.Contains . "-->" }}
+              {{- $start = trim (index (split . "-->") 0) " " }}
+            {{- else if $start }}
+              {{- $text = $text | append . }}
+            {{- end }}
+          {{- end }}
+          {{- with $start }}
+            {{- $hms := split (index (split . ",") 0) ":" }}
+            {{- $sec := add (add (mul (float (index $hms 0)) 3600) (mul (float (index $hms 1)) 60)) (float (index $hms 2)) }}
+            {{- $label := cond (eq (index $hms 0) "00") (printf "%s:%s" (index $hms 1) (index $hms 2)) (delimit $hms ":") }}
+        <p class="transcript-cue" data-start="{{ $sec }}"><button type="button" class="transcript-time">[{{ $label }}]</button> {{ delimit $text " " | plainify | htmlUnescape }}</p>
+          {{- end }}
+        {{- end }}
       </div>
     </details>
+
+    <script>
+    (function() {
+      const audio = document.getElementById('audio-player');
+      const cues = Array.from(document.querySelectorAll('.transcript-cue'));
+      if (!audio || !cues.length) return;
+      const box = document.querySelector('.transcript-content');
+      let active = null;
+
+      // Az aktuális blokk kiemelése lejátszás közben
+      audio.addEventListener('timeupdate', () => {
+        let current = null;
+        for (const cue of cues) {
+          if (Number(cue.dataset.start) <= audio.currentTime) current = cue;
+          else break;
+        }
+        if (current === active) return;
+        if (active) active.classList.remove('is-active');
+        if (current) {
+          current.classList.add('is-active');
+          // Csak a panelen belül görgetünk, az oldalt nem rántjuk el
+          box.scrollTop = current.offsetTop - box.clientHeight / 3;
+        }
+        active = current;
+      });
+
+      // Időbélyegre kattintva oda ugrik; a play gombon keresztül, hogy az ikon is váltson
+      cues.forEach(cue => {
+        cue.querySelector('.transcript-time').addEventListener('click', () => {
+          audio.currentTime = Number(cue.dataset.start);
+          if (audio.paused) document.getElementById('play-pause').click();
+        });
+      });
+    })();
+    </script>
     {{ end }}
     
     <div class="post-content">
