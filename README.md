@@ -59,6 +59,19 @@ enableGitInfo = true
   instagram = "https://instagram.com/yourhandle"
   mastodon = "https://mastodon.social/@yourhandle"
 
+[params.podcast]
+  title = "Műsor címe"
+  description = "Műsor leírása"
+  author = "Szerző neve"
+  email = "podcast@example.com"
+  image = "/images/cover.png"
+  explicit = false
+  [[params.podcast.categories]]
+    text = "Technology"
+  [[params.podcast.categories]]
+    text = "Society & Culture"
+    sub = "Philosophy"
+
 [menu]
   [[menu.main]]
     name = "@Források"
@@ -114,6 +127,7 @@ callout: "Megjegyzés a poszt végén"
 ```yaml
 ---
 title: "001. Epizód"
+slug: "001-epizod"
 date: 2026-01-19
 draft: false
 audioFile: "/audio/episode-001.mp3"
@@ -124,7 +138,11 @@ tags: ["tech"]
 ---
 ```
 
-> Az `srtFile` opcionális — ha megadod, a transcript panel automatikusan megjelenik.
+> Az `srtFile` opcionális — ha megadod, a transcript panel automatikusan megjelenik. Az SRT a `static/` alól töltődik (`static/audio/episode-001.srt`).
+
+> A `slug` csak ASCII karaktert tartalmazzon (a-z, 0-9, kötőjel): az Apple Podcasts nem fogad el ékezetes URL-t. Az audio fájlnévre ugyanez vonatkozik.
+
+> A podcast feed (`/podcast/index.xml`) a `[params.podcast]` adatait használja. Kategóriák: [Apple Podcasts categories](https://podcasters.apple.com/support/1691-apple-podcasts-categories). A borító 1400×1400–3000×3000 px, PNG vagy JPG, átlátszóság nélkül.
 
 ### Filozófia (`content/filozofia/`)
 

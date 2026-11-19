@@ -15,28 +15,41 @@
      xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
      xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>{{ .Site.Title }} - Podcast</title>
+    {{- /* Műsor-adatok a [params.podcast] alól; ha hiányzik, a site adatai */}}
+    {{- $p := .Site.Params.podcast | default dict }}
+    {{- $desc := $p.description | default .Site.Params.description }}
+    <title>{{ $p.title | default (printf "%s - Podcast" .Site.Title) }}</title>
     <link>{{ .Permalink }}</link>
-    <description>{{ with .Site.Params.description }}{{ . }}{{ end }}</description>
+    <description>{{ $desc }}</description>
     <language>hu</language>
     <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>
-    {{- with .Site.Params.podcast }}
-    <itunes:author>{{ $.Site.Params.author }}</itunes:author>
-    <itunes:summary>{{ $.Site.Params.description }}</itunes:summary>
+    {{- with $p.author }}
+    <itunes:author>{{ . }}</itunes:author>
+    {{- end }}
+    <itunes:summary>{{ $desc }}</itunes:summary>
+    {{- if or $p.author $p.email }}
     <itunes:owner>
-      <itunes:name>{{ $.Site.Params.author }}</itunes:name>
-      {{- with .email }}
+      {{- with $p.author }}
+      <itunes:name>{{ . }}</itunes:name>
+      {{- end }}
+      {{- with $p.email }}
       <itunes:email>{{ . }}</itunes:email>
       {{- end }}
     </itunes:owner>
-    {{- with .image }}
-    <itunes:image href="{{ . }}"/>
     {{- end }}
-    {{- with .category }}
-    <itunes:category text="{{ . }}"/>
+    {{- with $p.image }}
+    <itunes:image href="{{ . | absURL }}"/>
     {{- end }}
-    <itunes:explicit>{{ default "no" .explicit }}</itunes:explicit>
+    {{- range $p.categories }}
+    {{- if .sub }}
+    <itunes:category text="{{ .text }}">
+      <itunes:category text="{{ .sub }}"/>
+    </itunes:category>
+    {{- else }}
+    <itunes:category text="{{ .text }}"/>
     {{- end }}
+    {{- end }}
+    <itunes:explicit>{{ if $p.explicit }}true{{ else }}false{{ end }}</itunes:explicit>
     {{- range $pages }}
     <item>
       <title>{{ .Title }}</title>
