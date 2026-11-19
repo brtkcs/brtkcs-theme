@@ -45,7 +45,17 @@
       <guid>{{ .Permalink }}</guid>
       <description>{{ with .Params.description }}{{ . }}{{ end }}</description>
       {{- with .Params.audioFile }}
-      <enclosure url="{{ . | absURL }}" type="audio/mpeg"/>
+      {{- /* Same path logic as podcast-player.html: bare filename → /audio/ */}}
+      {{- $src := . }}
+      {{- if not (or (strings.HasPrefix $src "/") (strings.HasPrefix $src "http")) }}
+        {{- $src = printf "/audio/%s" $src }}
+      {{- end }}
+      {{- $length := 0 }}
+      {{- $local := printf "static%s" $src }}
+      {{- if and (not (strings.HasPrefix $src "http")) (fileExists $local) }}
+        {{- $length = (os.Stat $local).Size }}
+      {{- end }}
+      <enclosure url="{{ $src | absURL }}" length="{{ $length }}" type="audio/mpeg"/>
       {{- end }}
       {{- with .Params.duration }}
       <itunes:duration>{{ . }}</itunes:duration>
