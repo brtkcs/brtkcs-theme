@@ -251,10 +251,18 @@ body {
 
 .content-wrapper.has-toc {
   grid-template-columns: 1fr 280px;
+  /* Tartalom + TOC együtt középen */
+  max-width: calc(var(--content-max) + 280px + 3rem);
 }
 
 .content-body {
   max-width: var(--content-max);
+}
+
+/* TOC nélkül a tartalom középen, ne maradjon üres sáv jobbra */
+.content-wrapper:not(.has-toc) > .content-body {
+  margin-inline: auto;
+  width: 100%;
 }
 
 /* ===== Typography ===== */
