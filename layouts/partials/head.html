@@ -4,8 +4,12 @@
 {{ $pageTitle := .Title }}
 {{ if eq .Kind "term" }}{{ $pageTitle = .Data.Term }}{{ end }}
 {{ if eq .Kind "taxonomy" }}{{ $pageTitle = i18n (printf "taxonomy_%s" .Data.Plural) | default .Title }}{{ end }}
+{{/* Leírás: a cikk description-je vagy kivonata, egyébként a site leírása */}}
+{{ $desc := .Site.Params.description }}
+{{ if and (eq .Section "podcast") site.Params.podcast.description }}{{ $desc = site.Params.podcast.description }}{{ end }}
+{{ if .Description }}{{ $desc = .Description }}{{ else if .IsPage }}{{ with partial "excerpt.html" . }}{{ $desc = . }}{{ end }}{{ end }}
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }} | {{ .Site.Title }}{{ end }}</title>
-<meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta name="description" content="{{ $desc }}">
 
 <!-- Nyelvi változatok a keresőknek (listaoldalnál csak a tartalommal bíró nyelvek) -->
 {{ $alts := slice }}
@@ -21,12 +25,24 @@
 <!-- Open Graph -->
 <meta property="og:site_name" content="{{ .Site.Title }}">
 <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }}{{ end }}">
-<meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta property="og:description" content="{{ $desc }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
-<meta name="twitter:card" content="summary">
+{{/* Kép: saját kép, podcast-borító, vagy generált terminál-kártya (lásd og-image.html) */}}
+{{ $og := partial "og-image.html" . }}
+<meta property="og:image" content="{{ $og.url }}">
+{{ if $og.generated }}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{{ end }}
+<meta property="og:image:alt" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }}{{ end }}">
+{{/* Az Open Graph nyelv_ORSZÁG alakot vár */}}
+<meta property="og:locale" content="{{ index (dict "hu" "hu_HU" "en" "en_US" "de" "de_DE") .Site.Language.Lang | default .Site.Language.Lang }}">
+{{ if and .IsPage (not .Date.IsZero) }}<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ $og.url }}">
 <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }}{{ end }}">
-<meta name="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta name="twitter:description" content="{{ $desc }}">
 
 <!-- Local Fonts -->
 <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>

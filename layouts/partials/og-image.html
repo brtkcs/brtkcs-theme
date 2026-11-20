@@ -1,0 +1,47 @@
+{{- /* OG-kép: dict "url" (abszolút) és "generated" (true, ha 1200×630-as generált kép).
+       1. A cikk saját képe (image:, csak fájlnév → /images/)
+       2. Podcast-szekció: a műsor borítója ([params.podcast] image)
+       3. Különben build közben generált, terminál stílusú 1200×630 PNG */ -}}
+{{- $url := "" -}}
+{{- $generated := false -}}
+{{- $own := .Params.image -}}
+{{- if $own -}}
+  {{- if not (or (strings.HasPrefix $own "/") (strings.HasPrefix $own "http")) -}}
+    {{- $own = printf "/images/%s" $own -}}
+  {{- end -}}
+  {{- $url = $own | absURL -}}
+{{- else if and (eq .Section "podcast") site.Params.podcast.image -}}
+  {{- $url = site.Params.podcast.image | absURL -}}
+{{- else -}}
+  {{- $base := resources.Get "images/og-base.png" -}}
+  {{- $regular := resources.Get "fonts/IBMPlexMono-Regular.ttf" -}}
+  {{- $bold := resources.Get "fonts/IBMPlexMono-SemiBold.ttf" -}}
+
+  {{- /* Színek: fekete háttér, zöld kiemelés, fehér cím */ -}}
+  {{- $green := "#a8c830" -}}
+
+  {{- /* Cím: tag-oldalon a tag eredeti alakja, főoldalon a site címe */ -}}
+  {{- $title := .Title -}}
+  {{- if eq .Kind "term" }}{{ $title = .Data.Term }}{{ end -}}
+  {{- if eq .Kind "taxonomy" }}{{ $title = i18n (printf "taxonomy_%s" .Data.Plural) | default .Title }}{{ end -}}
+  {{- if .IsHome }}{{ $title = site.Title }}{{ end -}}
+
+  {{- /* Prompt: az oldal útvonala, mintha egy fájlt nyitnánk meg */ -}}
+  {{- /* Az útvonalban nincs szóköz, ezért karakterre vágjuk (a truncate szóhatáron vágna) */ -}}
+  {{- $path := strings.Trim .RelPermalink "/" -}}
+  {{- if gt (strings.RuneCount $path) 44 }}{{ $path = printf "%s…" (substr $path 0 44) }}{{ end -}}
+  {{- $prompt := cond .IsHome "~/werkstatt $ ls" (printf "~/werkstatt $ cat %s" $path) -}}
+
+  {{- /* Betűméret a cím hosszához, hogy ne érjen a láblécig */ -}}
+  {{- $len := strings.RuneCount $title -}}
+  {{- $size := cond (le $len 40) 58 (cond (le $len 70) 48 40) -}}
+
+  {{- $img := $base | images.Filter
+      (images.Text $prompt (dict "font" $regular "size" 26 "color" $green "x" 72 "y" 150))
+      (images.Text ($title | truncate 110) (dict "font" $bold "size" $size "color" "#ffffff" "x" 72 "y" 220 "linespacing" 12))
+      (images.Text "@brtkcs · brtkcs.com" (dict "font" $regular "size" 24 "color" $green "x" 72 "y" 530))
+  -}}
+  {{- $url = $img.Permalink -}}
+  {{- $generated = true -}}
+{{- end -}}
+{{- return dict "url" $url "generated" $generated -}}

@@ -93,7 +93,7 @@
 - [ ] Navigációs gombok (időrendi következő/előző)
 - [x] Mind-map: tag-térkép a `/tags/` oldalon (Felhő / Térkép), saját JS, csak tagek és cikkek
 - [ ] Mind-map finomítás: simább mozgás, két ujjas nagyítás, később belső linkek
-- [ ] OG kép — terminál stílusú dinamikus generálás
+- [x] OG kép — terminál stílusú, build közben generált (Hugo images.Text, IBM Plex Mono TTF), kivonat a leírásban
 
 ### Dizájn
 - [ ] Print CSS finomhangolás

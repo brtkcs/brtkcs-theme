@@ -12,6 +12,7 @@ Egyedi Hugo theme podcast, filozófia, versek és források kezeléséhez. Letis
 - 📚 **Table of Contents** — automatikus tartalomjegyzék hosszú cikkeknél
 - 🏷️ **Tag rendszer** — szekció-specifikus tag színekkel
 - 🖼️ **Certifications galéria** — About oldalon lightbox-szal
+- 🖼️ **OG-kép** — build közben generált terminál-kártya minden oldalhoz (fekete, zöld kiemelés); saját `image:` vagy podcast-borító felülírja
 - 🔒 **GDPR-barát** — lokális fontok, nincs külső tracking
 - 🖨️ **Print CSS** — tiszta nyomtatás, forrás jelöléssel
 - 💀 **404 oldal** — terminál stílusú

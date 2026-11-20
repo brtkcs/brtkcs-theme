@@ -3,5 +3,5 @@
 {{- with .Params.description -}}
   {{- . -}}
 {{- else -}}
-  {{- .Summary | replaceRE `(?s)<h[1-6][^>]*>.*?</h[1-6]>` "" | plainify | htmlUnescape | strings.TrimSpace | truncate 240 -}}
+  {{- .Summary | replaceRE `(?s)<h[1-6][^>]*>.*?</h[1-6]>` "" | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimSpace | truncate 240 -}}
 {{- end -}}
