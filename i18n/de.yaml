@@ -30,6 +30,8 @@ tag_count:
   one: "{{ .Count }} Beitrag mit diesem Schlagwort"
   other: "{{ .Count }} Beiträge mit diesem Schlagwort"
 all_tags: "← Alle Tags"
+taxonomy_tags: "Schlagwörter"
+taxonomy_categories: "Kategorien"
 
 # Beitragsseiten
 reading_time: "Min. Lesezeit"

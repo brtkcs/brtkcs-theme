@@ -1,0 +1,7 @@
+{{- /* Rövid, sima szöveges kivonat listákhoz: a description, ha van; különben az
+       automatikus kivonat címsorok nélkül, HTML nélkül, kb. 240 karakterre vágva. */ -}}
+{{- with .Params.description -}}
+  {{- . -}}
+{{- else -}}
+  {{- .Summary | replaceRE `(?s)<h[1-6][^>]*>.*?</h[1-6]>` "" | plainify | htmlUnescape | strings.TrimSpace | truncate 240 -}}
+{{- end -}}

@@ -1,0 +1,10 @@
+{{- /* Tag/kategória URL-je az aktuális nyelven: a term oldal tényleges címe
+       (ékezetes termnél a content/<tax>/<term>/_index.md url-je), különben a szokásos útvonal.
+       Hívás: partial "term-url.html" (dict "tax" "tags" "term" .) */ -}}
+{{- /* GetPage-hez kódolatlan útvonal kell: az urlize az ékezetet %C3%A9-re kódolná */ -}}
+{{- $key := .term | lower | replaceRE `\s+` "-" -}}
+{{- $url := printf "%s/%s/" .tax (.term | urlize) | relLangURL -}}
+{{- with site.GetPage (printf "/%s/%s" .tax $key) -}}
+  {{- $url = .RelPermalink -}}
+{{- end -}}
+{{- return $url -}}

@@ -30,6 +30,8 @@ tag_count:
   one: "{{ .Count }} bejegyzés ezzel a címkével"
   other: "{{ .Count }} bejegyzés ezzel a címkével"
 all_tags: "← Összes címke"
+taxonomy_tags: "Címkék"
+taxonomy_categories: "Kategóriák"
 
 # Cikkoldalak
 reading_time: "perc olvasás"

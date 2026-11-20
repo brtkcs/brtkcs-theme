@@ -76,8 +76,10 @@
 ## 🚀 Jövőbeni fejlesztések
 
 ### Javítandó
-- [ ] Tag-oldalak: a `/tags/x/` a `taxonomy.html`-lel renderelődik, 0-s számlálókkal
-- [ ] Ékezetes tag- és kategória-URL-ek
+- [x] Tag-oldalak: a `/tags/x/` a `taxonomy.html`-lel renderelődött (Hugo 0.146+ template-rendszer); `term.html` és `taxonomy.html` a `layouts/` gyökerében
+- [x] Ékezetes tag- és kategória-URL-ek: term-oldal ékezet nélküli `url`-lel (a site `publi.sh`-ja generálja), átirányítás a régi címekről
+- [x] Tag eredeti alakja a címben (`sophia.exe`, nem „Sophia.exe”), tag-összesítő címe az oldal nyelvén
+- [x] Rövid, sima szöveges kivonat a listákban (címsor nélkül)
 
 ### Tartalom
 - [ ] Podcast szekció feltöltése (saját epizódok)

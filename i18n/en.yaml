@@ -30,6 +30,8 @@ tag_count:
   one: "{{ .Count }} post with this tag"
   other: "{{ .Count }} posts with this tag"
 all_tags: "← All tags"
+taxonomy_tags: "Tags"
+taxonomy_categories: "Categories"
 
 # Article pages
 reading_time: "min read"

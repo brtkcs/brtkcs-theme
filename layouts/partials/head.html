@@ -1,6 +1,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+{{/* Tag-oldalon a tag eredeti alakja, nem a nagybetűsített .Title; a tag-összesítő címe az oldal nyelvén */}}
+{{ $pageTitle := .Title }}
+{{ if eq .Kind "term" }}{{ $pageTitle = .Data.Term }}{{ end }}
+{{ if eq .Kind "taxonomy" }}{{ $pageTitle = i18n (printf "taxonomy_%s" .Data.Plural) | default .Title }}{{ end }}
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }} | {{ .Site.Title }}{{ end }}</title>
 <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
 <!-- Nyelvi változatok a keresőknek (listaoldalnál csak a tartalommal bíró nyelvek) -->
@@ -16,12 +20,12 @@
 
 <!-- Open Graph -->
 <meta property="og:site_name" content="{{ .Site.Title }}">
-<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }}{{ end }}">
 <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ $pageTitle }}{{ end }}">
 <meta name="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
 <!-- Local Fonts -->

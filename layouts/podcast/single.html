@@ -43,7 +43,7 @@
         {{ if .Params.tags }}
         <div class="post-tags">
           {{ range .Params.tags }}
-          <a href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}" class="tag">{{ . }}</a>
+          <a href="{{ partial "term-url.html" (dict "tax" "tags" "term" .) }}" class="tag">{{ . }}</a>
           {{ end }}
         </div>
         {{ end }}
