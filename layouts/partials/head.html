@@ -3,6 +3,17 @@
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
+<!-- Nyelvi változatok a keresőknek (listaoldalnál csak a tartalommal bíró nyelvek) -->
+{{ $alts := slice }}
+{{ range .AllTranslations }}
+  {{ if or .IsPage (gt (len .Site.RegularPages) 0) }}{{ $alts = $alts | append . }}{{ end }}
+{{ end }}
+{{ if gt (len $alts) 1 }}
+{{ range $alts }}
+<link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}">
+{{ end }}
+{{ end }}
+
 <!-- Open Graph -->
 <meta property="og:site_name" content="{{ .Site.Title }}">
 <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">

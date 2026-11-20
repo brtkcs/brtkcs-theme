@@ -5,15 +5,16 @@
       <span class="brand-tilde">~</span><span class="brand-slash">/</span><span class="brand-name">werkstatt</span>
     </div>
     <div class="werkstatt-hero-motto">
-      <p class="motto-line">Köztes tér. Mozgásban.</p>
-      <p class="motto-tagline">A Werkstatt: mindig most.</p>
+      <p class="motto-line">{{ i18n "home_motto" }}</p>
+      <p class="motto-tagline">{{ i18n "home_tagline" | plainify }}</p>
     </div>
   </header>
 
+  {{/* A horgonyok (#manifesto, #etika, #tech) a tartalom <section id> értékei, minden nyelven ugyanazok */}}
   <nav class="werkstatt-nav">
-    <a href="#manifesto">I. Manifesto</a>
-    <a href="#etika">II. Etikai Záradék</a>
-    <a href="#tech">III. Technológiai záradék</a>
+    <a href="#manifesto">{{ i18n "werkstatt_nav_manifesto" }}</a>
+    <a href="#etika">{{ i18n "werkstatt_nav_ethics" }}</a>
+    <a href="#tech">{{ i18n "werkstatt_nav_tech" }}</a>
   </nav>
 
   <div class="werkstatt-content">
@@ -21,7 +22,7 @@
   </div>
 
   <footer class="werkstatt-footer">
-    <a href="/" class="back-home">← Vissza a műhelybe</a>
+    <a href="{{ .Site.Home.RelPermalink }}" class="back-home">{{ i18n "werkstatt_back" }}</a>
   </footer>
 </article>
 

@@ -1,10 +1,68 @@
+# Menü és szekciócímek (a menü a menu_<identifier> kulcsot keresi)
+menu_source: "Források"
+menu_podcast: "Podcast"
+menu_filozofia: "Filozófia"
+menu_versek: "Versek"
+menu_research: "Research"
+menu_art: "Art or.."
+menu_links: "Links"
+
+# Főoldal
+home_motto: "Köztes tér. Mozgásban."
+home_tagline: "A <span>Werkstatt</span>: mindig most."
+home_manifesto_teaser: "Műhely, ahol minden formálódik, alakul..."
+home_manifesto_cta: "Manifesto →"
 view_all: "Összes →"
 coming_soon: "Hamarosan..."
-site_description: "Leírás"
+podcast_meanwhile: "de addig is a {{ .Link }} utolsó epizódjai:"
+
+# Werkstatt (manifesztó) oldal
+werkstatt_nav_manifesto: "I. Manifesto"
+werkstatt_nav_ethics: "II. Etikai Záradék"
+werkstatt_nav_tech: "III. Technológiai záradék"
+werkstatt_back: "← Vissza a műhelybe"
+
+# Listák és tagek
+no_posts_section: "Még nincsenek bejegyzések ebben a szekcióban."
+no_posts_tag: "Még nincsenek bejegyzések ezzel a címkével."
+no_tags: "Még nincsenek címkék."
+tag_count:
+  one: "{{ .Count }} bejegyzés ezzel a címkével"
+  other: "{{ .Count }} bejegyzés ezzel a címkével"
+all_tags: "← Összes címke"
+
+# Cikkoldalak
+reading_time: "perc olvasás"
+toc_title: "Tartalomjegyzék"
+references: "Hivatkozások"
+bluesky_reply: "Reagálj Bluesky-n →"
+
+# Callout-címek (Obsidian / GitHub alert)
+callout_summary: "Kivonat"
+callout_info: "Részletek"
+callout_success: "Reflexió"
+callout_quote: "Forrás"
+callout_links: "Kapcsolódó"
+callout_todo: "Teendők"
+callout_note: "Megjegyzés"
+callout_tip: "Tipp"
+callout_warning: "Figyelem"
+callout_caution: "Vigyázat"
+callout_important: "Fontos"
+
+# Podcast
 show_notes: "Show Notes"
 transcript: "Átirat megjelenítése"
-reading_time: "perc olvasás"
-all_tags: "← Összes címke"
+audio_unsupported: "A böngésződ nem támogatja az audio lejátszást."
+play_pause: "Lejátszás / szünet"
+mute_unmute: "Némítás / hang be"
+download: "Letöltés"
+download_episode: "Epizód letöltése"
+
+# Általános
+theme_toggle: "Sötét / világos mód"
+close: "Bezárás"
+certs_intro: "Az elmúlt években megszerzett tanúsítványaim. Kattints a nagyításhoz!"
 cookie_accept: "Értem"
 cookie_text: "Egy dolgot mentünk el: hogy sötét vagy világos módot választottál. Ha videó van az oldalon, a YouTube is csinálja a maga dolgát. Az oldalt Cloudflare futtatja — ők látnak pár névtelen számot a forgalomról, én nem."
 not_found: "Ez az oldal nem létezik."

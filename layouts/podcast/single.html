@@ -43,7 +43,7 @@
         {{ if .Params.tags }}
         <div class="post-tags">
           {{ range .Params.tags }}
-          <a href="/tags/{{ . | urlize }}" class="tag">{{ . }}</a>
+          <a href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}" class="tag">{{ . }}</a>
           {{ end }}
         </div>
         {{ end }}
@@ -70,7 +70,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
-        <span data-i18n="transcript">{{ i18n "transcript" }}</span>
+        <span>{{ i18n "transcript" }}</span>
       </summary>
       <div class="transcript-content">
         {{- $srt := replace (os.ReadFile $srtPath) "\r\n" "\n" }}
@@ -137,7 +137,7 @@
     {{/* A sablon alapértéke "-": ilyenkor nincs show notes */}}
     {{ with .Params.showNotes }}{{ if ne (trim . " \n") "-" }}
     <div class="show-notes">
-      <h3 data-i18n="show_notes">{{ i18n "show_notes" }}</h3>
+      <h3>{{ i18n "show_notes" }}</h3>
       <div>{{ . | markdownify }}</div>
     </div>
     {{ end }}{{ end }}

@@ -31,7 +31,7 @@
           {{ if .Params.tags }}
           <div class="post-tags">
             {{ range .Params.tags }}
-            <a href="/tags/{{ . | urlize }}" class="tag">{{ . }}</a>
+            <a href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}" class="tag">{{ . }}</a>
             {{ end }}
           </div>
           {{ end }}
@@ -52,7 +52,7 @@
       {{ end }}
     </ul>
     {{ else }}
-    <p>Még nincsenek bejegyzések ebben a szekcióban.</p>
+    <p>{{ i18n "no_posts_section" }}</p>
     {{ end }}
   </div>
 </div>

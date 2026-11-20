@@ -1,27 +1,14 @@
 {{- /*
   Obsidian-callout / GitHub-alert renderelés.
   Hely: themes/brtkcs/layouts/_default/_markup/render-blockquote.html
+  A címek az i18n/*.yaml callout_<típus> kulcsaiból jönnek, az oldal nyelvén.
 */ -}}
-
-{{- $labels := dict
-  "summary" "Kivonat"
-  "info"    "Részletek"
-  "success" "Reflexió"
-  "quote"   "Forrás"
-  "links"   "Kapcsolódó"
-  "todo"    "Teendők"
-  "note"    "Megjegyzés"
-  "tip"     "Tipp"
-  "warning" "Figyelem"
-  "caution" "Vigyázat"
-  "important" "Fontos"
--}}
 
 {{- if eq .Type "alert" -}}
   {{- $t := .AlertType -}}
   <div class="callout callout-{{ $t }}">
     <p class="callout-title">
-      {{- with .AlertTitle }}{{ . }}{{ else }}{{ index $labels $t | default (title $t) }}{{ end -}}
+      {{- with .AlertTitle }}{{ . }}{{ else }}{{ i18n (printf "callout_%s" $t) | default (title $t) }}{{ end -}}
     </p>
     <div class="callout-body">
       {{ .Text }}

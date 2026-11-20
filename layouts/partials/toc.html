@@ -1,7 +1,7 @@
 {{ if and .TableOfContents (gt .WordCount 400) }}
 <aside class="toc-sidebar">
   <div class="toc-container">
-    <h3 class="toc-title">Tartalomjegyzék</h3>
+    <h3 class="toc-title">{{ i18n "toc_title" }}</h3>
     <nav class="toc-nav">
       {{ .TableOfContents }}
     </nav>

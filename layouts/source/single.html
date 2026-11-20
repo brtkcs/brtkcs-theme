@@ -21,14 +21,14 @@
             <circle cx="12" cy="12" r="10"/>
             <polyline points="12 6 12 12 16 14"/>
           </svg>
-          {{ .ReadingTime }} <span data-i18n="reading_time">{{ i18n "reading_time" }}</span>
+          {{ .ReadingTime }} <span>{{ i18n "reading_time" }}</span>
         </span>
         {{ end }}
         
         {{ if .Params.tags }}
         <div class="post-tags">
           {{ range .Params.tags }}
-          <a href="/tags/{{ . | urlize }}" class="tag">{{ . }}</a>
+          <a href="{{ printf "tags/%s/" (. | urlize) | relLangURL }}" class="tag">{{ . }}</a>
           {{ end }}
         </div>
         {{ end }}

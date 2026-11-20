@@ -1,7 +1,7 @@
 <!-- Certifications Gallery -->
 <section class="certs-section">
   <h2>Certifications</h2>
-  <p class="certs-intro">Az elmúlt években megszerzett tanúsítványaim. Kattints a nagyításhoz!</p>
+  <p class="certs-intro">{{ i18n "certs_intro" }}</p>
 
   <!-- Specializations & Professional Certificates -->
   <h3 class="certs-category">Specializations & Professional Certificates</h3>
@@ -62,7 +62,7 @@
 
 <!-- Lightbox Modal -->
 <div id="cert-lightbox" class="cert-lightbox">
-  <button class="lightbox-close" aria-label="Bezárás">&times;</button>
+  <button class="lightbox-close" aria-label="{{ i18n "close" }}">&times;</button>
   <div class="lightbox-content">
     <img id="lightbox-img" src="" alt="">
     <div class="lightbox-info">

@@ -1,10 +1,68 @@
+# Menü und Bereichstitel (das Menü sucht menu_<identifier>)
+menu_source: "Quellen"
+menu_podcast: "Podcast"
+menu_filozofia: "Philosophie"
+menu_versek: "Gedichte"
+menu_research: "Research"
+menu_art: "Art or.."
+menu_links: "Links"
+
+# Startseite
+home_motto: "Zwischenraum. In Bewegung."
+home_tagline: "Die <span>Werkstatt</span>: immer jetzt."
+home_manifesto_teaser: "Eine Werkstatt, in der alles Form annimmt, sich wandelt..."
+home_manifesto_cta: "Manifest →"
 view_all: "Alle →"
 coming_soon: "Demnächst..."
-site_description: "Beschreibung"
+podcast_meanwhile: "bis dahin die neuesten Folgen von {{ .Link }} (auf Ungarisch):"
+
+# Werkstatt-Seite (Manifest)
+werkstatt_nav_manifesto: "I. Manifest"
+werkstatt_nav_ethics: "II. Ethische Klausel"
+werkstatt_nav_tech: "III. Technologische Klausel"
+werkstatt_back: "← Zurück in die Werkstatt"
+
+# Listen und Schlagwörter
+no_posts_section: "Noch keine Beiträge in diesem Bereich."
+no_posts_tag: "Noch keine Beiträge mit diesem Schlagwort."
+no_tags: "Noch keine Schlagwörter."
+tag_count:
+  one: "{{ .Count }} Beitrag mit diesem Schlagwort"
+  other: "{{ .Count }} Beiträge mit diesem Schlagwort"
+all_tags: "← Alle Tags"
+
+# Beitragsseiten
+reading_time: "Min. Lesezeit"
+toc_title: "Inhalt"
+references: "Verweise"
+bluesky_reply: "Auf Bluesky antworten →"
+
+# Callout-Titel (Obsidian / GitHub alert)
+callout_summary: "Zusammenfassung"
+callout_info: "Details"
+callout_success: "Reflexion"
+callout_quote: "Quelle"
+callout_links: "Verwandt"
+callout_todo: "Aufgaben"
+callout_note: "Notiz"
+callout_tip: "Tipp"
+callout_warning: "Achtung"
+callout_caution: "Vorsicht"
+callout_important: "Wichtig"
+
+# Podcast
 show_notes: "Show Notes"
 transcript: "Transkript anzeigen"
-reading_time: "Min. Lesezeit"
-all_tags: "← Alle Tags"
+audio_unsupported: "Dein Browser unterstützt keine Audiowiedergabe."
+play_pause: "Wiedergabe / Pause"
+mute_unmute: "Stumm / Ton an"
+download: "Herunterladen"
+download_episode: "Folge herunterladen"
+
+# Allgemein
+theme_toggle: "Hell / Dunkel umschalten"
+close: "Schließen"
+certs_intro: "Zertifikate, die ich in den letzten Jahren erworben habe. Zum Vergrößern klicken!"
 cookie_accept: "Verstanden"
 cookie_text: "Nur eine Sache wird gespeichert: ob du den dunklen oder hellen Modus gewählt hast. Wenn ein Video auf der Seite ist, macht YouTube sein Ding. Die Seite läuft über Cloudflare — die sehen ein paar anonyme Zahlen, ich nicht."
 not_found: "Diese Seite existiert nicht."

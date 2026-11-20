@@ -1,12 +1,12 @@
 {{ define "main" }}
 <div class="home-wrapper">
   <section class="hero">
-    <a href="/werkstatt/" class="hero-content">
-      <p class="werkstatt-motto">Köztes tér. Mozgásban.</p>
-      <p class="werkstatt-tagline">A <span>Werkstatt</span>: mindig most.</p>
+    <a href="{{ partial "lang-url.html" "/werkstatt/" }}" class="hero-content">
+      <p class="werkstatt-motto">{{ i18n "home_motto" }}</p>
+      <p class="werkstatt-tagline">{{ i18n "home_tagline" | safeHTML }}</p>
       <div class="werkstatt-manifesto">
-        <p>Műhely, ahol minden formálódik, alakul...</p>
-        <span class="manifesto-cta">Manifesto →</span>
+        <p>{{ i18n "home_manifesto_teaser" }}</p>
+        <span class="manifesto-cta">{{ i18n "home_manifesto_cta" }}</span>
       </div>
     </a>
   </section>
@@ -17,9 +17,9 @@
       <div class="home-section section-source">
         <div class="section-header">
           <h2>
-            <a href="/source/">Források</a>
+            <a href="{{ partial "lang-url.html" "/source/" }}">{{ i18n "menu_source" }}</a>
           </h2>
-          <a href="/source/" class="view-all" data-i18n="view_all">{{ i18n "view_all" }}</a>
+          <a href="{{ partial "lang-url.html" "/source/" }}" class="view-all">{{ i18n "view_all" }}</a>
         </div>
         {{ $posztok := (where .Site.RegularPages "Section" "source").ByDate.Reverse | first 3 }}
         {{ if $posztok }}
@@ -39,7 +39,7 @@
       <!-- Podcast -->
 <div class="home-section section-podcast">
   <div class="section-header">
-    <h2><a href="/podcast/">Podcast</a></h2>
+    <h2><a href="{{ partial "lang-url.html" "/podcast/" }}">{{ i18n "menu_podcast" }}</a></h2>
   </div>
   {{ $podcast := (where .Site.RegularPages "Section" "podcast").ByDate.Reverse | first 3 }}
   {{ if $podcast }}
@@ -54,9 +54,10 @@
     {{ end }}
   </ul>
   {{ else }}
-  <p class="podcast-soon" data-i18n="coming_soon">{{ i18n "coming_soon" }}</p>
+  <p class="podcast-soon">{{ i18n "coming_soon" }}</p>
   <div class="podcast-tinnitus">
-    <p class="podcast-meanwhile">de addig is a <a href="https://tinnitus.pods-blitz.org/" target="_blank" rel="noopener">Tinnitus Napló</a> utolsó epizódjai:</p>
+    {{ $tn := `<a href="https://tinnitus.pods-blitz.org/" target="_blank" rel="noopener">Tinnitus Napló</a>` }}
+    <p class="podcast-meanwhile">{{ i18n "podcast_meanwhile" (dict "Link" $tn) | safeHTML }}</p>
     <div class="tinnitus-episodes">
       {{ with hugo.Data.tinnitus }}{{ range . }}
       <a href="{{ .url }}" target="_blank" rel="noopener" class="tinnitus-episode">
@@ -72,9 +73,9 @@
       <div class="home-section section-filozofia">
         <div class="section-header">
           <h2>
-            <a href="/filozofia/">Filozófia</a>
+            <a href="{{ partial "lang-url.html" "/filozofia/" }}">{{ i18n "menu_filozofia" }}</a>
           </h2>
-          <a href="/filozofia/" class="view-all" data-i18n="view_all">{{ i18n "view_all" }}</a>
+          <a href="{{ partial "lang-url.html" "/filozofia/" }}" class="view-all">{{ i18n "view_all" }}</a>
         </div>
         {{ $filozofia := (where .Site.RegularPages "Section" "filozofia").ByDate.Reverse | first 3 }}
         {{ if $filozofia }}
@@ -95,9 +96,9 @@
       <div class="home-section section-versek">
         <div class="section-header">
           <h2>
-            <a href="/versek/">Versek</a>
+            <a href="{{ partial "lang-url.html" "/versek/" }}">{{ i18n "menu_versek" }}</a>
           </h2>
-          <a href="/versek/" class="view-all" data-i18n="view_all">{{ i18n "view_all" }}</a>
+          <a href="{{ partial "lang-url.html" "/versek/" }}" class="view-all">{{ i18n "view_all" }}</a>
         </div>
         {{ $versek := (where .Site.RegularPages "Section" "versek").ByDate.Reverse | first 3 }}
         {{ if $versek }}

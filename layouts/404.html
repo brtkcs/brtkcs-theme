@@ -23,8 +23,8 @@
       <hr class="divider">
 
       <div class="code-404">404</div>
-      <p class="msg" data-i18n="not_found">Ez az oldal nem létezik.</p>
-      <a href="/" class="back-link" data-i18n="back_home">← vissza a werkstattba</a>
+      <p class="msg">{{ i18n "not_found" }}</p>
+      <a href="{{ .Site.Home.RelPermalink }}" class="back-link">{{ i18n "back_home" }}</a>
     </div>
   </div>
 </div>

@@ -1,27 +1,37 @@
 <header class="site-header">
   <div class="header-container">
     <div class="header-left">
-      <a href="/" class="site-logo">
+      <a href="{{ .Site.Home.RelPermalink }}" class="site-logo">
         <span class="logo-name"><span class="logo-tilde">~</span><span class="logo-slash">/</span>brtkcs</span>
         <span class="logo-subtitle">werkstatt</span>
       </a>
     </div>
     
     <nav class="main-nav">
+      {{/* Belső pont (pageRef) csak akkor, ha a szekció ezen a nyelven létezik */}}
       {{ range .Site.Menus.main }}
+        {{ if or .Page (strings.HasPrefix .URL "http") }}
         <a href="{{ .URL }}" class="nav-link {{ if $.IsMenuCurrent "main" . }}active{{ end }}" data-section="{{ .Name | lower }}">
-          {{ .Name }}
+          {{ i18n (printf "menu_%s" .Identifier) | default .Name }}
         </a>
+        {{ end }}
       {{ end }}
     </nav>
     
     <div class="header-right">
+      {{/* Nyelvváltó: link a fordításra; ha nincs fordítás, a nyelv nem jelenik meg.
+           Listaoldalaknak (főoldal, tagek) minden nyelven van változata, ott csak akkor,
+           ha az adott nyelven van tartalom. */}}
       <div class="lang-switcher">
-        <button class="lang-btn" data-lang="hu">HU</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="de">DE</button>
+        {{ range .AllTranslations }}
+          {{ if eq .Lang $.Lang }}
+        <span class="lang-btn active" aria-current="true">{{ .Lang | upper }}</span>
+          {{ else if or .IsPage (gt (len .Site.RegularPages) 0) }}
+        <a class="lang-btn" href="{{ .RelPermalink }}" hreflang="{{ .Lang }}" lang="{{ .Lang }}">{{ .Lang | upper }}</a>
+          {{ end }}
+        {{ end }}
       </div>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+      <button id="theme-toggle" class="theme-toggle" aria-label="{{ i18n "theme_toggle" }}">
         <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>

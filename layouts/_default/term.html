@@ -3,7 +3,7 @@
   <div class="content-body section-tags">
     <h1>{{ .Title }}</h1>
     
-    <p class="tag-count">{{ len .Pages }} bejegyzés ezzel a címkével</p>
+    <p class="tag-count">{{ i18n "tag_count" (len .Pages) }}</p>
     
     {{ if .Pages }}
     <ul class="post-list">
@@ -40,11 +40,11 @@
       {{ end }}
     </ul>
     {{ else }}
-    <p>Még nincsenek bejegyzések ezzel a címkével.</p>
+    <p>{{ i18n "no_posts_tag" }}</p>
     {{ end }}
     
     <div class="back-link">
-      <a href="/tags/"data-i18n="all_tags">{{ i18n "all_tags" }}</a>
+      <a href="{{ "tags/" | relLangURL }}">{{ i18n "all_tags" }}</a>
     </div>
   </div>
 </div>

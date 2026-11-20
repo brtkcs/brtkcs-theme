@@ -1,10 +1,68 @@
+# Menu and section titles (the menu looks up menu_<identifier>)
+menu_source: "Sources"
+menu_podcast: "Podcast"
+menu_filozofia: "Philosophy"
+menu_versek: "Poems"
+menu_research: "Research"
+menu_art: "Art or.."
+menu_links: "Links"
+
+# Home
+home_motto: "In between. In motion."
+home_tagline: "The <span>Werkstatt</span>: always now."
+home_manifesto_teaser: "A workshop where everything takes shape, keeps shifting..."
+home_manifesto_cta: "Manifesto →"
 view_all: "All →"
 coming_soon: "Coming soon..."
-site_description: "Description"
+podcast_meanwhile: "meanwhile, the latest episodes of {{ .Link }} (in Hungarian):"
+
+# Werkstatt (manifesto) page
+werkstatt_nav_manifesto: "I. Manifesto"
+werkstatt_nav_ethics: "II. Ethical Clause"
+werkstatt_nav_tech: "III. Technological Clause"
+werkstatt_back: "← Back to the workshop"
+
+# Lists and tags
+no_posts_section: "No posts in this section yet."
+no_posts_tag: "No posts with this tag yet."
+no_tags: "No tags yet."
+tag_count:
+  one: "{{ .Count }} post with this tag"
+  other: "{{ .Count }} posts with this tag"
+all_tags: "← All tags"
+
+# Article pages
+reading_time: "min read"
+toc_title: "Contents"
+references: "References"
+bluesky_reply: "Reply on Bluesky →"
+
+# Callout titles (Obsidian / GitHub alert)
+callout_summary: "Summary"
+callout_info: "Details"
+callout_success: "Reflection"
+callout_quote: "Source"
+callout_links: "Related"
+callout_todo: "To do"
+callout_note: "Note"
+callout_tip: "Tip"
+callout_warning: "Warning"
+callout_caution: "Caution"
+callout_important: "Important"
+
+# Podcast
 show_notes: "Show Notes"
 transcript: "Show transcript"
-reading_time: "min read"
-all_tags: "← All tags"
+audio_unsupported: "Your browser does not support audio playback."
+play_pause: "Play / pause"
+mute_unmute: "Mute / unmute"
+download: "Download"
+download_episode: "Download episode"
+
+# General
+theme_toggle: "Toggle dark mode"
+close: "Close"
+certs_intro: "Certificates I have earned over the past years. Click to enlarge!"
 cookie_accept: "Got it"
 cookie_text: "One thing gets saved: whether you picked dark or light mode. If there's a video on the page, YouTube does its thing. The site runs on Cloudflare — they see some anonymous traffic numbers, I don't."
 not_found: "This page does not exist."

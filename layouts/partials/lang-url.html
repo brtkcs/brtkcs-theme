@@ -1,0 +1,7 @@
+{{- /* Belső link az aktuális nyelven: "/about/" → "/en/about/", ha az oldal létezik
+       ezen a nyelven; különben az eredeti (magyar) útvonal. */ -}}
+{{- $url := . -}}
+{{- with site.GetPage (strings.TrimSuffix "/" .) -}}
+  {{- $url = .RelPermalink -}}
+{{- end -}}
+{{- return $url -}}
