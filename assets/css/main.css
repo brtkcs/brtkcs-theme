@@ -1073,6 +1073,131 @@ body {
   color: inherit;
 }
 
+/* ===== Tag-térkép (Felhő / Térkép váltó) ===== */
+.tags-view-switch {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.tags-view-switch .view-btn {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.tags-view-switch .view-btn.active {
+  border-color: var(--color-olive);
+  color: var(--color-olive);
+  font-weight: 600;
+}
+
+.tag-map {
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+.tag-map[hidden],
+.tags-cloud[hidden] {
+  display: none;
+}
+
+.tag-map-svg {
+  display: block;
+  width: 100%;
+  height: 70vh;
+  min-height: 420px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.tag-map-svg:active {
+  cursor: grabbing;
+}
+
+.tag-map-controls {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 1;
+}
+
+.tag-map-controls button {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+.tag-map-hint {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.map-links line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+.tag-map-svg .node {
+  cursor: pointer;
+}
+
+.tag-map-svg .node circle {
+  stroke: var(--bg-primary);
+  stroke-width: 1.5;
+}
+
+.tag-map-svg .node text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--text-secondary);
+  pointer-events: none;
+}
+
+/* Tag: üres karika, a címke mindig látszik */
+.tag-map-svg .node-tag circle {
+  fill: var(--bg-primary);
+  stroke: var(--text-primary);
+  stroke-width: 1.5;
+}
+
+.tag-map-svg .node-tag text {
+  fill: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Cikk: a szekció színe, a cím csak kiemeléskor */
+.tag-map-svg .node-post text { display: none; }
+.tag-map-svg .node-post circle { fill: var(--color-olive); }
+.tag-map-svg .sec-podcast circle { fill: var(--color-rust); }
+.tag-map-svg .sec-filozofia circle { fill: var(--color-purple); }
+.tag-map-svg .sec-versek circle { fill: var(--color-beige); stroke: var(--text-secondary); }
+.tag-map-svg .sec-research circle { fill: var(--color-dark-brown); }
+
+[data-theme="dark"] .tag-map-svg .sec-research circle { fill: var(--text-secondary); }
+
+.tag-map-svg.has-focus .node:not(.hl) { opacity: 0.15; }
+.tag-map-svg.has-focus .map-links line:not(.hl) { opacity: 0.1; }
+.tag-map-svg .map-links line.hl { stroke: var(--text-secondary); stroke-width: 1.5; }
+.tag-map-svg.has-focus .node.hl text { display: block; }
+
 .tag-count {
   color: var(--text-secondary);
   font-size: 0.9rem;

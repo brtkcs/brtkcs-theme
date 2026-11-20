@@ -32,6 +32,12 @@ tag_count:
 all_tags: "← All tags"
 taxonomy_tags: "Tags"
 taxonomy_categories: "Categories"
+view_cloud: "Cloud"
+view_map: "Map"
+map_hint: "Drag the nodes, scroll to zoom, click a post or tag."
+zoom_in: "Zoom in"
+zoom_out: "Zoom out"
+zoom_fit: "Fit to view"
 
 # Article pages
 reading_time: "min read"

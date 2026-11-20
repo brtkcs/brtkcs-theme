@@ -32,6 +32,12 @@ tag_count:
 all_tags: "← Összes címke"
 taxonomy_tags: "Címkék"
 taxonomy_categories: "Kategóriák"
+view_cloud: "Felhő"
+view_map: "Térkép"
+map_hint: "Húzd a pontokat, görgővel nagyíts, kattints egy cikkre vagy tagre."
+zoom_in: "Nagyítás"
+zoom_out: "Kicsinyítés"
+zoom_fit: "Teljes nézet"
 
 # Cikkoldalak
 reading_time: "perc olvasás"

@@ -91,7 +91,8 @@
 - [x] Olvasási idő kijelzés a prózai szekciókban (Források, Research, Filozófia); versnél és podcastnál nem kell, ott a hossz a mérvadó
 - [ ] Kapcsolódó posztok szekció
 - [ ] Navigációs gombok (időrendi következő/előző)
-- [ ] Mind-map graph (kapcsolatok vizualizáció)
+- [x] Mind-map: tag-térkép a `/tags/` oldalon (Felhő / Térkép), saját JS, csak tagek és cikkek
+- [ ] Mind-map finomítás: simább mozgás, két ujjas nagyítás, később belső linkek
 - [ ] OG kép — terminál stílusú dinamikus generálás
 
 ### Dizájn

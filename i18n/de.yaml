@@ -32,6 +32,12 @@ tag_count:
 all_tags: "← Alle Tags"
 taxonomy_tags: "Schlagwörter"
 taxonomy_categories: "Kategorien"
+view_cloud: "Wolke"
+view_map: "Karte"
+map_hint: "Punkte ziehen, mit dem Mausrad zoomen, auf einen Beitrag oder ein Schlagwort klicken."
+zoom_in: "Vergrößern"
+zoom_out: "Verkleinern"
+zoom_fit: "Alles anzeigen"
 
 # Beitragsseiten
 reading_time: "Min. Lesezeit"

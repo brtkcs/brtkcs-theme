@@ -2,15 +2,58 @@
 <div class="content-wrapper">
   <div class="content-body section-tags">
     <h1>{{ i18n (printf "taxonomy_%s" .Data.Plural) | default .Title }}</h1>
-    
+
     {{ if .Pages }}
-    <div class="tags-cloud">
+    {{ $isTags := eq .Data.Plural "tags" }}
+
+    {{/* Felhő / Térkép váltó: JS nélkül rejtve marad, ilyenkor csak a felhő látszik */}}
+    {{ if $isTags }}
+    <div class="tags-view-switch" hidden>
+      <a href="#" class="view-btn active" data-view="cloud">{{ i18n "view_cloud" }}</a>
+      <a href="#map" class="view-btn" data-view="map">{{ i18n "view_map" }}</a>
+    </div>
+    {{ end }}
+
+    <div class="tags-cloud" id="tags-cloud">
       {{ range .Pages }}
       <a href="{{ .Permalink }}" class="tag">
         {{ .Data.Term }} <span class="tag-count-badge">{{ len .Pages }}</span>
       </a>
       {{ end }}
     </div>
+
+    {{ if $isTags }}
+    {{/* Térkép-adat: tagek és cikkek csomópontként, cikk–tag élekkel */}}
+    {{ $nodes := slice }}
+    {{ $edges := slice }}
+    {{ $seen := dict }}
+    {{ range .Pages }}
+      {{ $tid := printf "t:%s" .RelPermalink }}
+      {{ $nodes = $nodes | append (dict "id" $tid "label" .Data.Term "url" .RelPermalink "kind" "tag" "count" (len .Pages)) }}
+      {{ range .Pages }}
+        {{ $pid := printf "p:%s" .RelPermalink }}
+        {{ if not (index $seen $pid) }}
+          {{ $seen = merge $seen (dict $pid true) }}
+          {{ $nodes = $nodes | append (dict "id" $pid "label" .LinkTitle "url" .RelPermalink "kind" "post" "section" .Section) }}
+        {{ end }}
+        {{ $edges = $edges | append (dict "s" $pid "t" $tid) }}
+      {{ end }}
+    {{ end }}
+
+    <div class="tag-map" id="tag-map" hidden>
+      <div class="tag-map-controls">
+        <button type="button" data-zoom="in" aria-label="{{ i18n "zoom_in" }}">+</button>
+        <button type="button" data-zoom="out" aria-label="{{ i18n "zoom_out" }}">−</button>
+        <button type="button" data-zoom="fit" aria-label="{{ i18n "zoom_fit" }}">⤢</button>
+      </div>
+      <svg class="tag-map-svg" role="img" aria-label="{{ i18n "view_map" }}"></svg>
+      <p class="tag-map-hint">{{ i18n "map_hint" }}</p>
+    </div>
+    <script type="application/json" id="tag-graph-data">{{ dict "nodes" $nodes "edges" $edges | jsonify | safeJS }}</script>
+    {{ $js := resources.Get "js/tag-map.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $js.RelPermalink }}" defer></script>
+    {{ end }}
+
     {{ else }}
     <p>{{ i18n "no_tags" }}</p>
     {{ end }}
