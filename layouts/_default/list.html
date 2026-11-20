@@ -51,6 +51,8 @@
       </li>
       {{ end }}
     </ul>
+    {{ else if eq .Section "podcast" }}
+    {{ partial "podcast-soon.html" . }}
     {{ else }}
     <p>{{ i18n "no_posts_section" }}</p>
     {{ end }}

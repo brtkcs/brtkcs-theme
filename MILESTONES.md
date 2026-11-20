@@ -49,16 +49,44 @@
 
 ---
 
+## ✅ v1.3.0 - Elkészült (2026. november)
+
+### Podcast (Werkstatt Napló)
+- [x] RSS sablon a helyén (`layouts/podcast/rss.xml`), enclosure `length`-szel
+- [x] Csatorna-adatok a `[params.podcast]` alól (cím, leírás, szerző, borító, két kategória, `explicit`)
+- [x] Epizódborító (`image:`), oldalon és a feedben (`itunes:image`)
+- [x] Epizód-doboz: borító, cím, adatok, lejátszó; alatta leírás, átirat, szöveg, show notes
+- [x] Időbélyeges átirat lejátszáskövetéssel, időbélyegre ugrás
+- [x] Fájlmezőkbe elég a fájlnév (`audioFile`, `srtFile`, `image`)
+- [x] Mobil nézet: a lejátszó egy sorban 320 px-ig
+
+### Többnyelvűség
+- [x] Hugo multilingual: hu a gyökérben, `/en/`, `/de/`
+- [x] Statikus nyelvváltó, csak a létező fordításokra; `hreflang`
+- [x] Minden felületszöveg az `i18n/*.yaml`-ban; `i18n.js` kivezetve
+- [x] Menü `pageRef`-fel, nyelvenként csak a tartalommal bíró szekciók
+
+### Elrendezés és URL-ek
+- [x] Tartalom középen, TOC-cal és anélkül
+- [x] ASCII slugok, átirányítás a régi ékezetes URL-ekről (site oldalon)
+- [x] Tinnitus-lista a site `data/tinnitus.yaml`-ból, nem a theme-ből
+
+---
+
 ## 🚀 Jövőbeni fejlesztések
+
+### Javítandó
+- [ ] Tag-oldalak: a `/tags/x/` a `taxonomy.html`-lel renderelődik, 0-s számlálókkal
+- [ ] Ékezetes tag- és kategória-URL-ek
 
 ### Tartalom
 - [ ] Podcast szekció feltöltése (saját epizódok)
 - [ ] További filozófiai esszék
-- [ ] Angol/Német tartalom fordítás (Hugo többnyelvű mód)
+- [ ] Angol/Német tartalom fordítás (a theme már kész rá)
 
 ### Funkciók
 - [ ] Keresés funkció
-- [ ] Olvasási idő kijelzés
+- [x] Olvasási idő kijelzés a prózai szekciókban (Források, Research, Filozófia); versnél és podcastnál nem kell, ott a hossz a mérvadó
 - [ ] Kapcsolódó posztok szekció
 - [ ] Navigációs gombok (időrendi következő/előző)
 - [ ] Mind-map graph (kapcsolatok vizualizáció)

@@ -6,9 +6,9 @@ Egyedi Hugo theme podcast, filozófia, versek és források kezeléséhez. Letis
 
 - ✨ **Szekció-specifikus dizájn** — minden tartalomtípusnak saját színvilága
 - 🎨 **Light/Dark mode** — automatikus váltás, localStorage mentéssel
-- 🌍 **i18n UI** — HU / EN / DE nyelvváltó, JS alapú
+- 🌍 **Többnyelvű** — HU / EN / DE, statikus (Hugo multilingual); a nyelvváltó csak a létező fordításokat mutatja
 - 📱 **Reszponzív** — mobil-first megközelítés
-- 🎧 **Podcast player** — beépített audio lejátszó + transcript panel
+- 🎧 **Podcast** — lejátszó epizódborítóval, időbélyeges átirat lejátszáskövetéssel, Apple-kompatibilis RSS feed
 - 📚 **Table of Contents** — automatikus tartalomjegyzék hosszú cikkeknél
 - 🏷️ **Tag rendszer** — szekció-specifikus tag színekkel
 - 🖼️ **Certifications galéria** — About oldalon lightbox-szal
@@ -31,17 +31,29 @@ git submodule add https://github.com/brtkcs/brtkcs-theme themes/brtkcs
 
 A theme lokális fontokat használ. Hozd létre a `static/fonts/` és `static/css/` mappákat, töltsd le az IBM Plex fontokat, és készítsd el a `static/css/fonts.css` fájlt. Részletes útmutató a régebbi README verzióban.
 
-### 3. i18n JS fájl
-
-Másold a `static/js/i18n.js` fájlt a site `static/js/` mappájába — ez a JS nyelvváltó fordítási adatait tartalmazza.
-
-### 4. hugo.toml
+### 3. hugo.toml
 
 ```toml
 baseURL = "https://example.com/"
-languageCode = "hu"
+defaultContentLanguage = "hu"
+defaultContentLanguageInSubdir = false
 title = "@brtkcs | ~/werkstatt"
 theme = "brtkcs"
+
+[languages]
+  [languages.hu]
+    weight = 1
+    locale = "hu"
+  [languages.en]
+    weight = 2
+    locale = "en"
+    [languages.en.params]
+      description = "Description"
+  [languages.de]
+    weight = 3
+    locale = "de"
+    [languages.de.params]
+      description = "Beschreibung"
 
 [pagination]
   pagerSize = 10
@@ -72,22 +84,28 @@ enableGitInfo = true
     text = "Society & Culture"
     sub = "Philosophy"
 
+# Belső pont: identifier + pageRef (a felirat az i18n menu_<identifier> kulcsából jön,
+# és csak azon a nyelven látszik, ahol a szekcióban van tartalom). Külső pont: url.
 [menu]
   [[menu.main]]
-    name = "@Források"
-    url = "/source/"
+    identifier = "source"
+    name = "Források"
+    pageRef = "/source"
     weight = 1
   [[menu.main]]
+    identifier = "podcast"
     name = "Podcast"
-    url = "/podcast/"
+    pageRef = "/podcast"
     weight = 2
   [[menu.main]]
+    identifier = "filozofia"
     name = "Filozófia"
-    url = "/filozofia/"
+    pageRef = "/filozofia"
     weight = 3
   [[menu.main]]
+    identifier = "versek"
     name = "Versek"
-    url = "/versek/"
+    pageRef = "/versek"
     weight = 4
 
 [taxonomies]
@@ -99,6 +117,7 @@ enableGitInfo = true
   podcast = "/podcast/:slug/"
   filozofia = "/filozofia/:slug/"
   versek = "/versek/:slug/"
+  research = "/research/:year/:month/:slug/"
 
 [outputs]
   home = ["HTML", "RSS"]
@@ -130,15 +149,19 @@ title: "001. Epizód"
 slug: "001-epizod"
 date: 2026-01-19
 draft: false
-audioFile: "/audio/episode-001.mp3"
+audioFile: "episode-001.mp3"
+srtFile: "episode-001.srt"
+image: "episode-001.png"
 duration: "45:32"
 description: "Epizód leírása"
-srtFile: "audio/episode-001.srt"
+showNotes: "Források, linkek"
 tags: ["tech"]
 ---
 ```
 
-> Az `srtFile` opcionális — ha megadod, a transcript panel automatikusan megjelenik. Az SRT a `static/` alól töltődik (`static/audio/episode-001.srt`).
+> A fájlmezőkbe elég a fájlnév: `audioFile` és `srtFile` → `static/audio/`, `image` → `static/images/`. Teljes útvonal (`/audio/x.mp3`) vagy URL is megadható.
+
+> Az `srtFile` és az `image` opcionális. Az átirat időbélyeges, lejátszás közben kiemeli az aktuális részt, időbélyegre kattintva oda ugrik. Kép nélkül a feedben a műsor borítója látszik.
 
 > A `slug` csak ASCII karaktert tartalmazzon (a-z, 0-9, kötőjel): az Apple Podcasts nem fogad el ékezetes URL-t. Az audio fájlnévre ugyanez vonatkozik.
 
@@ -175,6 +198,17 @@ note: "Jegyzet"
 
 ---
 
+## Többnyelvűség
+
+- A fordítás az eredeti mellé kerül, a nyelvkód a fájlnévben: `cikk.md` (hu), `cikk.en.md`, `cikk.de.md`. Az azonos alapnév köti össze őket.
+- URL-ek: a magyar a gyökérben (`/filozofia/cikk/`), a többi nyelv előtaggal (`/en/filozofia/article/`). A szekciónevek minden nyelven azonosak.
+- A felület szövegei az `i18n/{hu,en,de}.yaml` fájlokból jönnek, build közben; JS nem kell hozzá.
+- Nyelvváltó: link a cikk fordítására; ha nincs fordítás, a nyelv nem jelenik meg. Listaoldalakon (főoldal, tagek) csak az a nyelv látszik, amelyiken van tartalom.
+- Belső linkhez a `partial "lang-url.html" "/about/"` az aktuális nyelvű oldalt adja, ha létezik, különben a magyart.
+- A `slug` legyen ASCII (a-z, 0-9, kötőjel), különben megosztáskor `%C3%A1`-szerű URL lesz belőle.
+
+---
+
 ## Könyvtárstruktúra
 
 ```
@@ -190,8 +224,7 @@ your-site/
 │   ├── fonts/
 │   ├── css/
 │   │   └── fonts.css
-│   ├── js/
-│   │   └── i18n.js
+│   ├── images/
 │   └── audio/
 └── themes/
     └── brtkcs/
@@ -225,4 +258,4 @@ git push origin main
 
 ## Licenc
 
-MIT License — **Készítette:** BRTKCS | **Verzió:** 1.2.0 | **Hugo minimum:** 0.112.0
+MIT License — **Készítette:** BRTKCS | **Verzió:** 1.3.0 | **Hugo:** 0.164.0 extended-del tesztelve (régebbi verziók nem ellenőrzöttek)

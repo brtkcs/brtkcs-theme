@@ -1,0 +1,67 @@
+{{/* Amíg nincs saját epizód: "Hamarosan" + a Tinnitus Napló utolsó epizódjai
+     (site data/tinnitus.yaml, publi.sh frissíti). Főoldalon és a /podcast/ listán. */}}
+<p class="podcast-soon">{{ i18n "coming_soon" }}</p>
+<div class="podcast-tinnitus">
+  {{ $tn := `<a href="https://tinnitus.pods-blitz.org/" target="_blank" rel="noopener">Tinnitus Napló</a>` }}
+  <p class="podcast-meanwhile">{{ i18n "podcast_meanwhile" (dict "Link" $tn) | safeHTML }}</p>
+  <div class="tinnitus-episodes">
+    {{ with hugo.Data.tinnitus }}{{ range . }}
+    <a href="{{ .url }}" target="_blank" rel="noopener" class="tinnitus-episode">
+      <span class="episode-title">{{ .title | htmlUnescape }}</span>
+    </a>
+    {{ end }}{{ end }}
+  </div>
+</div>
+
+<style>
+  .podcast-soon {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .podcast-tinnitus {
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-color);
+  }
+
+  .podcast-meanwhile {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .podcast-meanwhile a {
+    color: var(--color-rust);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .podcast-meanwhile a:hover {
+    text-decoration: underline;
+  }
+
+  .tinnitus-episodes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .podcast-tinnitus .tinnitus-episode {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .podcast-tinnitus .tinnitus-episode:hover {
+    color: var(--color-rust);
+  }
+
+  .tinnitus-episode .episode-title {
+    display: block;
+  }
+</style>
