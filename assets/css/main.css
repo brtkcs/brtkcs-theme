@@ -601,6 +601,121 @@ body {
   margin-top: 0;
 }
 
+/* ===== Episode media box (cover + description + player) ===== */
+.episode-media {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.episode-media.has-video {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.episode-cover {
+  display: block;
+  width: 180px;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.episode-main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* A dobozban a cím kisebb, hogy elférjen a borító mellett */
+.episode-media .post-header {
+  margin: 0 0 1rem;
+}
+
+.episode-media .post-header h1 {
+  font-size: 1.6rem;
+  margin: 0 0 0.5rem;
+}
+
+.episode-description {
+  margin: 0 0 2rem;
+}
+
+/* A dobozban a lejátszónak nem kell saját kerete */
+.episode-media .media-player,
+.episode-media .podcast-player {
+  margin: 0;
+}
+
+.episode-media .podcast-player {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Keskeny helyen a csúszka saját sorba kerül a gombok fölé */
+.episode-media.has-cover .player-controls {
+  flex-wrap: wrap;
+}
+
+.episode-media.has-cover .progress-container {
+  flex-basis: 100%;
+  order: -1;
+}
+
+@media (max-width: 600px) {
+  .episode-media {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .episode-cover {
+    width: 100%;
+    max-width: 320px;
+    align-self: center;
+  }
+}
+
+/* Mobilon a dobozban: a dátum ne törjön, a gombok egy sorban maradjanak.
+   A globális .volume-control { width: 100% } itt felülírva; a hangerő-csúszka
+   helyett a telefon gombjai, a némítás megmarad. */
+@media (max-width: 768px) {
+  .episode-media .post-date,
+  .episode-media .post-duration {
+    white-space: nowrap;
+  }
+
+  .episode-media .post-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  .episode-media .player-controls {
+    gap: 0.5rem;
+  }
+
+  .episode-media .volume-control {
+    width: auto;
+    margin-left: auto;
+  }
+
+  .episode-media .volume-slider {
+    display: none;
+  }
+}
+
+/* Nagyon keskeny kijelzőn a teljes hossz csak a meta-sorban látszik */
+@media (max-width: 359px) {
+  .episode-media .duration-display {
+    display: none;
+  }
+}
+
 /* ===== Transcript ===== */
 .transcript-panel {
   border: 1px solid var(--border-color);

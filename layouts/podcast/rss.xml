@@ -73,6 +73,14 @@
       {{- with .Params.duration }}
       <itunes:duration>{{ . }}</itunes:duration>
       {{- end }}
+      {{- /* Epizódkép; ha nincs, az appok a műsor borítóját mutatják */}}
+      {{- with .Params.image }}
+      {{- $img := . }}
+      {{- if not (or (strings.HasPrefix $img "/") (strings.HasPrefix $img "http")) }}
+        {{- $img = printf "/images/%s" $img }}
+      {{- end }}
+      <itunes:image href="{{ $img | absURL }}"/>
+      {{- end }}
     </item>
     {{- end }}
   </channel>

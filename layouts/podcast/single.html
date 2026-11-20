@@ -1,6 +1,21 @@
 {{ define "main" }}
 <div class="content-wrapper {{ if and .TableOfContents (gt .WordCount 400) }}has-toc{{ end }}">
   <article class="content-body section-podcast">
+    {{/* Epizódkép: csak fájlnév → /images/ (publi.sh oda másolja) */}}
+    {{ $img := "" }}
+    {{ with .Params.image }}
+      {{ $img = . }}
+      {{ if not (or (strings.HasPrefix $img "/") (strings.HasPrefix $img "http")) }}
+        {{ $img = printf "/images/%s" $img }}
+      {{ end }}
+    {{ end }}
+
+    {{/* Egy doboz: kép balra, mellette cím, adatok és lejátszó */}}
+    <div class="episode-media{{ if $img }} has-cover{{ end }}{{ if or .Params.youtube .Params.vimeo }} has-video{{ end }}">
+      {{ with $img }}
+      <img class="episode-cover" src="{{ . }}" alt="{{ $.Title }}" loading="lazy">
+      {{ end }}
+      <div class="episode-main">
     <header class="post-header">
       <h1>{{ .Title }}</h1>
       
@@ -34,26 +49,21 @@
         {{ end }}
       </div>
     </header>
-    
-    {{ partial "podcast-player.html" . }}
-    
-    {{ if .Params.description }}
-    <div class="podcast-info">
-      <h2 data-i18n="site_description">{{ i18n "site_description" }}</h2>
-      <p>{{ .Params.description }}</p>
+        {{ partial "podcast-player.html" . }}
+      </div>
     </div>
-    {{ end }}
-    
-    {{ if .Params.showNotes }}
-    <div class="show-notes">
-      <h3 data-i18n="show_notes">{{ i18n "show_notes" }}</h3>
-      <div>{{ .Params.showNotes | markdownify }}</div>
-    </div>
+
+    {{ with .Params.description }}
+    <p class="episode-description">{{ . }}</p>
     {{ end }}
 
-    {{/* SRT a static/ alól (publi.sh oda másolja): "audio/x.srt" és "/audio/x.srt" is jó */}}
+    {{/* SRT a static/ alól (publi.sh oda másolja): "x.srt" → audio/x.srt; "audio/x.srt" és "/audio/x.srt" is jó */}}
     {{ $srtPath := "" }}
-    {{ with .Params.srtFile }}{{ $srtPath = printf "static/%s" (strings.TrimPrefix "/" .) }}{{ end }}
+    {{ with .Params.srtFile }}
+      {{ $srt := strings.TrimPrefix "/" . }}
+      {{ if not (strings.Contains $srt "/") }}{{ $srt = printf "audio/%s" $srt }}{{ end }}
+      {{ $srtPath = printf "static/%s" $srt }}
+    {{ end }}
     {{ if and $srtPath (fileExists $srtPath) }}
     <details class="transcript-panel">
       <summary>
@@ -119,10 +129,18 @@
     })();
     </script>
     {{ end }}
-    
+
     <div class="post-content">
       {{ .Content }}
     </div>
+
+    {{/* A sablon alapértéke "-": ilyenkor nincs show notes */}}
+    {{ with .Params.showNotes }}{{ if ne (trim . " \n") "-" }}
+    <div class="show-notes">
+      <h3 data-i18n="show_notes">{{ i18n "show_notes" }}</h3>
+      <div>{{ . | markdownify }}</div>
+    </div>
+    {{ end }}{{ end }}
 
     {{ partial "bluesky-link.html" . }}
   </article>
