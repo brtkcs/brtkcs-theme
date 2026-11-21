@@ -89,10 +89,9 @@
 ### Funkciók
 - [ ] Keresés funkció
 - [x] Olvasási idő kijelzés a prózai szekciókban (Források, Research, Filozófia); versnél és podcastnál nem kell, ott a hossz a mérvadó
-- [ ] Kapcsolódó posztok szekció
-- [ ] Navigációs gombok (időrendi következő/előző)
+- [x] Navigációs gombok (időrendi következő/előző), egy sorban a megosztás gombbal; mobilon cím nélkül
 - [x] Mind-map: tag-térkép a `/tags/` oldalon (Felhő / Térkép), saját JS, csak tagek és cikkek
-- [ ] Mind-map finomítás: simább mozgás, két ujjas nagyítás, később belső linkek
+- [x] Mind-map finomítás: simább mozgás, két ujjas nagyítás, két kattintásos megnyitás
 - [x] OG kép — terminál stílusú, build közben generált (Hugo images.Text, IBM Plex Mono TTF), kivonat a leírásban
 
 ### Dizájn
