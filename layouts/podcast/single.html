@@ -142,8 +142,10 @@
     </div>
     {{ end }}{{ end }}
 
-    {{ partial "bluesky-link.html" . }}
-    {{ partial "post-nav.html" . }}
+    <div class="post-end">
+      {{ partial "post-nav.html" . }}
+      {{ partial "share.html" . }}
+    </div>
   </article>
   
   {{ partial "toc.html" . }}

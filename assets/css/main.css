@@ -1096,16 +1096,61 @@ body {
   font-weight: 600;
 }
 
-/* Előző/következő bejegyzés a cikk alján: balra a régebbi, jobbra az újabb */
-.post-nav {
+/* Cikk alja egy sorban: balra a régebbi, középen a megosztás, jobbra az újabb.
+   A .post-nav "display: contents", így a linkjei közvetlenül a rács elemei. */
+.post-end {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 1rem 2rem;
   margin-top: 3rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border-color);
 }
 
+.post-end .post-nav {
+  display: contents;
+}
+
+.post-end .post-nav-older,
+.post-end .post-nav-empty { grid-column: 1; grid-row: 1; }
+.post-end .post-share     { grid-column: 2; grid-row: 1; }
+.post-end .post-nav-newer { grid-column: 3; grid-row: 1; }
+
+.post-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.post-share[hidden] {
+  display: none;
+}
+
+.post-share-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.post-share-btn:hover,
+.post-share-btn:focus-visible {
+  color: var(--color-olive);
+}
+
+.post-share-status {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-olive);
+}
+
+/* Előző/következő bejegyzés */
 .post-nav-link {
   display: flex;
   flex-direction: column;
@@ -1121,6 +1166,7 @@ body {
 .post-nav-label {
   font-family: var(--font-mono);
   font-size: 0.8rem;
+  line-height: 1.5;
   color: var(--text-secondary);
 }
 
@@ -1133,13 +1179,15 @@ body {
   color: var(--color-olive);
 }
 
+/* Mobilon egymás alatt: régebbi, újabb, végül a megosztás */
 @media (max-width: 600px) {
-  .post-nav {
+  .post-end {
     grid-template-columns: 1fr;
   }
-  .post-nav-empty {
-    display: none;
-  }
+  .post-end .post-nav-older { grid-column: 1; grid-row: 1; }
+  .post-end .post-nav-newer { grid-column: 1; grid-row: 2; }
+  .post-end .post-share     { grid-column: 1; grid-row: 3; align-items: flex-start; }
+  .post-end .post-nav-empty { display: none; }
 }
 
 .tag-map {
@@ -1535,6 +1583,7 @@ body {
   .podcast-player,
   .view-all,
   .post-tags,
+  .post-end,
   .post-nav,
   .home-sections,
   .content-wrapper > aside {

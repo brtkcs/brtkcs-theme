@@ -1,0 +1,11 @@
+{{- /* Megosztás a cikk alján: mobilon a rendszer megosztás-menüje (Web Share API),
+       máshol a link vágólapra másolása. Külső szkript és követés nincs.
+       JS nélkül rejtve marad. */ -}}
+<div class="post-share" hidden>
+  <button type="button" class="post-share-btn"
+          data-title="{{ .Title }}" data-url="{{ .Permalink }}"
+          data-copied="{{ i18n "share_copied" }}"><span aria-hidden="true">↗</span> {{ i18n "share" }}</button>
+  <span class="post-share-status" role="status" aria-live="polite"></span>
+</div>
+{{- $js := resources.Get "js/share.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
