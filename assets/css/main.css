@@ -1144,10 +1144,42 @@ body {
   cursor: pointer;
 }
 
-.tag-map-hint {
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
+/* Súgó a térképen belül, alul középen, halványan; nem fogja meg az érintést.
+   A .tag-map előtag a tartalmi bekezdések alsó margóját írja felül. */
+.tag-map .tag-map-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 0.4rem;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 1rem);
+  margin: 0;
+  text-align: center;
+  padding: 0.15rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4;
   color: var(--text-secondary);
+  background: var(--bg-primary);
+  border-radius: 4px;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Érintőképernyőn más a kezelés, más a súgó */
+.tag-map-hint.hint-touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .tag-map-hint.hint-pointer { display: none; }
+  .tag-map-hint.hint-touch { display: block; }
+}
+
+/* Mobilon alacsonyabb doboz: fölötte és alatta marad hely az oldal görgetésére */
+@media (max-width: 768px) {
+  .tag-map-svg {
+    height: 55vh;
+    height: 55svh;
+    min-height: 320px;
+  }
 }
 
 .map-links line {
@@ -1157,6 +1189,11 @@ body {
 
 .tag-map-svg .node {
   cursor: pointer;
+}
+
+/* Koppintásra ne rajzoljon fókuszkeretet; billentyűzettel (Tab) maradjon */
+.tag-map-svg .node:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .tag-map-svg .node circle {

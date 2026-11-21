@@ -47,7 +47,8 @@
         <button type="button" data-zoom="fit" aria-label="{{ i18n "zoom_fit" }}">⤢</button>
       </div>
       <svg class="tag-map-svg" role="img" aria-label="{{ i18n "view_map" }}"></svg>
-      <p class="tag-map-hint">{{ i18n "map_hint" }}</p>
+      <p class="tag-map-hint hint-pointer">{{ i18n "map_hint" }}</p>
+      <p class="tag-map-hint hint-touch">{{ i18n "map_hint_touch" }}</p>
     </div>
     <script type="application/json" id="tag-graph-data">{{ dict "nodes" $nodes "edges" $edges | jsonify | safeJS }}</script>
     {{ $js := resources.Get "js/tag-map.js" | resources.Minify | resources.Fingerprint }}
