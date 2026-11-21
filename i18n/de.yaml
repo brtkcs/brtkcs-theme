@@ -45,6 +45,9 @@ reading_time: "Min. Lesezeit"
 toc_title: "Inhalt"
 references: "Verweise"
 bluesky_reply: "Auf Bluesky antworten →"
+post_nav: "Beiträge"
+post_older: "älter"
+post_newer: "neuer"
 
 # Callout-Titel (Obsidian / GitHub alert)
 callout_summary: "Zusammenfassung"

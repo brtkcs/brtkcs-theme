@@ -1096,6 +1096,52 @@ body {
   font-weight: 600;
 }
 
+/* Előző/következő bejegyzés a cikk alján: balra a régebbi, jobbra az újabb */
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.post-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.post-nav-newer {
+  text-align: right;
+}
+
+.post-nav-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.post-nav-title {
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.post-nav-link:hover .post-nav-title {
+  color: var(--color-olive);
+}
+
+@media (max-width: 600px) {
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+  .post-nav-empty {
+    display: none;
+  }
+}
+
 .tag-map {
   position: relative;
   margin-top: 1.5rem;
@@ -1489,6 +1535,7 @@ body {
   .podcast-player,
   .view-all,
   .post-tags,
+  .post-nav,
   .home-sections,
   .content-wrapper > aside {
     display: none !important;

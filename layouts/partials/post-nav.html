@@ -1,0 +1,30 @@
+{{- /* Előző/következő bejegyzés a saját szekción és nyelven belül, tisztán dátum szerint.
+       Bal oldalt a régebbi, jobb oldalt az újabb. A .PrevInSection/.NextInSection
+       a weight mezőt is figyelembe veszi, ezért itt saját, dátum szerinti lista dönt. */ -}}
+{{- $pages := .CurrentSection.RegularPages.ByDate -}}
+{{- $older := false -}}
+{{- $newer := false -}}
+{{- range $i, $p := $pages -}}
+  {{- if eq $p $ -}}
+    {{- if gt $i 0 }}{{ $older = index $pages (sub $i 1) }}{{ end -}}
+    {{- if lt (add $i 1) (len $pages) }}{{ $newer = index $pages (add $i 1) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- if or $older $newer }}
+<nav class="post-nav" aria-label="{{ i18n "post_nav" }}">
+  {{- with $older }}
+  <a class="post-nav-link post-nav-older" href="{{ .RelPermalink }}" rel="prev">
+    <span class="post-nav-label">← {{ i18n "post_older" }}</span>
+    <span class="post-nav-title">{{ .LinkTitle }}</span>
+  </a>
+  {{- else }}
+  <span class="post-nav-link post-nav-empty" aria-hidden="true"></span>
+  {{- end }}
+  {{- with $newer }}
+  <a class="post-nav-link post-nav-newer" href="{{ .RelPermalink }}" rel="next">
+    <span class="post-nav-label">{{ i18n "post_newer" }} →</span>
+    <span class="post-nav-title">{{ .LinkTitle }}</span>
+  </a>
+  {{- end }}
+</nav>
+{{- end }}

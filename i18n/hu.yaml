@@ -45,6 +45,9 @@ reading_time: "perc olvasás"
 toc_title: "Tartalomjegyzék"
 references: "Hivatkozások"
 bluesky_reply: "Reagálj Bluesky-n →"
+post_nav: "Bejegyzések"
+post_older: "régebbi"
+post_newer: "újabb"
 
 # Callout-címek (Obsidian / GitHub alert)
 callout_summary: "Kivonat"
