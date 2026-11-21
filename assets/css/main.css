@@ -259,6 +259,13 @@ body {
   max-width: var(--content-max);
 }
 
+/* Rácselemként a cikk ne szélesedjen a legszélesebb tartalmához (pl. hosszú kódsor):
+   enélkül TOC-os cikkeknél mobilon az egész oldal kiszélesedik, és a böngésző kicsinyít.
+   A kódblokk így a saját vízszintes görgetésével fér el. */
+.content-wrapper > .content-body {
+  min-width: 0;
+}
+
 /* TOC nélkül a tartalom középen, ne maradjon üres sáv jobbra */
 .content-wrapper:not(.has-toc) > .content-body {
   margin-inline: auto;
@@ -1774,6 +1781,34 @@ body {
 
 .content-body tr:hover td {
   background: var(--bg-secondary);
+}
+
+/* Mobilon a túl széles táblázat saját vízszintes görgetést kap, mint a kódblokk,
+   és nem szélesíti ki az oldalt */
+/* Görgetési árnyék: csak azon az oldalon látszik, amerre még van tartalom.
+   A takaró sávok a tartalommal együtt mozognak (local), az árnyékok a dobozhoz
+   rögzülnek (scroll); a takarónak a táblázat mögötti háttér színét kell kapnia. */
+@media (max-width: 600px) {
+  .content-body table {
+    --scroll-bg: var(--bg-primary);
+    --scroll-shadow: rgba(0, 0, 0, 0.18);
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    background:
+      linear-gradient(to right, var(--scroll-bg) 30%, transparent) left center / 2.5rem 100% no-repeat local,
+      linear-gradient(to left, var(--scroll-bg) 30%, transparent) right center / 2.5rem 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, var(--scroll-shadow), transparent) left center / 0.9rem 100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, var(--scroll-shadow), transparent) right center / 0.9rem 100% no-repeat scroll,
+      var(--scroll-bg);
+  }
+  .content-body .callout table {
+    --scroll-bg: var(--bg-secondary);
+  }
+  [data-theme="dark"] .content-body table {
+    --scroll-shadow: rgba(255, 255, 255, 0.14);
+  }
 }
 
 /* Callouts */
