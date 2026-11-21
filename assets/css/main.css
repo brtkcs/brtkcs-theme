@@ -1177,24 +1177,29 @@ body {
   color: var(--text-secondary);
 }
 
+/* Halk cím: megmutatja, hová visz, de nem versenyez a cikk végével */
 .post-nav-title {
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 400;
   line-height: 1.4;
+  color: var(--text-secondary);
+  opacity: 0.7;
 }
 
-.post-nav-link:hover .post-nav-title {
+.post-nav-link:hover .post-nav-title,
+.post-nav-link:focus-visible .post-nav-title {
   color: var(--color-olive);
+  opacity: 1;
 }
 
-/* Mobilon egymás alatt: régebbi, újabb, végül a megosztás */
+/* Mobilon egy sorban, cím nélkül: ← régebbi · ↗ megosztás · újabb → */
 @media (max-width: 600px) {
   .post-end {
-    grid-template-columns: 1fr;
+    gap: 1rem;
   }
-  .post-end .post-nav-older { grid-column: 1; grid-row: 1; }
-  .post-end .post-nav-newer { grid-column: 1; grid-row: 2; }
-  .post-end .post-share     { grid-column: 1; grid-row: 3; align-items: flex-start; }
-  .post-end .post-nav-empty { display: none; }
+  .post-end .post-nav-title {
+    display: none;
+  }
 }
 
 .tag-map {
