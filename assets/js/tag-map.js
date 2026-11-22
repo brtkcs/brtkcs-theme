@@ -1,33 +1,9 @@
 // Tag-térkép: tagek és cikkek erőalapú gráfként, sima SVG, külső könyvtár nélkül.
-// Adat: a taxonomy.html által beágyazott #tag-graph-data JSON ({nodes, edges}).
+// Adat: a tag-graph.html partial által kiírt JSON ({nodes, edges}), a data-src címről.
+// Két felület használja: a /tags/ oldal nagy térképe és a cikkek alján a mini-map.
+// Az elrendezés determinisztikus, így a kettő ugyanazt a képet mutatja.
 (function () {
-  const dataEl = document.getElementById('tag-graph-data');
-  const wrap = document.getElementById('tag-map');
-  const cloud = document.getElementById('tags-cloud');
-  const sw = document.querySelector('.tags-view-switch');
-  if (!dataEl || !wrap || !cloud || !sw) return;
-
   const NS = 'http://www.w3.org/2000/svg';
-  const svg = wrap.querySelector('svg');
-  let built = false;
-
-  // ===== Felhő / Térkép váltó (a #map az URL-ben megosztható) =====
-  sw.hidden = false;
-  function show(view) {
-    const isMap = view === 'map';
-    wrap.hidden = !isMap;
-    cloud.hidden = isMap;
-    sw.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-    history.replaceState(null, '', isMap ? '#map' : location.pathname);
-    if (isMap && !built) { built = true; build(); }
-  }
-  sw.addEventListener('click', e => {
-    const b = e.target.closest('.view-btn');
-    if (!b) return;
-    e.preventDefault();
-    show(b.dataset.view);
-  });
-  if (location.hash === '#map') show('map');
 
   function el(name, attrs) {
     const n = document.createElementNS(NS, name);
@@ -35,10 +11,36 @@
     return n;
   }
 
-  function build() {
-    const data = JSON.parse(dataEl.textContent);
+  // Egy oldalon egyszer töltődik le, utána a böngésző gyorsítótárából jön
+  const graphs = {};
+  function loadGraph(url) {
+    return graphs[url] || (graphs[url] = fetch(url).then(r => r.json()));
+  }
 
-    // Determinisztikus kezdőállás (spirál), így minden betöltéskor ugyanaz a kép
+  // Hosszú cím szavanként több sorba tördelve, a pont magasságára függőlegesen középre igazítva
+  function wrapLabel(t, label, max) {
+    const rows = [];
+    label.split(/\s+/).forEach(w => {
+      const last = rows[rows.length - 1];
+      if (last !== undefined && (last + ' ' + w).length <= max) rows[rows.length - 1] = last + ' ' + w;
+      else rows.push(w);
+    });
+    if (rows.length === 1) { t.textContent = label; return; }
+    rows.forEach((r, i) => {
+      const s = el('tspan', { x: t.getAttribute('x'), dy: i === 0 ? `${-(rows.length - 1) * 0.6}em` : '1.2em' });
+      s.textContent = r;
+      t.appendChild(s);
+    });
+  }
+  function makeLabel(n) {
+    const t = el('text', { x: n.r + 3, y: 4 });
+    wrapLabel(t, n.label, n.kind === 'post' ? 24 : Infinity);
+    return t;
+  }
+  const nodeClass = n => `node node-${n.kind}${n.section ? ' sec-' + n.section : ''}`;
+
+  // Determinisztikus kezdőállás (spirál), így minden betöltéskor ugyanaz a kép
+  function initGraph(data) {
     const nodes = data.nodes.map((n, i) => {
       const a = i * 2.4, r = 14 * Math.sqrt(i + 1);
       return Object.assign({ x: r * Math.cos(a), y: r * Math.sin(a), vx: 0, vy: 0, fixed: false }, n);
@@ -50,72 +52,17 @@
     const neighbors = nodes.map(() => new Set());
     links.forEach(l => { neighbors[l.s].add(l.t); neighbors[l.t].add(l.s); });
     nodes.forEach(n => { n.r = n.kind === 'tag' ? 4 + 2 * Math.sqrt(n.count || 1) : 5; });
+    return { nodes, links, neighbors, index };
+  }
 
-    // ===== Csomópontok (a szimuláció előtt, hogy a feliratok mérhetők legyenek) =====
-    // A viewBox a doboz valódi pixelméretét követi, így álló (mobil) dobozban
-    // sem zsugorodik keskeny csíkká a gráf. A közepe a 0,0 pont marad.
-    let W = 1000, H = 700;
-    function sizeViewBox() {
-      const r = svg.getBoundingClientRect();
-      if (r.width && r.height) { W = r.width; H = r.height; }
-      svg.setAttribute('viewBox', `${-W / 2} ${-H / 2} ${W} ${H}`);
-    }
-    sizeViewBox();
-    window.addEventListener('resize', sizeViewBox);
-    const g = el('g');
-    const lineLayer = el('g', { class: 'map-links' });
-    const nodeLayer = el('g', { class: 'map-nodes' });
-    // A feliratok külön, legfelső rétegben: pont nem takarhat bele egy feliratba
-    const labelLayer = el('g', { class: 'map-labels' });
-    g.append(lineLayer, nodeLayer, labelLayer);
-    svg.appendChild(g);
-
-    // Hosszú cím szavanként több sorba tördelve, a pont magasságára függőlegesen középre igazítva
-    function wrapLabel(t, label, max) {
-      const rows = [];
-      label.split(/\s+/).forEach(w => {
-        const last = rows[rows.length - 1];
-        if (last !== undefined && (last + ' ' + w).length <= max) rows[rows.length - 1] = last + ' ' + w;
-        else rows.push(w);
-      });
-      if (rows.length === 1) { t.textContent = label; return; }
-      rows.forEach((r, i) => {
-        const s = el('tspan', { x: t.getAttribute('x'), dy: i === 0 ? `${-(rows.length - 1) * 0.6}em` : '1.2em' });
-        s.textContent = r;
-        t.appendChild(s);
-      });
-    }
-
-    const lines = links.map(() => lineLayer.appendChild(el('line')));
-    // A felirat-csoport ugyanazokat az osztályokat kapja, mint a pont, így a CSS mindkettőre hat
-    const labels = [];
-    const groups = nodes.map(n => {
-      const cls = `node node-${n.kind}${n.section ? ' sec-' + n.section : ''}`;
-      const a = el('a', { href: n.url, class: cls });
-      a.appendChild(el('circle', { r: n.r }));
-      const title = el('title');
-      title.textContent = n.label;
-      a.appendChild(title);
-      nodeLayer.appendChild(a);
-      const lg = el('g', { class: cls });
-      const t = el('text', { x: n.r + 3, y: 4 });
-      wrapLabel(t, n.label, n.kind === 'post' ? 24 : Infinity);
-      lg.appendChild(t);
-      labelLayer.appendChild(lg);
-      labels.push(lg);
-      return a;
-    });
-    function mark(i, name, on) {
-      groups[i].classList.toggle(name, on);
-      labels[i].classList.toggle(name, on);
-    }
-
-    // Ütközési doboz a pont körül: a kör, és ha a felirat látszik (tag), a felirat is.
-    // A cikkek címe csak kiemeléskor jelenik meg, ezért ott csak a kör számít.
+  // Ütközési doboz a pont körül: a kör, és ha a felirat látszik (tag), a felirat is.
+  // A cikkek címe csak kiemeléskor jelenik meg, ezért ott csak a kör számít.
+  // texts[i]: a csomópont felirata, a térkép stílusával megjelenítve (különben a mérés más lenne)
+  function measure(nodes, texts) {
     const PAD = 2;
     nodes.forEach((n, i) => {
       let x0 = -n.r, x1 = n.r, y0 = -n.r, y1 = n.r;
-      const bb = labels[i].querySelector('text').getBBox();
+      const bb = texts[i].getBBox();
       n.lbl = bb.width ? { x0: bb.x, x1: bb.x + bb.width, y0: bb.y, y1: bb.y + bb.height } : null;
       if (bb.width) {
         x0 = Math.min(x0, bb.x); x1 = Math.max(x1, bb.x + bb.width);
@@ -123,7 +70,12 @@
       }
       n.box = { x0: x0 - PAD, x1: x1 + PAD, y0: y0 - PAD, y1: y1 + PAD };
     });
+  }
 
+  // ===== Szimuláció: taszítás, rugók az élek mentén, enyhe középre húzás, ütközés =====
+  // alphaTarget: húzás közben a szimuláció nem hűl ki, a szomszédok végig követnek
+  function makeSim(nodes, links) {
+    const sim = { alpha: 1, alphaTarget: 0 };
     // Átfedő dobozok szétnyomása a kisebb átfedés irányában; a rögzített (húzott) pont nem mozdul
     function collide(strength) {
       for (let i = 0; i < nodes.length; i++) {
@@ -145,11 +97,8 @@
         }
       }
     }
-
-    // ===== Szimuláció: taszítás, rugók az élek mentén, enyhe középre húzás =====
-    // alphaTarget: húzás közben a szimuláció nem hűl ki, a szomszédok végig követnek
-    let alpha = 1, alphaTarget = 0;
-    function tick() {
+    sim.tick = function () {
+      const alpha = sim.alpha;
       for (let i = 0; i < nodes.length; i++) {
         const a = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
@@ -178,10 +127,96 @@
         n.x += n.vx; n.y += n.vy;
       });
       collide(0.5);
-      alpha += (alphaTarget - alpha) * 0.01;   // célérték 0 mellett azonos a korábbi alpha *= 0.99-cel
+      sim.alpha += (sim.alphaTarget - sim.alpha) * 0.01;   // célérték 0 mellett azonos az alpha *= 0.99-cel
+    };
+    // Előre kiszámolt elrendezés, ugrálás nélkül; a végén csak az átfedések feloldása
+    sim.run = function () {
+      for (let i = 0; i < 300; i++) sim.tick();
+      for (let i = 0; i < 50; i++) collide(1);
+    };
+    return sim;
+  }
+
+  initTagsPage();
+  initMiniMaps();
+
+  // ===== Nagy térkép a /tags/ oldalon =====
+  function initTagsPage() {
+  const wrap = document.getElementById('tag-map');
+  const cloud = document.getElementById('tags-cloud');
+  const sw = document.querySelector('.tags-view-switch');
+  if (!wrap || !cloud || !sw || !wrap.dataset.src) return;
+
+  const svg = wrap.querySelector('svg');
+  let built = false;
+
+  // ===== Felhő / Térkép váltó (a #map az URL-ben megosztható) =====
+  sw.hidden = false;
+  function show(view) {
+    const isMap = view === 'map';
+    wrap.hidden = !isMap;
+    cloud.hidden = isMap;
+    sw.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    history.replaceState(null, '', isMap ? '#map' : location.pathname);
+    if (isMap && !built) { built = true; build(); }
+  }
+  sw.addEventListener('click', e => {
+    const b = e.target.closest('.view-btn');
+    if (!b) return;
+    e.preventDefault();
+    show(b.dataset.view);
+  });
+  if (location.hash === '#map') show('map');
+
+  async function build() {
+    // A betűtípusnak betöltve kell lennie, különben a feliratok mérete, így az elrendezés is más lenne
+    const [data] = await Promise.all([loadGraph(wrap.dataset.src), document.fonts.ready]);
+    const { nodes, links, neighbors, index } = initGraph(data);
+
+    // ===== Csomópontok (a szimuláció előtt, hogy a feliratok mérhetők legyenek) =====
+    // A viewBox a doboz valódi pixelméretét követi, így álló (mobil) dobozban
+    // sem zsugorodik keskeny csíkká a gráf. A közepe a 0,0 pont marad.
+    let W = 1000, H = 700;
+    function sizeViewBox() {
+      const r = svg.getBoundingClientRect();
+      if (r.width && r.height) { W = r.width; H = r.height; }
+      svg.setAttribute('viewBox', `${-W / 2} ${-H / 2} ${W} ${H}`);
     }
-    for (let i = 0; i < 300; i++) tick();   // előre kiszámolt elrendezés, ugrálás nélkül
-    for (let i = 0; i < 50; i++) collide(1);   // a végén csak az átfedések feloldása
+    sizeViewBox();
+    window.addEventListener('resize', sizeViewBox);
+    const g = el('g');
+    const lineLayer = el('g', { class: 'map-links' });
+    const nodeLayer = el('g', { class: 'map-nodes' });
+    // A feliratok külön, legfelső rétegben: pont nem takarhat bele egy feliratba
+    const labelLayer = el('g', { class: 'map-labels' });
+    g.append(lineLayer, nodeLayer, labelLayer);
+    svg.appendChild(g);
+
+    const lines = links.map(() => lineLayer.appendChild(el('line')));
+    // A felirat-csoport ugyanazokat az osztályokat kapja, mint a pont, így a CSS mindkettőre hat
+    const labels = [];
+    const groups = nodes.map(n => {
+      const cls = nodeClass(n);
+      const a = el('a', { href: n.url, class: cls });
+      a.appendChild(el('circle', { r: n.r }));
+      const title = el('title');
+      title.textContent = n.label;
+      a.appendChild(title);
+      nodeLayer.appendChild(a);
+      const lg = el('g', { class: cls });
+      lg.appendChild(makeLabel(n));
+      labelLayer.appendChild(lg);
+      labels.push(lg);
+      return a;
+    });
+    function mark(i, name, on) {
+      groups[i].classList.toggle(name, on);
+      labels[i].classList.toggle(name, on);
+    }
+
+    measure(nodes, labels.map(lg => lg.firstChild));
+    const sim = makeSim(nodes, links);
+    sim.run();
 
     // ===== Rajz =====
     // A kiemelt felirat a doboz jobb szélénél a pont bal oldalára kerül, hogy ne vágódjon le
@@ -296,13 +331,13 @@
     // ===== Animáció húzáskor =====
     let running = false, dragging = null;
     function loop() {
-      tick(); draw();
-      if (alpha > 0.005 || dragging !== null) requestAnimationFrame(loop);
+      sim.tick(); draw();
+      if (sim.alpha > 0.005 || dragging !== null) requestAnimationFrame(loop);
       else running = false;
     }
     function wake() {
-      alphaTarget = 0.3;
-      alpha = Math.max(alpha, 0.3);
+      sim.alphaTarget = 0.3;
+      sim.alpha = Math.max(sim.alpha, 0.3);
       if (!running) { running = true; requestAnimationFrame(loop); }
     }
 
@@ -324,7 +359,7 @@
       svg.setPointerCapture(e.pointerId);
       if (pts.size === 2) {
         // Második ujj: a pont-húzás vagy eltolás helyett kétujjas nagyítás és mozgatás
-        if (dragging !== null) { nodes[dragging].fixed = false; dragging = null; alphaTarget = 0; }
+        if (dragging !== null) { nodes[dragging].fixed = false; dragging = null; sim.alphaTarget = 0; }
         pan = null;
         moved = Infinity;          // ebből már nem lesz koppintás
         Object.assign(view, goal);
@@ -375,7 +410,7 @@
     function release() {
       if (dragging !== null) nodes[dragging].fixed = false;
       dragging = null; pan = null;
-      alphaTarget = 0;   // elengedés után a gráf fokozatosan megnyugszik
+      sim.alphaTarget = 0;   // elengedés után a gráf fokozatosan megnyugszik
     }
     // A pointer capture miatt a click a térképre megy, nem a pontra: a megnyitást
     // itt végezzük, ha a ponton lenyomva-elengedve nem volt húzás.
@@ -461,5 +496,121 @@
 
     draw();
     fit();
+
+    // /tags/?focus=<cikk útvonala>#map: a mini-mapről érkezve a cikk középen áll, kiemelve;
+    // egy további kattintás megnyitja
+    const f = new URLSearchParams(location.search).get('focus');
+    const fi = f ? index.get('p:' + f) : undefined;
+    if (fi !== undefined) {
+      const n = nodes[fi], k = Math.max(goal.k, 1.2);
+      setView({ k, x: -k * n.x, y: -k * n.y }, false);
+      armed = fi;
+      focus(fi);
+    }
+  }
+  }
+
+  // ===== Mini-map a cikkek alján =====
+  // A teljes térkép kicsiben, halványan; csak a cikk és a tagjei emelkednek ki, névvel.
+  // Nem interaktív: az egész doboz egy link a nagy térképre. Csak a képernyő közelében épül fel.
+  function initMiniMaps() {
+    const boxes = document.querySelectorAll('.mini-map[data-src]');
+    if (!boxes.length) return;
+    const io = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        buildMini(e.target);
+      });
+    }, { rootMargin: '300px' }) : null;
+    boxes.forEach(box => {
+      box.hidden = false;
+      if (io) io.observe(box); else buildMini(box);
+    });
+  }
+
+  async function buildMini(box) {
+    const svg = box.querySelector('svg');
+    const [data] = await Promise.all([loadGraph(box.dataset.src), document.fonts.ready]);
+    const { nodes, links, neighbors, index } = initGraph(data);
+    const me = index.get(box.dataset.node);
+    if (me === undefined) { box.hidden = true; return; }
+
+    // Mérés ugyanazzal a stílussal, mint a nagy térképen, hogy az elrendezés is ugyanaz legyen
+    const probe = el('g');
+    svg.appendChild(probe);
+    const texts = nodes.map(n => {
+      const lg = el('g', { class: nodeClass(n) });
+      const t = makeLabel(n);
+      lg.appendChild(t);
+      probe.appendChild(lg);
+      return t;
+    });
+    measure(nodes, texts);
+    probe.remove();
+    makeSim(nodes, links).run();
+
+    const r = svg.getBoundingClientRect();
+    const W = r.width || 600, H = r.height || 220;
+    svg.setAttribute('viewBox', `${-W / 2} ${-H / 2} ${W} ${H}`);
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    nodes.forEach(n => { x0 = Math.min(x0, n.x); y0 = Math.min(y0, n.y); x1 = Math.max(x1, n.x); y1 = Math.max(y1, n.y); });
+    const k = Math.min(W / (x1 - x0 + 40), H / (y1 - y0 + 40));
+    const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+    const P = n => ({ x: (n.x - cx) * k, y: (n.y - cy) * k });
+
+    // Kiemelve: a cikk és a tagjei; a többi pont és vonal halvány háttér
+    const hl = new Set([me, ...neighbors[me]]);
+    const lineLayer = el('g', { class: 'map-links' });
+    const nodeLayer = el('g', { class: 'map-nodes' });
+    const labelLayer = el('g', { class: 'map-labels' });
+    links.forEach(l => {
+      const a = P(nodes[l.s]), b = P(nodes[l.t]);
+      const on = l.s === me || l.t === me;
+      lineLayer.appendChild(el('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: on ? 'hl' : '' }));
+    });
+    // A pontok a térképpel együtt kicsinyednek (legalább 1,5 px sugárral), a feliratok olvasható méretűek maradnak
+    const dotR = (n, i) => i === me ? 4.5 : Math.max(1.5, n.r * k * (hl.has(i) ? 1.6 : 1));
+    const items = [];
+    nodes.forEach((n, i) => {
+      const p = P(n), on = hl.has(i);
+      const cls = nodeClass(n) + (on ? ' hl' : '');
+      const dot = el('g', { class: cls, transform: `translate(${p.x},${p.y})` });
+      dot.appendChild(el('circle', { r: dotR(n, i) }));
+      (on ? labelLayer : nodeLayer).appendChild(dot);
+      if (!on) return;
+      const lg = el('g', { class: cls, transform: `translate(${p.x},${p.y})` });
+      const t = el('text', { x: 0, y: 0 });
+      wrapLabel(t, n.label, n.kind === 'post' ? 24 : Infinity);
+      lg.appendChild(t);
+      items.push({ i, p, t, off: dotR(n, i) + 3 });
+    });
+    svg.classList.add('has-focus');
+    svg.append(lineLayer, nodeLayer, labelLayer);
+
+    // A kicsinyített térképen a kiemelt feliratok összeérnének: mindegyik az első szabad helyre
+    // kerül (jobbra, balra, fölé, alá). Előbb a cikk, aztán a tagek méret szerint; ami sehol
+    // nem fér el, az rejtve marad (a nagy térképen ott van).
+    items.sort((a, b) => (a.i === me ? -1 : b.i === me ? 1 : (nodes[b.i].count || 0) - (nodes[a.i].count || 0)));
+    const placed = [];
+    const over = (r, o) => Math.min(r.x1, o.x1) - Math.max(r.x0, o.x0) > -3 && Math.min(r.y1, o.y1) - Math.max(r.y0, o.y0) > -1;
+    items.forEach(it => {
+      labelLayer.appendChild(it.t.parentNode);
+      const set = (anchor, x, y) => {
+        it.t.setAttribute('text-anchor', anchor);
+        it.t.setAttribute('x', x); it.t.setAttribute('y', y);
+        it.t.querySelectorAll('tspan').forEach(s => s.setAttribute('x', x));
+      };
+      const spots = [['start', it.off, 4], ['end', -it.off, 4], ['middle', 0, -it.off - 3], ['middle', 0, it.off + 11]];
+      for (const [anchor, x, y] of spots) {
+        set(anchor, x, y);
+        const b = it.t.getBBox();
+        const r = { x0: it.p.x + b.x, x1: it.p.x + b.x + b.width, y0: it.p.y + b.y, y1: it.p.y + b.y + b.height };
+        const inside = r.x0 > -W / 2 + 4 && r.x1 < W / 2 - 4 && r.y0 > -H / 2 + 2 && r.y1 < H / 2 - 2;
+        if (inside && !placed.some(o => over(r, o))) { placed.push(r); return; }
+      }
+      if (it.i === me) { set('start', it.off, 4); return; }
+      it.t.parentNode.remove();
+    });
   }
 })();

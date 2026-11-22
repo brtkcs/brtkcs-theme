@@ -1,0 +1,13 @@
+{{/* Mini-map a cikk alján: a teljes tag-térkép kicsiben, kiemelve a cikk és a tagjei.
+     JS nélkül rejtve marad (a fejlécben ott a tag-lista); a doboz link a nagy térképre, erre a cikkre fókuszálva. */}}
+{{ if .Params.tags }}
+{{ with site.GetPage "/tags" }}
+{{ $graph := partialCached "tag-graph.html" . site.Language.Lang }}
+<a class="mini-map" href="{{ .RelPermalink }}?focus={{ $.RelPermalink | urlquery }}#map" data-src="{{ $graph.RelPermalink }}" data-node="p:{{ $.RelPermalink }}" hidden>
+  <svg class="tag-map-svg mini-map-svg" aria-hidden="true"></svg>
+  <span class="mini-map-caption">{{ i18n "minimap_caption" }} →</span>
+</a>
+{{ $js := resources.Get "js/tag-map.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+{{ end }}
+{{ end }}

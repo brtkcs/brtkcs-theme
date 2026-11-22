@@ -96,7 +96,7 @@
   - a felirat helyet foglal a szimulációban; a feliratok legfelső rétegben, háttérszínű kontúrral
   - kicsinyítve az ütköző kisebb tag felirata rejtve, nagyításra és kiemelésre visszajön (mobilon a teljes nézetben ~38/72)
   - a `fit` a feliratokkal együtt mér, nem vágódik le felirat a szélen
-- [ ] Mini-map a cikk alján (Filozófia, Research, Források; versnél és podcastnál nincs): a teljes térkép kicsiben, halványan; kiemelve csak a cikk és a tagjei, névvel
+- [x] Mini-map a cikk alján (Filozófia, Research, Források; versnél és podcastnál nincs): a teljes térkép kicsiben, halványan; kiemelve csak a cikk és a tagjei, névvel
   - a navigáció/megosztás sora fölött, mobilon is
   - alatta egy sor („A cikk helye a térképen”, hu/en/de); a doboz link a `/tags/#map` nézetre, erre a cikkre középre állítva
   - a gráf adata a `/tags/` HTML-jéből külön fájlba kerül (gzip ~4,9 KB, 130 csomópont), a `/tags/` oldal és a cikkek is ezt töltik, egyszer letöltve; kód: a `tag-map.js`

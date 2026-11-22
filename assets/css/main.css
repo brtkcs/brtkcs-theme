@@ -1348,6 +1348,49 @@ body {
 .tag-map-svg .map-links line.hl { stroke: var(--text-secondary); stroke-width: 1.5; }
 .tag-map-svg.has-focus .node.hl text { display: block; }
 
+/* ===== Mini-map a cikk alján =====
+   A nagy térkép stílusát örökli (.tag-map-svg); itt csak a méret és a halványítás más. */
+.mini-map {
+  display: block;
+  margin: 2.5rem 0 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mini-map[hidden] { display: none; }
+
+.tag-map-svg.mini-map-svg {
+  height: 220px;
+  min-height: 0;
+  cursor: pointer;
+  touch-action: auto;
+}
+
+/* Háttér: egyszínű apró pöttyök karika nélkül, alig látható vonalakkal; csak a kiemelt rész hangos */
+.tag-map-svg.mini-map-svg .node:not(.hl) circle {
+  fill: var(--text-secondary);
+  stroke: none;
+}
+.tag-map-svg.mini-map-svg.has-focus .node:not(.hl) { opacity: 0.3; }
+.tag-map-svg.mini-map-svg.has-focus .map-links line:not(.hl) { opacity: 0.12; }
+
+.mini-map-caption {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.mini-map:hover .mini-map-svg,
+.mini-map:focus-visible .mini-map-svg { border-color: var(--color-olive); }
+.mini-map:hover .mini-map-caption,
+.mini-map:focus-visible .mini-map-caption { color: var(--color-olive); }
+
+@media (max-width: 600px) {
+  .tag-map-svg.mini-map-svg { height: 180px; }
+}
+
 .tag-count {
   color: var(--text-secondary);
   font-size: 0.9rem;

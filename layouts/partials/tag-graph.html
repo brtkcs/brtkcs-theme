@@ -1,0 +1,24 @@
+{{/* Tag-térkép adata ({nodes, edges}) külön, gyorsítótárazható JSON-fájlként.
+     A /tags/ oldal nagy térképe és a cikkek mini-mapje is ezt tölti; nyelvenként egy fájl.
+     Hívás: partialCached "tag-graph.html" . site.Language.Lang → erőforrás (.RelPermalink)
+     A csomópontok sorrendje számít: az elrendezés ebből indul, ezért mindkét térkép ugyanazt látja. */}}
+{{ $nodes := slice }}
+{{ $edges := slice }}
+{{ $seen := dict }}
+{{ with site.GetPage "/tags" }}
+  {{ range .Pages }}
+    {{ $tid := printf "t:%s" .RelPermalink }}
+    {{ $nodes = $nodes | append (dict "id" $tid "label" .Data.Term "url" .RelPermalink "kind" "tag" "count" (len .Pages)) }}
+    {{ range .Pages }}
+      {{ $pid := printf "p:%s" .RelPermalink }}
+      {{ if not (index $seen $pid) }}
+        {{ $seen = merge $seen (dict $pid true) }}
+        {{ $nodes = $nodes | append (dict "id" $pid "label" .LinkTitle "url" .RelPermalink "kind" "post" "section" .Section) }}
+      {{ end }}
+      {{ $edges = $edges | append (dict "s" $pid "t" $tid) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $json := dict "nodes" $nodes "edges" $edges | jsonify }}
+{{ $res := resources.FromString (printf "tags/graph.%s.json" site.Language.Lang) $json }}
+{{ return ($res | resources.Fingerprint) }}
