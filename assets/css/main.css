@@ -1312,6 +1312,11 @@ body {
   font-size: 11px;
   fill: var(--text-secondary);
   pointer-events: none;
+  /* Háttérszínű kontúr: az alatta futó vonal vagy pont nem olvad bele a betűkbe */
+  stroke: var(--bg-primary);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  paint-order: stroke;
 }
 
 /* Tag: üres karika, a címke mindig látszik */
@@ -1328,6 +1333,8 @@ body {
 
 /* Cikk: a szekció színe, a cím csak kiemeléskor */
 .tag-map-svg .node-post text { display: none; }
+/* Kicsinyítve ütköző tag-felirat (a JS rejti); kiemeléskor a lenti szabály visszahozza */
+.tag-map-svg .node.lbl-off text { display: none; }
 .tag-map-svg .node-post circle { fill: var(--color-olive); }
 .tag-map-svg .sec-podcast circle { fill: var(--color-rust); }
 .tag-map-svg .sec-filozofia circle { fill: var(--color-purple); }

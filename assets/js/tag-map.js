@@ -51,6 +51,101 @@
     links.forEach(l => { neighbors[l.s].add(l.t); neighbors[l.t].add(l.s); });
     nodes.forEach(n => { n.r = n.kind === 'tag' ? 4 + 2 * Math.sqrt(n.count || 1) : 5; });
 
+    // ===== Csomópontok (a szimuláció előtt, hogy a feliratok mérhetők legyenek) =====
+    // A viewBox a doboz valódi pixelméretét követi, így álló (mobil) dobozban
+    // sem zsugorodik keskeny csíkká a gráf. A közepe a 0,0 pont marad.
+    let W = 1000, H = 700;
+    function sizeViewBox() {
+      const r = svg.getBoundingClientRect();
+      if (r.width && r.height) { W = r.width; H = r.height; }
+      svg.setAttribute('viewBox', `${-W / 2} ${-H / 2} ${W} ${H}`);
+    }
+    sizeViewBox();
+    window.addEventListener('resize', sizeViewBox);
+    const g = el('g');
+    const lineLayer = el('g', { class: 'map-links' });
+    const nodeLayer = el('g', { class: 'map-nodes' });
+    // A feliratok külön, legfelső rétegben: pont nem takarhat bele egy feliratba
+    const labelLayer = el('g', { class: 'map-labels' });
+    g.append(lineLayer, nodeLayer, labelLayer);
+    svg.appendChild(g);
+
+    // Hosszú cím szavanként több sorba tördelve, a pont magasságára függőlegesen középre igazítva
+    function wrapLabel(t, label, max) {
+      const rows = [];
+      label.split(/\s+/).forEach(w => {
+        const last = rows[rows.length - 1];
+        if (last !== undefined && (last + ' ' + w).length <= max) rows[rows.length - 1] = last + ' ' + w;
+        else rows.push(w);
+      });
+      if (rows.length === 1) { t.textContent = label; return; }
+      rows.forEach((r, i) => {
+        const s = el('tspan', { x: t.getAttribute('x'), dy: i === 0 ? `${-(rows.length - 1) * 0.6}em` : '1.2em' });
+        s.textContent = r;
+        t.appendChild(s);
+      });
+    }
+
+    const lines = links.map(() => lineLayer.appendChild(el('line')));
+    // A felirat-csoport ugyanazokat az osztályokat kapja, mint a pont, így a CSS mindkettőre hat
+    const labels = [];
+    const groups = nodes.map(n => {
+      const cls = `node node-${n.kind}${n.section ? ' sec-' + n.section : ''}`;
+      const a = el('a', { href: n.url, class: cls });
+      a.appendChild(el('circle', { r: n.r }));
+      const title = el('title');
+      title.textContent = n.label;
+      a.appendChild(title);
+      nodeLayer.appendChild(a);
+      const lg = el('g', { class: cls });
+      const t = el('text', { x: n.r + 3, y: 4 });
+      wrapLabel(t, n.label, n.kind === 'post' ? 24 : Infinity);
+      lg.appendChild(t);
+      labelLayer.appendChild(lg);
+      labels.push(lg);
+      return a;
+    });
+    function mark(i, name, on) {
+      groups[i].classList.toggle(name, on);
+      labels[i].classList.toggle(name, on);
+    }
+
+    // Ütközési doboz a pont körül: a kör, és ha a felirat látszik (tag), a felirat is.
+    // A cikkek címe csak kiemeléskor jelenik meg, ezért ott csak a kör számít.
+    const PAD = 2;
+    nodes.forEach((n, i) => {
+      let x0 = -n.r, x1 = n.r, y0 = -n.r, y1 = n.r;
+      const bb = labels[i].querySelector('text').getBBox();
+      n.lbl = bb.width ? { x0: bb.x, x1: bb.x + bb.width, y0: bb.y, y1: bb.y + bb.height } : null;
+      if (bb.width) {
+        x0 = Math.min(x0, bb.x); x1 = Math.max(x1, bb.x + bb.width);
+        y0 = Math.min(y0, bb.y); y1 = Math.max(y1, bb.y + bb.height);
+      }
+      n.box = { x0: x0 - PAD, x1: x1 + PAD, y0: y0 - PAD, y1: y1 + PAD };
+    });
+
+    // Átfedő dobozok szétnyomása a kisebb átfedés irányában; a rögzített (húzott) pont nem mozdul
+    function collide(strength) {
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const ox = Math.min(a.x + a.box.x1, b.x + b.box.x1) - Math.max(a.x + a.box.x0, b.x + b.box.x0);
+          if (ox <= 0) continue;
+          const oy = Math.min(a.y + a.box.y1, b.y + b.box.y1) - Math.max(a.y + a.box.y0, b.y + b.box.y0);
+          if (oy <= 0) continue;
+          const wa = a.fixed ? 0 : b.fixed ? 1 : 0.5, wb = 1 - wa;
+          if (ox < oy) {
+            const s = (a.x + (a.box.x0 + a.box.x1) / 2 < b.x + (b.box.x0 + b.box.x1) / 2 ? -1 : 1) * ox * strength;
+            a.x += s * wa; b.x -= s * wb;
+          } else {
+            const s = (a.y < b.y ? -1 : 1) * oy * strength;
+            a.y += s * wa; b.y -= s * wb;
+          }
+        }
+      }
+    }
+
     // ===== Szimuláció: taszítás, rugók az élek mentén, enyhe középre húzás =====
     // alphaTarget: húzás közben a szimuláció nem hűl ki, a szomszédok végig követnek
     let alpha = 1, alphaTarget = 0;
@@ -82,45 +177,16 @@
         n.vy = Math.max(-20, Math.min(20, n.vy * 0.6));
         n.x += n.vx; n.y += n.vy;
       });
+      collide(0.5);
       alpha += (alphaTarget - alpha) * 0.01;   // célérték 0 mellett azonos a korábbi alpha *= 0.99-cel
     }
     for (let i = 0; i < 300; i++) tick();   // előre kiszámolt elrendezés, ugrálás nélkül
+    for (let i = 0; i < 50; i++) collide(1);   // a végén csak az átfedések feloldása
 
     // ===== Rajz =====
-    // A viewBox a doboz valódi pixelméretét követi, így álló (mobil) dobozban
-    // sem zsugorodik keskeny csíkká a gráf. A közepe a 0,0 pont marad.
-    let W = 1000, H = 700;
-    function sizeViewBox() {
-      const r = svg.getBoundingClientRect();
-      if (r.width && r.height) { W = r.width; H = r.height; }
-      svg.setAttribute('viewBox', `${-W / 2} ${-H / 2} ${W} ${H}`);
-    }
-    sizeViewBox();
-    window.addEventListener('resize', sizeViewBox);
-    const g = el('g');
-    const lineLayer = el('g', { class: 'map-links' });
-    const nodeLayer = el('g', { class: 'map-nodes' });
-    g.append(lineLayer, nodeLayer);
-    svg.appendChild(g);
-
-    // Hosszú cím szavanként több sorba tördelve, a pont magasságára függőlegesen középre igazítva
-    function wrapLabel(t, label, max) {
-      const rows = [];
-      label.split(/\s+/).forEach(w => {
-        const last = rows[rows.length - 1];
-        if (last !== undefined && (last + ' ' + w).length <= max) rows[rows.length - 1] = last + ' ' + w;
-        else rows.push(w);
-      });
-      if (rows.length === 1) { t.textContent = label; return; }
-      rows.forEach((r, i) => {
-        const s = el('tspan', { x: t.getAttribute('x'), dy: i === 0 ? `${-(rows.length - 1) * 0.6}em` : '1.2em' });
-        s.textContent = r;
-        t.appendChild(s);
-      });
-    }
     // A kiemelt felirat a doboz jobb szélénél a pont bal oldalára kerül, hogy ne vágódjon le
     function placeLabel(i) {
-      const t = groups[i].querySelector('text');
+      const t = labels[i].querySelector('text');
       const x = nodes[i].r + 3;
       const set = (anchor, xv) => {
         t.setAttribute('text-anchor', anchor);
@@ -131,25 +197,35 @@
       if (t.getBoundingClientRect().right > svg.getBoundingClientRect().right - 4) set('end', -x);
     }
 
-    const lines = links.map(() => lineLayer.appendChild(el('line')));
-    const groups = nodes.map(n => {
-      const a = el('a', { href: n.url, class: `node node-${n.kind}${n.section ? ' sec-' + n.section : ''}` });
-      a.appendChild(el('circle', { r: n.r }));
-      const t = el('text', { x: n.r + 3, y: 4 });
-      wrapLabel(t, n.label, n.kind === 'post' ? 24 : Infinity);
-      const title = el('title');
-      title.textContent = n.label;
-      a.append(t, title);
-      nodeLayer.appendChild(a);
-      return a;
-    });
-
     // Kicsinyített nézetben a pontok és feliratok nem mennek egy olvasható méret alá
     // (telefonon a teljes gráf csak így fér ki használhatóan); a vonalak rendesen skálázódnak.
     const MIN_K = 0.75;
     let nodeScale = 1;
     function drawNodes() {
-      nodes.forEach((n, i) => groups[i].setAttribute('transform', `translate(${n.x},${n.y}) scale(${nodeScale})`));
+      nodes.forEach((n, i) => {
+        const tr = `translate(${n.x},${n.y}) scale(${nodeScale})`;
+        groups[i].setAttribute('transform', tr);
+        labels[i].setAttribute('transform', tr);
+      });
+      cullLabels();
+    }
+    // Ha a feliratok a pontokhoz képest nagyobbak (kicsinyítve, főleg mobilon), összeérhetnek:
+    // a több cikket viselő tag felirata marad, az ütköző kisebbé elrejtődik. Nagyításkor visszajönnek.
+    const labelOrder = nodes.map((n, i) => i).filter(i => nodes[i].kind === 'tag' && nodes[i].lbl)
+      .sort((a, b) => (nodes[b].count || 0) - (nodes[a].count || 0));
+    function cullLabels() {
+      const s = nodeScale;
+      // Akadály csak a már kirakott felirat; a pontok alatta vannak, a kontúr elválasztja őket
+      // 3 egységnyi térköz kell két felirat közé, hogy ne fussanak össze egy sorrá
+      const over = (r, o) => Math.min(r.x1, o.x1) - Math.max(r.x0, o.x0) > -3 && Math.min(r.y1, o.y1) - Math.max(r.y0, o.y0) > -1;
+      const shown = [];
+      labelOrder.forEach(i => {
+        const n = nodes[i], b = n.lbl;
+        const r = { x0: n.x + b.x0 * s, x1: n.x + b.x1 * s, y0: n.y + b.y0 * s, y1: n.y + b.y1 * s };
+        const hit = shown.some(o => over(r, o));
+        mark(i, 'lbl-off', hit);
+        if (!hit) shown.push(r);
+      });
     }
     function draw() {
       links.forEach((l, i) => {
@@ -186,12 +262,21 @@
       if (done) viewAnim = false; else requestAnimationFrame(stepView);
     }
     function fit(animate) {
-      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-      nodes.forEach(n => { x0 = Math.min(x0, n.x); y0 = Math.min(y0, n.y); x1 = Math.max(x1, n.x); y1 = Math.max(y1, n.y); });
       // A bal alsó súgó sávját kihagyja, hogy ne takarjon pontot
       const hint = [...wrap.querySelectorAll('.tag-map-hint')].find(h => h.offsetHeight);
       const hb = hint ? hint.offsetHeight + 8 : 0;
-      const k = Math.min(W / (x1 - x0 + 120), (H - hb) / (y1 - y0 + 60), 2.5);
+      // A feliratokkal együtt mért kiterjedés, hogy a szélső felirat se vágódjon le.
+      // A felirat kicsinyítve nem megy a MIN_K méret alá, ezért a nagyítás pár lépésben áll be.
+      let k = 1, x0, y0, x1, y1;
+      for (let it = 0; it < 4; it++) {
+        const s = Math.max(1, MIN_K / k);
+        x0 = y0 = Infinity; x1 = y1 = -Infinity;
+        nodes.forEach(n => {
+          x0 = Math.min(x0, n.x + n.box.x0 * s); y0 = Math.min(y0, n.y + n.box.y0 * s);
+          x1 = Math.max(x1, n.x + n.box.x1 * s); y1 = Math.max(y1, n.y + n.box.y1 * s);
+        });
+        k = Math.min(W / (x1 - x0 + 40), (H - hb) / (y1 - y0 + 40), 2.5);
+      }
       setView({ k, x: -k * (x0 + x1) / 2, y: -k * (y0 + y1) / 2 - hb / 2 }, animate);
     }
     // A célnézetből számol, így gyors egymás utáni görgetések is pontosan összeadódnak
@@ -349,8 +434,8 @@
       blur();
       focused = i;
       svg.classList.add('has-focus');
-      groups[i].classList.add('hl');
-      neighbors[i].forEach(j => groups[j].classList.add('hl'));
+      mark(i, 'hl', true);
+      neighbors[i].forEach(j => mark(j, 'hl', true));
       placeLabel(i);
       neighbors[i].forEach(placeLabel);
       links.forEach((l, k) => lines[k].classList.toggle('hl', l.s === i || l.t === i));
@@ -358,7 +443,7 @@
     function blur() {
       focused = null;
       svg.classList.remove('has-focus');
-      groups.forEach(gr => gr.classList.remove('hl'));
+      nodes.forEach((n, i) => mark(i, 'hl', false));
       lines.forEach(li => li.classList.remove('hl'));
     }
     // Hover csak egérrel; érintésnél a koppintás kezeli a kiemelést.

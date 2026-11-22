@@ -82,7 +82,7 @@
 - [x] Rövid, sima szöveges kivonat a listákban (címsor nélkül)
 
 ### Tartalom
-- [ ] Podcast szekció feltöltése (saját epizódok)
+- [ ] Podcast szekció feltöltése (saját epizódok); a show notes-ban a hivatkozott epizód rendes link legyen, ami az epizódhoz visz
 - [ ] További filozófiai esszék
 - [ ] Angol/Német tartalom fordítás (a theme már kész rá)
 
@@ -92,12 +92,16 @@
 - [x] Navigációs gombok (időrendi következő/előző), egy sorban a megosztás gombbal; mobilon cím nélkül
 - [x] Mind-map: tag-térkép a `/tags/` oldalon (Felhő / Térkép), saját JS, csak tagek és cikkek
 - [x] Mind-map finomítás: simább mozgás, két ujjas nagyítás, két kattintásos megnyitás
-- [ ] Mind-map: egymásra csúszó tag-feliratok szétválasztása (pl. `monitoring`/`networking`, `devops`/`tanulás`, `sophia.exe`/`shell`/`bash` csomó)
-  - 1. a felirat is helyet foglal a szimulációban: a feliratok szélessége `getBBox()`-szal mérve a szimuláció előtt, ütközés-lépés a `tick()`-ben a kör + felirat téglalapjára, pár extra kör a 300 lépés végén; húzásnál is él
-  - 2. ha marad átfedés: a `placeLabel` jobb / bal / fent / lent helyek közül az első ütközésmenteset választja (a jobb szél szabálya marad)
-  - buktató: a `MIN_K` miatt kicsinyítve a feliratok relatíve nagyobbak, az ütközési téglalap a teljes nézet méretarányával számoljon
-  - ellenőrzés: átfedő feliratpárok száma előtte/utána 1440, 1024 és 390 px-en, képernyőképpel
-  - a jobb szélen levágott felirat nem nyitott pont: a `placeLabel` már kezeli (a92f41c)
+- [x] Mind-map: egymásra csúszó tag-feliratok szétválasztva; átfedő párok 5/6/23 → 0 (1440/1024/390 px)
+  - a felirat helyet foglal a szimulációban; a feliratok legfelső rétegben, háttérszínű kontúrral
+  - kicsinyítve az ütköző kisebb tag felirata rejtve, nagyításra és kiemelésre visszajön (mobilon a teljes nézetben ~38/72)
+  - a `fit` a feliratokkal együtt mér, nem vágódik le felirat a szélen
+- [ ] Mini-map a cikk alján (Filozófia, Research, Források; versnél és podcastnál nincs): a teljes térkép kicsiben, halványan; kiemelve csak a cikk és a tagjei, névvel
+  - a navigáció/megosztás sora fölött, mobilon is
+  - alatta egy sor („A cikk helye a térképen”, hu/en/de); a doboz link a `/tags/#map` nézetre, erre a cikkre középre állítva
+  - a gráf adata a `/tags/` HTML-jéből külön fájlba kerül (gzip ~4,9 KB, 130 csomópont), a `/tags/` oldal és a cikkek is ezt töltik, egyszer letöltve; kód: a `tag-map.js`
+  - az elrendezés determinisztikus, ugyanaz a kép, mint a nagy térképen; a feliratátfedés javítása előtte
+  - a szomszéd-listás változat elvetve: a széles tagek (`sophia.exe` 19, `vers` 14 cikk) miatt túl zajos
 - [x] OG kép — terminál stílusú, build közben generált (Hugo images.Text, IBM Plex Mono TTF), kivonat a leírásban
 
 ### Dizájn
