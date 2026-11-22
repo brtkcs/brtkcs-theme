@@ -2219,3 +2219,18 @@ body {
 .content-body ol {
   padding-left: 1.4em;
 }
+
+/* ===== Lista utáni térköz =====
+   Az univerzális reset a listák margóját is nullázza, a bekezdések viszont
+   visszakapják az alsó térközt. Emiatt a lista utáni bekezdés rátapadt a
+   listára. Beágyazott listánál nem kell térköz, ott a szülő li zár.
+*/
+.content-body ul,
+.content-body ol {
+  margin-bottom: 1.5rem;
+}
+
+.content-body li ul,
+.content-body li ol {
+  margin-bottom: 0;
+}
