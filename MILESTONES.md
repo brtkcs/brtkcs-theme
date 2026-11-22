@@ -92,6 +92,12 @@
 - [x] Navigációs gombok (időrendi következő/előző), egy sorban a megosztás gombbal; mobilon cím nélkül
 - [x] Mind-map: tag-térkép a `/tags/` oldalon (Felhő / Térkép), saját JS, csak tagek és cikkek
 - [x] Mind-map finomítás: simább mozgás, két ujjas nagyítás, két kattintásos megnyitás
+- [ ] Mind-map: egymásra csúszó tag-feliratok szétválasztása (pl. `monitoring`/`networking`, `devops`/`tanulás`, `sophia.exe`/`shell`/`bash` csomó)
+  - 1. a felirat is helyet foglal a szimulációban: a feliratok szélessége `getBBox()`-szal mérve a szimuláció előtt, ütközés-lépés a `tick()`-ben a kör + felirat téglalapjára, pár extra kör a 300 lépés végén; húzásnál is él
+  - 2. ha marad átfedés: a `placeLabel` jobb / bal / fent / lent helyek közül az első ütközésmenteset választja (a jobb szél szabálya marad)
+  - buktató: a `MIN_K` miatt kicsinyítve a feliratok relatíve nagyobbak, az ütközési téglalap a teljes nézet méretarányával számoljon
+  - ellenőrzés: átfedő feliratpárok száma előtte/utána 1440, 1024 és 390 px-en, képernyőképpel
+  - a jobb szélen levágott felirat nem nyitott pont: a `placeLabel` már kezeli (a92f41c)
 - [x] OG kép — terminál stílusú, build közben generált (Hugo images.Text, IBM Plex Mono TTF), kivonat a leírásban
 
 ### Dizájn
