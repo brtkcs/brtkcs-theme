@@ -82,7 +82,8 @@
 - [x] Rövid, sima szöveges kivonat a listákban (címsor nélkül)
 
 ### Tartalom
-- [ ] Podcast szekció feltöltése (saját epizódok); a show notes-ban a hivatkozott epizód rendes link legyen, ami az epizódhoz visz
+- [ ] Podcast szekció feltöltése (saját epizódok)
+  - show notes: a megemlített epizódok (a pods-blitzen sima szöveg, pl. „103. epizód: A mentális gumiszalag – …”) a weboldalon belüli linkként vigyenek az epizód oldalára; a cím maradjon, csak kattintható legyen
 - [ ] További filozófiai esszék
 - [ ] Angol/Német tartalom fordítás (a theme már kész rá)
 
