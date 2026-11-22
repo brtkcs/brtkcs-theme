@@ -16,9 +16,9 @@ view_all: "Összes →"
 coming_soon: "Hamarosan..."
 podcast_meanwhile: "de addig is a {{ .Link }} utolsó epizódjai:"
 
-# Werkstatt (manifesztó) oldal
+# Werkstatt (Manifesto) oldal
 werkstatt_nav_manifesto: "I. Manifesto"
-werkstatt_nav_ethics: "II. Etikai Záradék"
+werkstatt_nav_ethics: "II. Etikai záradék"
 werkstatt_nav_tech: "III. Technológiai záradék"
 werkstatt_back: "← Vissza a műhelybe"
 
@@ -67,7 +67,7 @@ callout_important: "Fontos"
 # Podcast
 show_notes: "Show Notes"
 transcript: "Átirat megjelenítése"
-audio_unsupported: "A böngésződ nem támogatja az audio lejátszást."
+audio_unsupported: "A böngésződ nem támogatja a hanglejátszást."
 play_pause: "Lejátszás / szünet"
 mute_unmute: "Némítás / hang be"
 download: "Letöltés"
@@ -80,4 +80,4 @@ certs_intro: "Az elmúlt években megszerzett tanúsítványaim. Kattints a nagy
 cookie_accept: "Értem"
 cookie_text: "Ez az oldal nem követ. A böngésződben csak a sötét/világos mód és ennek az üzenetnek a nyugtázása marad meg. Videóknál a YouTube, a tárhelynél a Cloudflare saját szabályai érvényesek."
 not_found: "Ez az oldal nem létezik."
-back_home: "← vissza a werkstattba"
+back_home: "← vissza a Werkstattba"
